@@ -49,6 +49,14 @@ const activityMetricCards = [
   { label: "Failed", value: "22", change: "8.2%", tone: "red", icon: "shield", down: true },
 ] as const;
 
+const taskMetricCards = [
+  { label: "Total Tasks", value: "32", change: "8 more than yesterday", tone: "blue", icon: "calendar" },
+  { label: "In Progress", value: "12", change: "37.5% of total", tone: "amber", icon: "clock", neutral: true },
+  { label: "Completed", value: "18", change: "12% this week", tone: "green", icon: "check" },
+  { label: "Overdue", value: "3", change: "25% from yesterday", tone: "red", icon: "warning", down: true },
+  { label: "Due Today", value: "5", change: "15.6% of total", tone: "purple", icon: "calendar", purple: true },
+] as const;
+
 const chartPoints = [8, 28, 38, 34, 48, 56, 52, 66, 79, 84, 88] as const;
 const chartLabels = ["May 23", "May 24", "May 25", "May 26", "May 27", "May 28", "May 29"] as const;
 
@@ -187,6 +195,136 @@ const activeUsers = [
   ["Emily Davis", "Campaign Manager", "128", "12.7%", "up"],
   ["James Wilson", "Content Strategist", "98", "9.3%", "up"],
   ["Lisa Anderson", "Creative Director", "87", "2.1%", "down"],
+] as const;
+
+const taskTabs = [
+  ["All Tasks", "32"],
+  ["In Progress", "12"],
+  ["Due Today", "5"],
+  ["Overdue", "3"],
+  ["Completed", "18"],
+] as const;
+
+const taskRows = [
+  {
+    title: "Review Q2 Product Launch Campaign",
+    description: "Review and approve the final campaign assets",
+    module: "Content Platform",
+    moduleTone: "blue",
+    priority: "High",
+    priorityTone: "red",
+    due: "Today\n11:30 AM",
+    dueTone: "red",
+    status: "In Progress",
+    statusTone: "blue",
+    icon: "doc",
+    tone: "blue",
+  },
+  {
+    title: "Approve Blog Post: AI in Marketing",
+    description: "Review content and approve for publication",
+    module: "Approval Center",
+    moduleTone: "green",
+    priority: "High",
+    priorityTone: "red",
+    due: "Today\n02:00 PM",
+    dueTone: "red",
+    status: "In Progress",
+    statusTone: "blue",
+    icon: "task",
+    tone: "green",
+  },
+  {
+    title: "Review Banner Ad Designs",
+    description: "Review and provide feedback on banner ads",
+    module: "Creative Studio",
+    moduleTone: "amber",
+    priority: "Medium",
+    priorityTone: "amber",
+    due: "Tomorrow\n10:00 AM",
+    status: "Pending",
+    statusTone: "amber",
+    icon: "image",
+    tone: "amber",
+  },
+  {
+    title: "Plan June Content Calendar",
+    description: "Create and finalize content calendar for June",
+    module: "Content Platform",
+    moduleTone: "blue",
+    priority: "Medium",
+    priorityTone: "amber",
+    due: "May 31, 2025",
+    status: "Pending",
+    statusTone: "amber",
+    icon: "calendar",
+    tone: "purple",
+  },
+  {
+    title: "Analyze Campaign Performance",
+    description: "Review performance metrics and insights",
+    module: "Analytics Center",
+    moduleTone: "purple",
+    priority: "Low",
+    priorityTone: "green",
+    due: "Jun 2, 2025",
+    status: "Pending",
+    statusTone: "amber",
+    icon: "chart",
+    tone: "blue",
+  },
+  {
+    title: "Update Workflow Automation",
+    description: "Update approval workflow automation rules",
+    module: "Workflow Engine",
+    moduleTone: "teal",
+    priority: "Low",
+    priorityTone: "green",
+    due: "Jun 3, 2025",
+    status: "Pending",
+    statusTone: "amber",
+    icon: "flow",
+    tone: "teal",
+  },
+  {
+    title: "Fix Auto-publish Workflow Error",
+    description: "Resolve error in auto-publish workflow",
+    module: "Workflow Engine",
+    moduleTone: "teal",
+    priority: "High",
+    priorityTone: "red",
+    due: "Overdue\nMay 27, 2025",
+    dueTone: "red",
+    status: "Overdue",
+    statusTone: "red",
+    icon: "warning",
+    tone: "red",
+  },
+  {
+    title: "Review Team Access Requests",
+    description: "Review and approve team member access",
+    module: "System Administration",
+    moduleTone: "gray",
+    priority: "Medium",
+    priorityTone: "amber",
+    due: "Overdue\nMay 28, 2025",
+    dueTone: "red",
+    status: "Overdue",
+    statusTone: "red",
+    icon: "users",
+    tone: "purple",
+  },
+] as const;
+
+const calendarDates = ["27", "28", "29", "30", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27", "28", "29", "30", "31"] as const;
+
+const taskQuickActions = [
+  ["New Task", "plus", "blue"],
+  ["My Approvals", "check", "green"],
+  ["Team Tasks", "users", "purple"],
+  ["Task Templates", "task", "amber"],
+  ["Export Tasks", "upload", "blue"],
+  ["Task Report", "doc", "pink"],
 ] as const;
 
 const commandItems = [
@@ -425,6 +563,148 @@ function ActivityFeedView() {
   );
 }
 
+function TaskPill({ children, tone }: { children: ReactNode; tone: string }) {
+  return <span className="task-pill" data-tone={tone}>{children}</span>;
+}
+
+function MyTasksView() {
+  return (
+    <>
+      <section className="dashboard-heading">
+        <div>
+          <h1>My Tasks</h1>
+          <p>Manage and track your assigned tasks</p>
+        </div>
+        <div className="heading-actions activity-filters">
+          <button type="button">{iconToken("calendar")} May 29, 2025 <span>⌄</span></button>
+          <button type="button">{iconToken("shield")} Priority <span>⌄</span></button>
+          <button type="button">{iconToken("filter")} Filters</button>
+        </div>
+      </section>
+
+      <section className="metric-strip">
+        {taskMetricCards.map((metric) => (
+          <article className="dashboard-card metric-tile task-metric" data-tone={metric.tone} key={metric.label}>
+            <div className="tile-icon">{iconToken(metric.icon)}</div>
+            <div>
+              <span>{metric.label}</span>
+              <strong>{metric.value}</strong>
+              <p className={"down" in metric && metric.down ? "negative" : "neutral" in metric ? "task-neutral" : "purple" in metric ? "task-purple" : "positive"}>
+                {"down" in metric && metric.down ? "↓" : "neutral" in metric ? "" : "↑"} {metric.change}
+              </p>
+            </div>
+          </article>
+        ))}
+      </section>
+
+      <section className="tasks-workspace-grid">
+        <article className="dashboard-card tasks-table-card">
+          <div className="task-tabs">
+            {taskTabs.map(([label, count], index) => (
+              <button className="task-tab" data-active={index === 0} key={label} type="button">
+                {label}
+                <span>{count}</span>
+              </button>
+            ))}
+          </div>
+
+          <div className="task-table">
+            <div className="task-table-head">
+              <span>{iconToken("spark")}</span>
+              <span />
+              <span>Task</span>
+              <span>Project / Module</span>
+              <span>Priority</span>
+              <span>Due Date</span>
+              <span>Status</span>
+              <span>Actions</span>
+            </div>
+            {taskRows.map((task) => (
+              <div className="task-row-card" key={task.title}>
+                <span className="task-checkbox" />
+                <span className="task-row-icon" data-tone={task.tone}>{iconToken(task.icon)}</span>
+                <div className="task-title-cell">
+                  <strong>{task.title}</strong>
+                  <small>{task.description}</small>
+                </div>
+                <TaskPill tone={task.moduleTone}>{task.module}</TaskPill>
+                <TaskPill tone={task.priorityTone}>{task.priority}</TaskPill>
+                <span className={"dueTone" in task && task.dueTone === "red" ? "task-due-red" : "task-due"}>{task.due.split("\n").map((line) => <span key={line}>{line}</span>)}</span>
+                <TaskPill tone={task.statusTone}>{task.status}</TaskPill>
+                <button className="task-more" type="button" aria-label={`Open ${task.title} actions`}>•••</button>
+              </div>
+            ))}
+          </div>
+
+          <div className="task-table-footer">
+            <span>Showing 1 to 8 of 32 tasks</span>
+            <div className="task-pages">
+              {["‹", "1", "2", "3", "4", "›"].map((page) => (
+                <button data-active={page === "1"} key={page} type="button">{page}</button>
+              ))}
+            </div>
+            <button className="rows-select" type="button">8 per page <span>⌄</span></button>
+          </div>
+        </article>
+
+        <aside className="tasks-side-column">
+          <article className="dashboard-card task-calendar-card">
+            <div className="card-heading">
+              <h2>Task Calendar</h2>
+              <a href="/dashboard/my-tasks">View Full Calendar</a>
+            </div>
+            <div className="calendar-title">
+              <button type="button">‹</button>
+              <strong>May 2025</strong>
+              <button type="button">›</button>
+            </div>
+            <div className="calendar-grid">
+              {["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"].map((day) => <strong key={day}>{day}</strong>)}
+              {calendarDates.map((date, index) => (
+                <span className={index < 4 ? "muted" : date === "29" && index > 20 ? "active" : undefined} key={`${date}-${index}`}>{date}</span>
+              ))}
+            </div>
+            <div className="calendar-legend">
+              <span data-tone="blue"><i />5 Due Today</span>
+              <span data-tone="amber"><i />12 Due This Week</span>
+              <span data-tone="red"><i />3 Overdue</span>
+            </div>
+          </article>
+
+          <article className="dashboard-card task-summary-card">
+            <div className="card-heading">
+              <h2>Task Summary</h2>
+              <a href="/analytics-center">View Analytics</a>
+            </div>
+            <div className="summary-list">
+              <div><span>Average Completion Time</span><strong>2.4 days</strong></div>
+              <div><span>Tasks Completed This Week</span><strong>18 <em className="positive">↑ 12%</em></strong></div>
+              <div><span>Tasks Overdue</span><strong>3 <em className="negative">↓ 25%</em></strong></div>
+              <div><span>Productivity Score</span><strong>85% <TaskPill tone="green">Excellent</TaskPill></strong></div>
+            </div>
+          </article>
+
+          <article className="dashboard-card task-actions-card">
+            <div className="card-heading">
+              <h2>Quick Actions</h2>
+            </div>
+            <div className="task-action-grid">
+              {taskQuickActions.map(([label, icon, tone]) => (
+                <button data-tone={tone} key={label} type="button">
+                  {iconToken(icon)}
+                  <span>{label}</span>
+                </button>
+              ))}
+            </div>
+          </article>
+        </aside>
+      </section>
+
+      <footer className="dashboard-footer">© 2025 CACSMS Autonomous. All rights reserved.</footer>
+    </>
+  );
+}
+
 export function AppShell({ children }: { children: ReactNode }) {
   const pathname = usePathname();
   const [collapsed, setCollapsed] = useState(false);
@@ -433,6 +713,7 @@ export function AppShell({ children }: { children: ReactNode }) {
   const navigationItems = useMemo(() => flattenNavigation(), []);
   const primaryModules = primaryModuleKeys.map((key) => MODULE_REGISTRY.find((module) => module.key === key)).filter((module): module is RegistryItem => Boolean(module));
   const isActivityFeed = pathname === "/dashboard/activity-feed";
+  const isMyTasks = pathname === "/dashboard/my-tasks";
 
   useEffect(() => {
     function onKeyDown(event: KeyboardEvent) {
@@ -519,6 +800,8 @@ export function AppShell({ children }: { children: ReactNode }) {
         <main className="dashboard-content">
           {isActivityFeed ? (
             <ActivityFeedView />
+          ) : isMyTasks ? (
+            <MyTasksView />
           ) : (
             <>
           <section className="dashboard-heading">
