@@ -3,7 +3,7 @@
 import type { ReactNode } from "react";
 import { useEffect, useMemo, useState } from "react";
 import { usePathname } from "next/navigation";
-import { MODULE_REGISTRY, getBreadcrumbs } from "../../../packages/config/src";
+import { MODULE_REGISTRY, getBreadcrumbs } from "../../../platform/registry/module-registry";
 
 type RegistryItem = (typeof MODULE_REGISTRY)[number];
 type ChildItem = NonNullable<RegistryItem["children"]>[number];

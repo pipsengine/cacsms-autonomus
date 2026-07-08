@@ -281,8 +281,521 @@ export function getBreadcrumbs(route: string) {
 }
 `;
 
+const registryFrameworkFiles = new Map([
+  [
+    "registry.types.ts",
+    `export type RegistryStatus = "active" | "beta" | "planned" | "disabled";
+export type RegistryModuleType =
+  | "parent-module"
+  | "workspace"
+  | "dashboard"
+  | "operational-page"
+  | "settings-page"
+  | "management-page"
+  | "configuration-page"
+  | "wizard"
+  | "dialog"
+  | "report"
+  | "analytics"
+  | "workflow"
+  | "integration"
+  | "administration"
+  | "future";
+
+export type RegistryVisibilityRules = {
+  roles: readonly string[];
+  permissions: readonly string[];
+  organizations?: readonly string[];
+  workspaces?: readonly string[];
+};
+
+export type ModuleRegistryItem = {
+  id: string;
+  key: string;
+  parentId: string | null;
+  parentKey: string | null;
+  label: string;
+  displayName: string;
+  shortName: string;
+  sidebarTitle: string;
+  icon: string;
+  sidebarIcon: string;
+  route: string;
+  folder: string;
+  serviceFolder: string;
+  permission: string;
+  permissionNamespace: string;
+  workflowNamespace: string;
+  databaseDomain: string;
+  apiNamespace: string;
+  description: string;
+  moduleType: RegistryModuleType;
+  workspaceType: "executive-dashboard" | "operational-workspace";
+  dashboardType: "executive" | "operational" | "none";
+  searchKeywords: readonly string[];
+  searchAliases: readonly string[];
+  tags: readonly string[];
+  featureFlag: string | null;
+  subscriptionLevel: "standard" | "professional" | "enterprise";
+  visibilityRules: RegistryVisibilityRules;
+  supportedRoles: readonly string[];
+  defaultLandingPage: string;
+  defaultChildPage: string | null;
+  breadcrumb: readonly { label: string; route: string }[];
+  notificationCategory: string;
+  auditCategory: string;
+  status: RegistryStatus;
+  order: number;
+  version: string;
+  owner: string;
+  documentationRef: string;
+  createdAt: string;
+  updatedAt: string;
+  deprecated: boolean;
+  futureExtensions: Record<string, unknown>;
+  children?: readonly ModuleRegistryItem[];
+};
+
+export type RegistryRoute = Pick<ModuleRegistryItem, "id" | "key" | "parentId" | "parentKey" | "label" | "route" | "permission" | "moduleType" | "workspaceType" | "order">;
+export type RegistryPermissionAction = "view" | "create" | "update" | "delete" | "approve" | "execute" | "export" | "import" | "share" | "manage";
+export type RegistryPermission = {
+  key: string;
+  label: string;
+  route: string;
+  action: RegistryPermissionAction;
+  permission: string;
+  namespace: string;
+};
+`,
+  ],
+  [
+    "registry.constants.ts",
+    `import type { RegistryPermissionAction } from "./registry.types";
+
+export const REGISTRY_VERSION = "EAS-002.1.0";
+export const REGISTRY_OWNER = "CACSMS Platform Architecture";
+export const REGISTRY_CREATED_AT = "2026-07-08";
+export const REGISTRY_UPDATED_AT = "2026-07-08";
+
+export const REGISTRY_PERMISSION_ACTIONS = [
+  "view",
+  "create",
+  "update",
+  "delete",
+  "approve",
+  "execute",
+  "export",
+  "import",
+  "share",
+  "manage",
+] as const satisfies readonly RegistryPermissionAction[];
+`,
+  ],
+  [
+    "registry.ts",
+    `import type { ModuleRegistryItem } from "./registry.types";
+import { REGISTRY_CREATED_AT, REGISTRY_OWNER, REGISTRY_UPDATED_AT } from "./registry.constants";
+
+const rawRegistry = ${JSON.stringify(registry, null, 2)} as const;
+
+function words(value: string) {
+  return value
+    .replace(/&/g, "and")
+    .replace(/[^a-z0-9]+/gi, " ")
+    .trim()
+    .split(/\\s+/)
+    .filter(Boolean);
+}
+
+function enrichItem(item: (typeof rawRegistry)[number], parent: ModuleRegistryItem | null, depth = 0): ModuleRegistryItem {
+  const id = parent ? parent.id + "." + item.key : item.key;
+  const permissionNamespace = item.permission.replace(/\\.view$/, "");
+  const moduleType = depth === 0 ? "parent-module" : "operational-page";
+  const workspaceType = depth === 0 ? "executive-dashboard" : "operational-workspace";
+  const dashboardType = depth === 0 ? "executive" : "operational";
+  const breadcrumb = [...(parent?.breadcrumb ?? []), { label: item.label, route: item.route }];
+  const folder = depth === 0 ? "modules/" + item.key : "modules/" + breadcrumb[0].route.slice(1) + "/pages/" + item.key;
+
+  return {
+    ...item,
+    id,
+    parentId: parent?.id ?? null,
+    displayName: item.label,
+    shortName: words(item.label).map((part) => part[0]).join("").slice(0, 3).toUpperCase(),
+    sidebarTitle: item.label,
+    sidebarIcon: item.icon,
+    folder,
+    serviceFolder: "services/" + breadcrumb[0].route.slice(1),
+    permissionNamespace,
+    workflowNamespace: permissionNamespace,
+    databaseDomain: permissionNamespace,
+    apiNamespace: "/api/" + permissionNamespace.replace(/\\./g, "/"),
+    moduleType,
+    workspaceType,
+    dashboardType,
+    searchKeywords: [...words(item.label), item.key, permissionNamespace],
+    searchAliases: [item.label.toLowerCase(), item.route, permissionNamespace],
+    tags: [breadcrumb[0].route.slice(1), workspaceType, moduleType],
+    subscriptionLevel: "enterprise",
+    supportedRoles: item.visibilityRules.roles,
+    defaultLandingPage: item.route,
+    defaultChildPage: item.children?.[0]?.route ?? null,
+    breadcrumb,
+    notificationCategory: permissionNamespace,
+    auditCategory: permissionNamespace,
+    version: "1.0.0",
+    owner: REGISTRY_OWNER,
+    documentationRef: "docs/module-registry.md#" + item.key,
+    createdAt: REGISTRY_CREATED_AT,
+    updatedAt: REGISTRY_UPDATED_AT,
+    deprecated: false,
+    futureExtensions: {},
+    children: item.children?.map((child) => enrichItem(child as (typeof rawRegistry)[number], null as never, depth + 1)),
+  };
+}
+
+function enrichTree(items: readonly (typeof rawRegistry)[number][], parent: ModuleRegistryItem | null = null, depth = 0): readonly ModuleRegistryItem[] {
+  return items.map((item) => {
+    const enriched = enrichItem(item, parent, depth);
+    return {
+      ...enriched,
+      children: item.children ? enrichTree(item.children as readonly (typeof rawRegistry)[number][], enriched, depth + 1) : undefined,
+    };
+  });
+}
+
+export const MODULE_REGISTRY = enrichTree(rawRegistry) as readonly ModuleRegistryItem[];
+`,
+  ],
+  [
+    "registry.loader.ts",
+    `import { MODULE_REGISTRY } from "./registry";
+import type { ModuleRegistryItem } from "./registry.types";
+
+export function loadModuleRegistry(): readonly ModuleRegistryItem[] {
+  return MODULE_REGISTRY;
+}
+
+export function flattenRegistry(items: readonly ModuleRegistryItem[] = MODULE_REGISTRY): readonly ModuleRegistryItem[] {
+  return items.flatMap((item) => [item, ...flattenRegistry(item.children ?? [])]);
+}
+
+export function findRegistryItemByRoute(route: string) {
+  return flattenRegistry().find((item) => item.route === route);
+}
+
+export function findRegistryItemByKey(key: string) {
+  return flattenRegistry().find((item) => item.key === key || item.id === key);
+}
+`,
+  ],
+  [
+    "registry.validator.ts",
+    `import { flattenRegistry, loadModuleRegistry } from "./registry.loader";
+
+function duplicates(values: readonly string[]) {
+  const seen = new Set<string>();
+  const repeated = new Set<string>();
+  for (const value of values) {
+    if (seen.has(value)) repeated.add(value);
+    seen.add(value);
+  }
+  return [...repeated];
+}
+
+export function validateModuleRegistry() {
+  const modules = loadModuleRegistry();
+  const items = flattenRegistry(modules);
+  const errors: string[] = [];
+  const ids = new Set(items.map((item) => item.id));
+
+  for (const item of items) {
+    if (!item.id) errors.push("Missing id for " + item.route);
+    if (!item.key) errors.push("Missing key for " + item.route);
+    if (!item.route.startsWith("/")) errors.push("Invalid route for " + item.id);
+    if (!item.permission.endsWith(".view")) errors.push("Missing view permission for " + item.id);
+    if (item.parentId && !ids.has(item.parentId)) errors.push("Broken parent hierarchy for " + item.id);
+    if (!item.folder || !item.serviceFolder) errors.push("Missing folder/service mapping for " + item.id);
+    if (!item.owner) errors.push("Missing owner for " + item.id);
+    if (!item.documentationRef) errors.push("Missing documentation reference for " + item.id);
+  }
+
+  for (const [label, values] of Object.entries({
+    routes: items.map((item) => item.route),
+    permissions: items.map((item) => item.permission),
+    ids: items.map((item) => item.id),
+  })) {
+    for (const value of duplicates(values)) {
+      errors.push("Duplicate " + label + ": " + value);
+    }
+  }
+
+  return {
+    ok: errors.length === 0,
+    errors,
+    moduleCount: modules.length,
+    itemCount: items.length,
+  };
+}
+
+export function assertValidModuleRegistry() {
+  const result = validateModuleRegistry();
+  if (!result.ok) {
+    throw new Error("Module registry validation failed:\\n" + result.errors.join("\\n"));
+  }
+  return result;
+}
+`,
+  ],
+  [
+    "registry.routes.ts",
+    `import { flattenRegistry } from "./registry.loader";
+import type { RegistryRoute } from "./registry.types";
+
+export function getRouteMap(): readonly RegistryRoute[] {
+  return flattenRegistry().map(({ id, key, parentId, parentKey, label, route, permission, moduleType, workspaceType, order }) => ({
+    id,
+    key,
+    parentId,
+    parentKey,
+    label,
+    route,
+    permission,
+    moduleType,
+    workspaceType,
+    order,
+  }));
+}
+`,
+  ],
+  [
+    "registry.permissions.ts",
+    `import { REGISTRY_PERMISSION_ACTIONS } from "./registry.constants";
+import { flattenRegistry } from "./registry.loader";
+import type { RegistryPermission } from "./registry.types";
+
+export function getPermissionMap(): readonly RegistryPermission[] {
+  return flattenRegistry().flatMap((item) =>
+    REGISTRY_PERMISSION_ACTIONS.map((action) => ({
+      key: item.id,
+      label: item.label,
+      route: item.route,
+      action,
+      permission: item.permissionNamespace + "." + action,
+      namespace: item.permissionNamespace,
+    })),
+  );
+}
+`,
+  ],
+  [
+    "registry.sidebar.ts",
+    `import { loadModuleRegistry } from "./registry.loader";
+
+export function getSidebarItems() {
+  return loadModuleRegistry().filter((item) => item.status === "active");
+}
+`,
+  ],
+  [
+    "registry.breadcrumbs.ts",
+    `import { flattenRegistry } from "./registry.loader";
+
+export function getBreadcrumbs(route: string) {
+  const item = flattenRegistry().find((entry) => entry.route === route);
+  return item?.breadcrumb ?? [];
+}
+`,
+  ],
+  [
+    "registry.search.ts",
+    `import { flattenRegistry } from "./registry.loader";
+
+export function getSearchIndex() {
+  return flattenRegistry().map((item) => ({
+    id: item.id,
+    title: item.label,
+    route: item.route,
+    description: item.description,
+    keywords: [...item.searchKeywords, ...item.searchAliases, ...item.tags],
+  }));
+}
+
+export function searchRegistry(query: string) {
+  const normalized = query.toLowerCase().trim();
+  if (!normalized) return getSearchIndex();
+
+  return getSearchIndex().filter((item) =>
+    [item.title, item.route, item.description, ...item.keywords].some((value) => value.toLowerCase().includes(normalized)),
+  );
+}
+`,
+  ],
+  [
+    "registry.commands.ts",
+    `import { flattenRegistry } from "./registry.loader";
+
+export function getCommandPaletteItems() {
+  return flattenRegistry().map((item) => ({
+    id: "open-" + item.id,
+    label: "Open " + item.label,
+    route: item.route,
+    permission: item.permission,
+    type: item.moduleType,
+  }));
+}
+`,
+  ],
+  [
+    "registry.dashboard.ts",
+    `import { loadModuleRegistry } from "./registry.loader";
+
+export function getDashboardRegistry() {
+  return loadModuleRegistry().map((item) => ({
+    id: item.id,
+    label: item.label,
+    route: item.route,
+    dashboardType: item.dashboardType,
+    defaultChildPage: item.defaultChildPage,
+    widgets: ["health", "activity", "decisions", "exceptions", "recommendations"],
+  }));
+}
+`,
+  ],
+  [
+    "registry.workspaces.ts",
+    `import { flattenRegistry } from "./registry.loader";
+
+export function getWorkspaceRegistry() {
+  return flattenRegistry().map((item) => ({
+    id: item.id,
+    label: item.label,
+    route: item.route,
+    workspaceType: item.workspaceType,
+    visibilityRules: item.visibilityRules,
+    supportedRoles: item.supportedRoles,
+  }));
+}
+`,
+  ],
+  [
+    "registry.documentation.ts",
+    `import { flattenRegistry } from "./registry.loader";
+
+export function getDocumentationRegistry() {
+  return flattenRegistry().map((item) => ({
+    id: item.id,
+    module: item.label,
+    description: item.description,
+    route: item.route,
+    permission: item.permission,
+    owner: item.owner,
+    api: item.apiNamespace,
+    database: item.databaseDomain,
+    services: item.serviceFolder,
+    workflows: item.workflowNamespace,
+    status: item.status,
+    documentationRef: item.documentationRef,
+  }));
+}
+`,
+  ],
+  [
+    "registry.audit.ts",
+    `import { flattenRegistry } from "./registry.loader";
+
+export function getAuditCategories() {
+  return flattenRegistry().map((item) => ({
+    id: item.id,
+    category: item.auditCategory,
+    route: item.route,
+    owner: item.owner,
+  }));
+}
+`,
+  ],
+  [
+    "registry.notifications.ts",
+    `import { flattenRegistry } from "./registry.loader";
+
+export function getNotificationCategories() {
+  return flattenRegistry().map((item) => ({
+    id: item.id,
+    category: item.notificationCategory,
+    route: item.route,
+    permission: item.permission,
+  }));
+}
+`,
+  ],
+  [
+    "registry.schema.ts",
+    `export const MODULE_REGISTRY_REQUIRED_FIELDS = [
+  "id",
+  "parentId",
+  "key",
+  "label",
+  "description",
+  "moduleType",
+  "route",
+  "folder",
+  "permissionNamespace",
+  "workflowNamespace",
+  "databaseDomain",
+  "apiNamespace",
+  "workspaceType",
+  "dashboardType",
+  "searchKeywords",
+  "searchAliases",
+  "tags",
+  "featureFlag",
+  "subscriptionLevel",
+  "visibilityRules",
+  "supportedRoles",
+  "defaultLandingPage",
+  "breadcrumb",
+  "notificationCategory",
+  "auditCategory",
+  "status",
+  "version",
+  "owner",
+  "documentationRef",
+  "createdAt",
+  "updatedAt",
+  "deprecated",
+  "futureExtensions",
+] as const;
+`,
+  ],
+  [
+    "index.ts",
+    `export * from "./registry";
+export * from "./registry.audit";
+export * from "./registry.breadcrumbs";
+export * from "./registry.commands";
+export * from "./registry.constants";
+export * from "./registry.dashboard";
+export * from "./registry.documentation";
+export * from "./registry.loader";
+export * from "./registry.notifications";
+export * from "./registry.permissions";
+export * from "./registry.routes";
+export * from "./registry.schema";
+export * from "./registry.search";
+export * from "./registry.sidebar";
+export * from "./registry.types";
+export * from "./registry.validator";
+export * from "./registry.workspaces";
+`,
+  ],
+]);
+
 writeFile(join("packages", "config", "src", "module-registry.ts"), registryTs);
 writeFile(join("packages", "config", "src", "index.ts"), `export * from "./module-registry";\n`);
+
+for (const [fileName, content] of registryFrameworkFiles) {
+  writeFile(join("platform", "registry", "module-registry", fileName), content);
+}
 
 for (const pkg of packages) {
   writeFile(join("packages", pkg, "src", "index.ts"), `export const packageName = "${pkg}";\n`);
@@ -1898,6 +2411,48 @@ writeFile(join("docs", "sidebar-structure.md"), sidebarDoc);
 writeFile(join("docs", "routing-map.md"), routingDoc);
 writeFile(join("docs", "module-registry.md"), registryDoc);
 writeFile(join("docs", "naming-convention.md"), namingDoc);
+writeFile(
+  join("docs", "eas-002-module-registry-framework.md"),
+  `# EAS-002 Enterprise Module Registry Framework
+
+The Module Registry is the operating system registry of CACSMS Autonomous.
+
+Every module, page, workflow, service, permission, sidebar item, route, API namespace, documentation entry, search index, and workspace must originate from the registry.
+
+## Golden Rule
+
+Sidebar, route, folder, service, permission, workflow, database domain, documentation, and API namespace must share the same canonical naming.
+
+## Generated Framework
+
+The permanent registry service is generated under \`platform/registry/module-registry\` and includes:
+
+- \`registry.ts\`
+- \`registry.schema.ts\`
+- \`registry.validator.ts\`
+- \`registry.loader.ts\`
+- \`registry.search.ts\`
+- \`registry.permissions.ts\`
+- \`registry.sidebar.ts\`
+- \`registry.routes.ts\`
+- \`registry.breadcrumbs.ts\`
+- \`registry.dashboard.ts\`
+- \`registry.workspaces.ts\`
+- \`registry.commands.ts\`
+- \`registry.documentation.ts\`
+- \`registry.audit.ts\`
+- \`registry.notifications.ts\`
+- \`registry.types.ts\`
+- \`registry.constants.ts\`
+- \`index.ts\`
+
+## Governance
+
+Do not hardcode routes, permissions, sidebar items, breadcrumbs, search entries, command palette entries, audit categories, notification categories, or documentation records outside the registry framework.
+
+Adding a platform surface starts with one registry entry. The generated framework then provides navigation, routing, permissions, search, commands, breadcrumbs, dashboards, workspaces, documentation, audit, and notifications.
+`,
+);
 
 writeFile(
   join("docs", "design-system.md"),
