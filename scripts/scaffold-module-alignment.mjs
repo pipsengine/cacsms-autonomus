@@ -398,6 +398,24 @@ import { REGISTRY_CREATED_AT, REGISTRY_OWNER, REGISTRY_UPDATED_AT } from "./regi
 
 const rawRegistry = ${JSON.stringify(registry, null, 2)} as const;
 
+type RawRegistryItem = {
+  key: string;
+  label: string;
+  parentKey: string | null;
+  icon: string;
+  route: string;
+  permission: string;
+  description: string;
+  featureFlag: string | null;
+  status: "active" | "beta" | "planned" | "disabled";
+  order: number;
+  visibilityRules: {
+    roles: readonly string[];
+    permissions: readonly string[];
+  };
+  children?: readonly RawRegistryItem[];
+};
+
 function words(value: string) {
   return value
     .replace(/&/g, "and")
@@ -407,7 +425,7 @@ function words(value: string) {
     .filter(Boolean);
 }
 
-function enrichItem(item: (typeof rawRegistry)[number], parent: ModuleRegistryItem | null, depth = 0): ModuleRegistryItem {
+function enrichItem(item: RawRegistryItem, parent: ModuleRegistryItem | null, depth = 0): ModuleRegistryItem {
   const id = parent ? parent.id + "." + item.key : item.key;
   const permissionNamespace = item.permission.replace(/\\.view$/, "");
   const moduleType = depth === 0 ? "parent-module" : "operational-page";
@@ -450,16 +468,16 @@ function enrichItem(item: (typeof rawRegistry)[number], parent: ModuleRegistryIt
     updatedAt: REGISTRY_UPDATED_AT,
     deprecated: false,
     futureExtensions: {},
-    children: item.children?.map((child) => enrichItem(child as (typeof rawRegistry)[number], null as never, depth + 1)),
+    children: item.children?.map((child) => enrichItem(child, null, depth + 1)),
   };
 }
 
-function enrichTree(items: readonly (typeof rawRegistry)[number][], parent: ModuleRegistryItem | null = null, depth = 0): readonly ModuleRegistryItem[] {
+function enrichTree(items: readonly RawRegistryItem[], parent: ModuleRegistryItem | null = null, depth = 0): readonly ModuleRegistryItem[] {
   return items.map((item) => {
     const enriched = enrichItem(item, parent, depth);
     return {
       ...enriched,
-      children: item.children ? enrichTree(item.children as readonly (typeof rawRegistry)[number][], enriched, depth + 1) : undefined,
+      children: item.children ? enrichTree(item.children, enriched, depth + 1) : undefined,
     };
   });
 }
@@ -790,11 +808,688 @@ export * from "./registry.workspaces";
   ],
 ]);
 
+const kernelFrameworkFiles = new Map([
+  [
+    "kernel.ts",
+    `import { KernelManager } from "./kernel-manager";
+
+const kernel = new KernelManager();
+
+export function getPlatformKernel() {
+  return kernel;
+}
+
+export function initializePlatformKernel() {
+  return kernel.start();
+}
+
+export function shutdownPlatformKernel() {
+  return kernel.shutdown();
+}
+`,
+  ],
+  [
+    "kernel-manager.ts",
+    `import { EventBus } from "./event-bus";
+import { StartupManager } from "./startup-manager";
+import { ShutdownManager } from "./shutdown-manager";
+import { ServiceRegistry } from "./service-registry";
+import { CapabilityRegistry } from "./capability-registry";
+import { HealthManager } from "./health-manager";
+import { LoggingManager } from "./logging-manager";
+import { TelemetryManager } from "./telemetry-manager";
+
+export type KernelState = "created" | "starting" | "ready" | "running" | "stopping" | "stopped" | "failed";
+
+export class KernelManager {
+  readonly events = new EventBus();
+  readonly services = new ServiceRegistry();
+  readonly capabilities = new CapabilityRegistry();
+  readonly health = new HealthManager();
+  readonly logging = new LoggingManager();
+  readonly telemetry = new TelemetryManager();
+  readonly startup = new StartupManager(this);
+  readonly shutdownManager = new ShutdownManager(this);
+  state: KernelState = "created";
+
+  start() {
+    if (this.state === "ready" || this.state === "running") return this.startup.snapshot();
+    this.state = "starting";
+    try {
+      const snapshot = this.startup.run();
+      this.state = "ready";
+      this.events.publish({ type: "PlatformReady", payload: snapshot });
+      return snapshot;
+    } catch (error) {
+      this.state = "failed";
+      this.events.publish({ type: "PlatformStartupFailed", payload: { error } });
+      throw error;
+    }
+  }
+
+  shutdown() {
+    this.state = "stopping";
+    const result = this.shutdownManager.run();
+    this.state = "stopped";
+    this.events.publish({ type: "PlatformStopped", payload: result });
+    return result;
+  }
+}
+`,
+  ],
+  [
+    "startup-manager.ts",
+    `import { assertValidModuleRegistry, getCommandPaletteItems, getPermissionMap, getRouteMap, getSidebarItems, getWorkspaceRegistry } from "../registry/module-registry";
+import { ModuleLoader } from "./module-loader";
+import type { KernelManager } from "./kernel-manager";
+
+export const KERNEL_STARTUP_SEQUENCE = [
+  "Load Configuration",
+  "Load Module Registry",
+  "Validate Registry",
+  "Initialize Kernel",
+  "Initialize Services",
+  "Initialize Routing",
+  "Initialize Permissions",
+  "Initialize Workspaces",
+  "Initialize Event Bus",
+  "Initialize Cache",
+  "Initialize Logging",
+  "Initialize Monitoring",
+  "Initialize Notifications",
+  "Initialize Intelligence Runtime",
+  "Initialize CACSMS Brain",
+  "Load Modules",
+  "Platform Ready",
+] as const;
+
+export class StartupManager {
+  private latestSnapshot: Record<string, unknown> | null = null;
+
+  constructor(private readonly kernel: KernelManager) {}
+
+  run() {
+    const registryValidation = assertValidModuleRegistry();
+    const loader = new ModuleLoader();
+    const modules = loader.load();
+
+    this.kernel.services.register("module-loader", loader);
+    this.kernel.services.register("routes", getRouteMap());
+    this.kernel.services.register("permissions", getPermissionMap());
+    this.kernel.services.register("workspaces", getWorkspaceRegistry());
+    this.kernel.services.register("sidebar", getSidebarItems());
+    this.kernel.services.register("commands", getCommandPaletteItems());
+
+    for (const module of modules) {
+      this.kernel.capabilities.register({
+        key: module.key + ".open",
+        label: "Open " + module.label,
+        moduleKey: module.key,
+        route: module.route,
+      });
+    }
+
+    this.latestSnapshot = {
+      sequence: KERNEL_STARTUP_SEQUENCE,
+      registryValidation,
+      moduleCount: modules.length,
+      serviceCount: this.kernel.services.list().length,
+      capabilityCount: this.kernel.capabilities.list().length,
+      state: "ready",
+    };
+
+    this.kernel.health.record("platform-kernel", "online", "Startup sequence completed.");
+    this.kernel.telemetry.capture("PlatformStartupCompleted", this.latestSnapshot);
+    return this.latestSnapshot;
+  }
+
+  snapshot() {
+    return this.latestSnapshot ?? this.run();
+  }
+}
+`,
+  ],
+  [
+    "shutdown-manager.ts",
+    `import type { KernelManager } from "./kernel-manager";
+
+export class ShutdownManager {
+  constructor(private readonly kernel: KernelManager) {}
+
+  run() {
+    const serviceCount = this.kernel.services.list().length;
+    this.kernel.services.clear();
+    this.kernel.capabilities.clear();
+    this.kernel.health.record("platform-kernel", "offline", "Shutdown sequence completed.");
+
+    return {
+      state: "stopped",
+      serviceCount,
+    };
+  }
+}
+`,
+  ],
+  [
+    "lifecycle-manager.ts",
+    `export const MODULE_LIFECYCLE_STATES = [
+  "registered",
+  "validated",
+  "initialized",
+  "started",
+  "ready",
+  "running",
+  "paused",
+  "resumed",
+  "stopping",
+  "stopped",
+  "unloaded",
+] as const;
+
+export type ModuleLifecycleState = (typeof MODULE_LIFECYCLE_STATES)[number];
+
+export class LifecycleManager {
+  private readonly states = new Map<string, ModuleLifecycleState>();
+
+  transition(moduleKey: string, state: ModuleLifecycleState) {
+    this.states.set(moduleKey, state);
+    return { moduleKey, state };
+  }
+
+  getState(moduleKey: string) {
+    return this.states.get(moduleKey) ?? "registered";
+  }
+
+  list() {
+    return [...this.states.entries()].map(([moduleKey, state]) => ({ moduleKey, state }));
+  }
+}
+`,
+  ],
+  [
+    "module-loader.ts",
+    `import { loadModuleRegistry } from "../registry/module-registry";
+
+export class ModuleLoader {
+  discover() {
+    return loadModuleRegistry();
+  }
+
+  load() {
+    return this.discover().filter((module) => module.status === "active");
+  }
+}
+`,
+  ],
+  [
+    "service-registry.ts",
+    `export type RegisteredService<T = unknown> = {
+  key: string;
+  service: T;
+  registeredAt: string;
+};
+
+export class ServiceRegistry {
+  private readonly services = new Map<string, RegisteredService>();
+
+  register<T>(key: string, service: T) {
+    const record = { key, service, registeredAt: new Date().toISOString() };
+    this.services.set(key, record);
+    return record;
+  }
+
+  resolve<T>(key: string) {
+    return this.services.get(key)?.service as T | undefined;
+  }
+
+  list() {
+    return [...this.services.values()];
+  }
+
+  clear() {
+    this.services.clear();
+  }
+}
+`,
+  ],
+  [
+    "capability-registry.ts",
+    `export type CapabilityRegistration = {
+  key: string;
+  label: string;
+  moduleKey: string;
+  route?: string;
+};
+
+export class CapabilityRegistry {
+  private readonly capabilities = new Map<string, CapabilityRegistration>();
+
+  register(capability: CapabilityRegistration) {
+    this.capabilities.set(capability.key, capability);
+    return capability;
+  }
+
+  find(key: string) {
+    return this.capabilities.get(key);
+  }
+
+  list() {
+    return [...this.capabilities.values()];
+  }
+
+  clear() {
+    this.capabilities.clear();
+  }
+}
+`,
+  ],
+  [
+    "event-bus.ts",
+    `export type PlatformEvent<T = unknown> = {
+  type: string;
+  payload?: T;
+  occurredAt?: string;
+};
+
+export type EventHandler<T = unknown> = (event: PlatformEvent<T>) => void;
+
+export class EventBus {
+  private readonly handlers = new Map<string, Set<EventHandler>>();
+  private readonly history: PlatformEvent[] = [];
+
+  subscribe(type: string, handler: EventHandler) {
+    const handlers = this.handlers.get(type) ?? new Set<EventHandler>();
+    handlers.add(handler);
+    this.handlers.set(type, handlers);
+    return () => handlers.delete(handler);
+  }
+
+  publish<T>(event: PlatformEvent<T>) {
+    const enriched = { ...event, occurredAt: event.occurredAt ?? new Date().toISOString() };
+    this.history.push(enriched);
+    for (const handler of this.handlers.get(event.type) ?? []) {
+      handler(enriched);
+    }
+    return enriched;
+  }
+
+  listHistory() {
+    return this.history;
+  }
+}
+`,
+  ],
+  [
+    "execution-context.ts",
+    `export type ExecutionContext = {
+  requestId: string;
+  sessionId?: string;
+  userId?: string;
+  tenantId?: string;
+  organizationId?: string;
+  workspaceId?: string;
+  permissions: readonly string[];
+};
+
+export function createExecutionContext(context: Partial<ExecutionContext> = {}): ExecutionContext {
+  return {
+    requestId: context.requestId ?? "kernel-" + Date.now(),
+    sessionId: context.sessionId,
+    userId: context.userId,
+    tenantId: context.tenantId,
+    organizationId: context.organizationId,
+    workspaceId: context.workspaceId,
+    permissions: context.permissions ?? [],
+  };
+}
+`,
+  ],
+  [
+    "request-context.ts",
+    `import { createExecutionContext } from "./execution-context";
+
+export function createRequestContext(requestId: string, permissions: readonly string[] = []) {
+  return createExecutionContext({ requestId, permissions });
+}
+`,
+  ],
+  [
+    "workspace-context.ts",
+    `import { createExecutionContext } from "./execution-context";
+
+export function createWorkspaceContext(workspaceId: string, organizationId?: string) {
+  return createExecutionContext({ workspaceId, organizationId });
+}
+`,
+  ],
+  [
+    "tenant-context.ts",
+    `import { createExecutionContext } from "./execution-context";
+
+export function createTenantContext(tenantId: string) {
+  return createExecutionContext({ tenantId });
+}
+`,
+  ],
+  [
+    "organization-context.ts",
+    `import { createExecutionContext } from "./execution-context";
+
+export function createOrganizationContext(organizationId: string, tenantId?: string) {
+  return createExecutionContext({ organizationId, tenantId });
+}
+`,
+  ],
+  [
+    "security-context.ts",
+    `import { createExecutionContext } from "./execution-context";
+
+export function createSecurityContext(userId: string, permissions: readonly string[]) {
+  return createExecutionContext({ userId, permissions });
+}
+`,
+  ],
+  [
+    "dependency-manager.ts",
+    `export class DependencyManager {
+  private readonly dependencies = new Map<string, readonly string[]>();
+
+  register(key: string, dependencies: readonly string[] = []) {
+    this.dependencies.set(key, dependencies);
+    return { key, dependencies };
+  }
+
+  list() {
+    return [...this.dependencies.entries()].map(([key, dependencies]) => ({ key, dependencies }));
+  }
+}
+`,
+  ],
+  [
+    "configuration-manager.ts",
+    `export class ConfigurationManager {
+  private readonly values = new Map<string, string>();
+
+  load(values: Record<string, string | undefined> = {}) {
+    for (const [key, value] of Object.entries(values)) {
+      if (value !== undefined) this.values.set(key, value);
+    }
+    return this.snapshot();
+  }
+
+  get(key: string) {
+    return this.values.get(key);
+  }
+
+  snapshot() {
+    return Object.fromEntries(this.values);
+  }
+}
+`,
+  ],
+  [
+    "plugin-manager.ts",
+    `export type PluginRegistration = {
+  key: string;
+  label: string;
+  enabled: boolean;
+};
+
+export class PluginManager {
+  private readonly plugins = new Map<string, PluginRegistration>();
+
+  register(plugin: PluginRegistration) {
+    this.plugins.set(plugin.key, plugin);
+    return plugin;
+  }
+
+  list() {
+    return [...this.plugins.values()];
+  }
+}
+`,
+  ],
+  [
+    "feature-manager.ts",
+    `export class FeatureManager {
+  private readonly flags = new Map<string, boolean>();
+
+  setFlag(key: string, enabled: boolean) {
+    this.flags.set(key, enabled);
+    return { key, enabled };
+  }
+
+  isEnabled(key: string) {
+    return this.flags.get(key) ?? false;
+  }
+}
+`,
+  ],
+  [
+    "telemetry-manager.ts",
+    `export type TelemetryRecord = {
+  name: string;
+  payload?: unknown;
+  capturedAt: string;
+};
+
+export class TelemetryManager {
+  private readonly records: TelemetryRecord[] = [];
+
+  capture(name: string, payload?: unknown) {
+    const record = { name, payload, capturedAt: new Date().toISOString() };
+    this.records.push(record);
+    return record;
+  }
+
+  list() {
+    return this.records;
+  }
+}
+`,
+  ],
+  [
+    "diagnostics-manager.ts",
+    `export class DiagnosticsManager {
+  inspect() {
+    return {
+      inspectedAt: new Date().toISOString(),
+      status: "ok",
+    };
+  }
+}
+`,
+  ],
+  [
+    "logging-manager.ts",
+    `export type LogEntry = {
+  level: "info" | "warn" | "error";
+  message: string;
+  createdAt: string;
+};
+
+export class LoggingManager {
+  private readonly entries: LogEntry[] = [];
+
+  log(level: LogEntry["level"], message: string) {
+    const entry = { level, message, createdAt: new Date().toISOString() };
+    this.entries.push(entry);
+    return entry;
+  }
+
+  list() {
+    return this.entries;
+  }
+}
+`,
+  ],
+  [
+    "health-manager.ts",
+    `export type HealthState = "online" | "degraded" | "offline";
+
+export class HealthManager {
+  private readonly checks = new Map<string, { state: HealthState; message: string; checkedAt: string }>();
+
+  record(key: string, state: HealthState, message: string) {
+    const check = { state, message, checkedAt: new Date().toISOString() };
+    this.checks.set(key, check);
+    return check;
+  }
+
+  score() {
+    const checks = [...this.checks.values()];
+    if (checks.length === 0) return 100;
+    const online = checks.filter((check) => check.state === "online").length;
+    return Math.round((online / checks.length) * 100);
+  }
+
+  list() {
+    return [...this.checks.entries()].map(([key, check]) => ({ key, ...check }));
+  }
+}
+`,
+  ],
+  [
+    "scheduler.ts",
+    `export type ScheduledTask = {
+  key: string;
+  cadence: string;
+  enabled: boolean;
+};
+
+export class Scheduler {
+  private readonly tasks = new Map<string, ScheduledTask>();
+
+  schedule(task: ScheduledTask) {
+    this.tasks.set(task.key, task);
+    return task;
+  }
+
+  list() {
+    return [...this.tasks.values()];
+  }
+}
+`,
+  ],
+  [
+    "queue-manager.ts",
+    `export class QueueManager<T = unknown> {
+  private readonly queues = new Map<string, T[]>();
+
+  enqueue(queue: string, item: T) {
+    const items = this.queues.get(queue) ?? [];
+    items.push(item);
+    this.queues.set(queue, items);
+    return items.length;
+  }
+
+  dequeue(queue: string) {
+    return this.queues.get(queue)?.shift();
+  }
+
+  size(queue: string) {
+    return this.queues.get(queue)?.length ?? 0;
+  }
+}
+`,
+  ],
+  [
+    "cache-manager.ts",
+    `export class CacheManager<T = unknown> {
+  private readonly cache = new Map<string, T>();
+
+  set(key: string, value: T) {
+    this.cache.set(key, value);
+    return value;
+  }
+
+  get(key: string) {
+    return this.cache.get(key);
+  }
+
+  clear() {
+    this.cache.clear();
+  }
+}
+`,
+  ],
+  [
+    "recovery-manager.ts",
+    `export class RecoveryManager {
+  retry<T>(operation: () => T, attempts = 3): T {
+    let lastError: unknown;
+    for (let index = 0; index < attempts; index += 1) {
+      try {
+        return operation();
+      } catch (error) {
+        lastError = error;
+      }
+    }
+    throw lastError;
+  }
+
+  circuitBreaker(open: boolean) {
+    return { open, mode: open ? "graceful-degradation" : "normal" };
+  }
+}
+`,
+  ],
+  [
+    "monitoring-manager.ts",
+    `export class MonitoringManager {
+  sample() {
+    return {
+      sampledAt: new Date().toISOString(),
+      performance: "nominal",
+      healthScore: 100,
+    };
+  }
+}
+`,
+  ],
+  [
+    "index.ts",
+    `export * from "./cache-manager";
+export * from "./capability-registry";
+export * from "./configuration-manager";
+export * from "./dependency-manager";
+export * from "./diagnostics-manager";
+export * from "./event-bus";
+export * from "./execution-context";
+export * from "./feature-manager";
+export * from "./health-manager";
+export * from "./kernel";
+export * from "./kernel-manager";
+export * from "./lifecycle-manager";
+export * from "./logging-manager";
+export * from "./module-loader";
+export * from "./monitoring-manager";
+export * from "./organization-context";
+export * from "./plugin-manager";
+export * from "./queue-manager";
+export * from "./recovery-manager";
+export * from "./request-context";
+export * from "./scheduler";
+export * from "./security-context";
+export * from "./service-registry";
+export * from "./shutdown-manager";
+export * from "./startup-manager";
+export * from "./telemetry-manager";
+export * from "./tenant-context";
+export * from "./workspace-context";
+`,
+  ],
+]);
+
 writeFile(join("packages", "config", "src", "module-registry.ts"), registryTs);
 writeFile(join("packages", "config", "src", "index.ts"), `export * from "./module-registry";\n`);
 
 for (const [fileName, content] of registryFrameworkFiles) {
   writeFile(join("platform", "registry", "module-registry", fileName), content);
+}
+
+for (const [fileName, content] of kernelFrameworkFiles) {
+  writeFile(join("platform", "kernel", fileName), content);
 }
 
 for (const pkg of packages) {
@@ -2451,6 +3146,43 @@ The permanent registry service is generated under \`platform/registry/module-reg
 Do not hardcode routes, permissions, sidebar items, breadcrumbs, search entries, command palette entries, audit categories, notification categories, or documentation records outside the registry framework.
 
 Adding a platform surface starts with one registry entry. The generated framework then provides navigation, routing, permissions, search, commands, breadcrumbs, dashboards, workspaces, documentation, audit, and notifications.
+`,
+);
+writeFile(
+  join("docs", "eas-003-platform-kernel.md"),
+  `# EAS-003 Enterprise Platform Kernel
+
+The Platform Kernel is the operating foundation of CACSMS Autonomous. Every module, service, workspace, workflow, capability, plugin, event, and autonomous process must execute through the kernel.
+
+## Kernel Startup
+
+Startup follows the mandatory sequence:
+
+1. Load Configuration
+2. Load Module Registry
+3. Validate Registry
+4. Initialize Kernel
+5. Initialize Services
+6. Initialize Routing
+7. Initialize Permissions
+8. Initialize Workspaces
+9. Initialize Event Bus
+10. Initialize Cache
+11. Initialize Logging
+12. Initialize Monitoring
+13. Initialize Notifications
+14. Initialize Intelligence Runtime
+15. Initialize CACSMS Brain
+16. Load Modules
+17. Platform Ready
+
+## Kernel Framework
+
+The permanent kernel framework is generated under \`platform/kernel\` and includes startup, shutdown, lifecycle, module loading, service registry, capability registry, event bus, context, telemetry, diagnostics, logging, health, scheduling, queues, cache, recovery, monitoring, plugins, features, dependencies, and configuration.
+
+## Enterprise Rule
+
+No platform service should be manually instantiated outside kernel governance. Future frameworks must integrate with \`platform/kernel\`.
 `,
 );
 

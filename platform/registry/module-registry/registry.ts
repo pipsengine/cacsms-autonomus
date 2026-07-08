@@ -7427,6 +7427,24 @@ const rawRegistry = [
   }
 ] as const;
 
+type RawRegistryItem = {
+  key: string;
+  label: string;
+  parentKey: string | null;
+  icon: string;
+  route: string;
+  permission: string;
+  description: string;
+  featureFlag: string | null;
+  status: "active" | "beta" | "planned" | "disabled";
+  order: number;
+  visibilityRules: {
+    roles: readonly string[];
+    permissions: readonly string[];
+  };
+  children?: readonly RawRegistryItem[];
+};
+
 function words(value: string) {
   return value
     .replace(/&/g, "and")
@@ -7436,7 +7454,7 @@ function words(value: string) {
     .filter(Boolean);
 }
 
-function enrichItem(item: (typeof rawRegistry)[number], parent: ModuleRegistryItem | null, depth = 0): ModuleRegistryItem {
+function enrichItem(item: RawRegistryItem, parent: ModuleRegistryItem | null, depth = 0): ModuleRegistryItem {
   const id = parent ? parent.id + "." + item.key : item.key;
   const permissionNamespace = item.permission.replace(/\.view$/, "");
   const moduleType = depth === 0 ? "parent-module" : "operational-page";
@@ -7479,16 +7497,16 @@ function enrichItem(item: (typeof rawRegistry)[number], parent: ModuleRegistryIt
     updatedAt: REGISTRY_UPDATED_AT,
     deprecated: false,
     futureExtensions: {},
-    children: item.children?.map((child) => enrichItem(child as (typeof rawRegistry)[number], null as never, depth + 1)),
+    children: item.children?.map((child) => enrichItem(child, null, depth + 1)),
   };
 }
 
-function enrichTree(items: readonly (typeof rawRegistry)[number][], parent: ModuleRegistryItem | null = null, depth = 0): readonly ModuleRegistryItem[] {
+function enrichTree(items: readonly RawRegistryItem[], parent: ModuleRegistryItem | null = null, depth = 0): readonly ModuleRegistryItem[] {
   return items.map((item) => {
     const enriched = enrichItem(item, parent, depth);
     return {
       ...enriched,
-      children: item.children ? enrichTree(item.children as readonly (typeof rawRegistry)[number][], enriched, depth + 1) : undefined,
+      children: item.children ? enrichTree(item.children, enriched, depth + 1) : undefined,
     };
   });
 }

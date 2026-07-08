@@ -1,6 +1,6 @@
 import type { ReactNode } from "react";
 import "./globals.css";
-import { assertValidModuleRegistry } from "../../../platform/registry/module-registry";
+import { initializePlatformKernel } from "../../../platform/kernel";
 import { AppShell } from "./shell";
 
 export const metadata = {
@@ -9,7 +9,7 @@ export const metadata = {
 };
 
 export default function RootLayout({ children }: { children: ReactNode }) {
-  assertValidModuleRegistry();
+  initializePlatformKernel();
 
   return (
     <html lang="en">
