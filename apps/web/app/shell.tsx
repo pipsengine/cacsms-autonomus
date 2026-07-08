@@ -3,39 +3,102 @@
 import type { ReactNode } from "react";
 import { useEffect, useMemo, useState } from "react";
 import { usePathname } from "next/navigation";
-import { MODULE_REGISTRY, getBreadcrumbs } from "../../../platform/registry/module-registry";
+import { MODULE_REGISTRY } from "../../../platform/registry/module-registry";
 
 type RegistryItem = (typeof MODULE_REGISTRY)[number];
-type ChildItem = NonNullable<RegistryItem["children"]>[number];
 
-const autonomousStatus = [
-  ["Autonomous Brain", "Running"],
-  ["Learning Engine", "Learning"],
-  ["Decision Engine", "Processing"],
-  ["Creative Engine", "Rendering"],
-  ["Research Engine", "Scanning Trends"],
-  ["Publishing Engine", "Scheduled"],
-  ["Knowledge Engine", "Updating"],
-  ["Memory Engine", "Optimizing"],
+const primaryModuleKeys = [
+  "dashboard",
+  "content-platform",
+  "creative-studio",
+  "approval-center",
+  "analytics-center",
+  "knowledge-base",
+  "research-center",
+  "workflow-engine",
+  "campaign-manager",
+  "user-administration",
 ] as const;
 
-const recommendations = [
-  "Three campaigns are underperforming and need autonomous optimization.",
-  "LinkedIn engagement increased by 18% after the last publishing window.",
-  "Research Agent discovered 5 trending topics for this workspace.",
-  "Publishing tomorrow at 8:30 AM is predicted to increase engagement.",
-  "One workflow has repeated failures and should enter exception review.",
-  "Content quality increased by 14% across active campaigns.",
-  "Brand consistency is holding at 97%.",
+const moduleIcons: Record<string, string> = {
+  dashboard: "home",
+  "content-platform": "doc",
+  "creative-studio": "spark",
+  "approval-center": "check",
+  "analytics-center": "chart",
+  "knowledge-base": "book",
+  "research-center": "search",
+  "workflow-engine": "flow",
+  "campaign-manager": "send",
+  "user-administration": "gear",
+};
+
+const metricCards = [
+  { label: "Total Content", value: "1,234", change: "18.5%", tone: "blue", icon: "doc" },
+  { label: "Active Campaigns", value: "56", change: "12.3%", tone: "green", icon: "megaphone" },
+  { label: "Tasks in Progress", value: "89", change: "8.7%", tone: "amber", icon: "task" },
+  { label: "Approvals Pending", value: "23", change: "4.3%", tone: "purple", icon: "users", down: true },
+  { label: "System Health", value: "Excellent", detail: "All systems operational", tone: "green", icon: "shield" },
 ] as const;
 
-const activityItems = [
-  ["09:20", "Research completed"],
-  ["09:22", "Content generated"],
-  ["09:25", "Decision Engine approved"],
-  ["09:26", "Publishing scheduled"],
-  ["09:28", "Learning updated"],
-  ["09:31", "Campaign optimized"],
+const chartPoints = [8, 28, 38, 34, 48, 56, 52, 66, 79, 84, 88] as const;
+const chartLabels = ["May 23", "May 24", "May 25", "May 26", "May 27", "May 28", "May 29"] as const;
+
+const statusItems = [
+  ["Draft", "32% (395)", "blue"],
+  ["In Review", "18% (222)", "amber"],
+  ["Approved", "25% (309)", "teal"],
+  ["Published", "15% (185)", "green"],
+  ["Archived", "10% (123)", "slate"],
+] as const;
+
+const insights = [
+  {
+    title: "Performance Opportunity",
+    body: "Campaign engagement is 23% higher than average. Consider increasing budget allocation.",
+    time: "2h ago",
+    tone: "blue",
+    icon: "chart",
+  },
+  {
+    title: "Content Recommendation",
+    body: "AI suggests creating more video content. Video engagement is trending up.",
+    time: "4h ago",
+    tone: "green",
+    icon: "doc",
+  },
+  {
+    title: "Workflow Optimization",
+    body: "3 workflows can be automated to save ~12 hours per week.",
+    time: "6h ago",
+    tone: "amber",
+    icon: "gear",
+  },
+] as const;
+
+const activity = [
+  ["Video Campaign Q2 was published", "Sarah Johnson", "10 min ago", "blue"],
+  ["Blog Post: AI in Marketing submitted for approval", "Michael Chen", "25 min ago", "purple"],
+  ["Product Launch Campaign created", "Emily Davis", "1 hr ago", "green"],
+  ["Monthly Content Plan May 2025 updated", "James Wilson", "2 hr ago", "green"],
+  ["Graphic Design: Banner Ad completed", "Lisa Anderson", "3 hr ago", "amber"],
+] as const;
+
+const campaigns = [
+  ["Summer Sale 2025", "8.7%", "125.4K", "32%", "up"],
+  ["Product Launch Q2", "6.3%", "98.7K", "18%", "up"],
+  ["Brand Awareness", "4.9%", "75.2K", "15%", "up"],
+  ["Customer Retention", "3.8%", "62.1K", "5%", "down"],
+  ["New Features Promo", "3.1%", "45.8K", "8%", "up"],
+] as const;
+
+const quickActions = [
+  ["Create Content", "doc", "blue"],
+  ["New Campaign", "megaphone", "green"],
+  ["Upload Media", "upload", "purple"],
+  ["Create Workflow", "task", "amber"],
+  ["Generate Report", "chart", "blue"],
+  ["AI Assistant", "spark", "pink"],
 ] as const;
 
 const commandItems = [
@@ -50,40 +113,14 @@ const commandItems = [
   "Open Creative Studio",
 ] as const;
 
-const favoriteModuleKeys = ["creative-studio", "autonomous-control", "knowledge-base"] as const;
-
 function findRoute(pathname: string) {
   for (const module of MODULE_REGISTRY) {
-    if (pathname === "/" || pathname === module.route) {
-      return { module, page: undefined, nested: undefined };
-    }
-
-    for (const page of module.children ?? []) {
-      if (pathname === page.route) {
-        return { module, page, nested: undefined };
-      }
-
-      for (const nested of page.children ?? []) {
-        if (pathname === nested.route) {
-          return { module, page, nested };
-        }
-      }
+    if (pathname === "/" || pathname === module.route || pathname.startsWith(`${module.route}/`)) {
+      return module;
     }
   }
 
-  return { module: MODULE_REGISTRY[0], page: undefined, nested: undefined };
-}
-
-type QueryableItem = {
-  label: string;
-  children?: readonly QueryableItem[];
-};
-
-function itemMatchesQuery(item: QueryableItem, query: string): boolean {
-  const normalized = query.toLowerCase().trim();
-  if (!normalized) return true;
-
-  return item.label.toLowerCase().includes(normalized) || Boolean(item.children?.some((child) => itemMatchesQuery(child, normalized)));
+  return MODULE_REGISTRY[0];
 }
 
 function flattenNavigation() {
@@ -96,7 +133,7 @@ function flattenNavigation() {
   ]);
 }
 
-function initials(label: string) {
+function moduleInitials(label: string) {
   return label
     .replace("&", "")
     .split(/\s+/)
@@ -106,54 +143,72 @@ function initials(label: string) {
     .join("");
 }
 
-function counterFor(index: number) {
-  return [7, 12, 3, 18, 5, 9, 2, 14][index % 8];
+function iconToken(icon: string) {
+  return <span className={`icon-token icon-${icon}`} aria-hidden="true" />;
 }
 
-function moduleKpis(module: RegistryItem) {
-  const childCount = module.children?.length ?? 0;
+function SidebarModule({ module, pathname, collapsed }: { module: RegistryItem; pathname: string; collapsed: boolean }) {
+  const active = pathname === "/" ? module.key === "dashboard" : pathname === module.route || pathname.startsWith(`${module.route}/`);
+  const showChildren = active && module.children?.length && !collapsed;
+  const visibleChildren =
+    module.key === "dashboard"
+      ? module.children?.filter((child) => child.key !== "recent-activities").slice(0, 7)
+      : module.children?.slice(0, 7);
+  const moduleLabel = module.key === "user-administration" ? "System Administration" : module.label;
 
-  return [
-    ["Autonomy Score", "92%", "Policy-driven execution readiness"],
-    ["Decision Accuracy", "97%", "Validated by recent outcomes"],
-    ["Policy Success Rate", "94%", "Auto approvals passing guardrails"],
-    ["Learning Progress", "81%", "Knowledge updated from workflows"],
-    ["Running Agents", String(Math.max(4, Math.min(18, childCount))), "Agents active in this module"],
-    ["Active Workflows", String(childCount), "Registry-aligned operations"],
-    ["Business Goal Progress", "76%", "Current mission completion"],
-    ["Exceptions Today", "1", "Needs attention"],
-  ] as const;
-}
-
-function moduleWorkspaceLabel(label: string) {
-  if (label.endsWith("Center")) return label.replace("Center", "Operations Center");
-  if (label.endsWith("Engine")) return label.replace("Engine", "Operations Center");
-  if (label.endsWith("Studio")) return label.replace("Studio", "Operations Center");
-  return `${label} Operations Center`;
-}
-
-function pageMode(route: ReturnType<typeof findRoute>) {
-  return route.page || route.nested ? "Operational Workspace" : "Executive Dashboard";
-}
-
-function TreeChildren({ items, level = 1, pathname }: { items: readonly ChildItem[]; level?: number; pathname: string }) {
   return (
-    <div className="tree-children" data-level={level}>
-      {items.map((item, index) => {
-        const active = pathname === item.route || pathname.startsWith(`${item.route}/`);
-        const hasNested = Boolean(item.children?.length);
-
-        return (
-          <div className="tree-child-group" key={item.route}>
-            <a className="tree-child-link" data-active={active} href={item.route}>
-              <span>{hasNested ? ">" : ""}</span>
-              <span>{item.label}</span>
-              <small>{counterFor(index)}</small>
+    <div className="nav-group" data-active={active}>
+      <a className="nav-item" href={module.route}>
+        <span className="nav-symbol">{iconToken(moduleIcons[module.key] ?? "square")}</span>
+        {!collapsed && <span>{moduleLabel}</span>}
+        {!collapsed && module.key === "approval-center" && <strong className="nav-badge">7</strong>}
+        {!collapsed && module.key !== "dashboard" && <span className="nav-chevron">›</span>}
+      </a>
+      {showChildren && (
+        <div className="nav-children">
+          {visibleChildren?.map((child, index) => (
+            <a className="nav-child" data-active={index === 0 || pathname === child.route} href={child.route} key={child.route}>
+              <span>{child.label}</span>
+              {child.key === "notifications" && <strong className="nav-badge">12</strong>}
             </a>
-            {hasNested && active && <TreeChildren items={item.children ?? []} level={level + 1} pathname={pathname} />}
-          </div>
-        );
-      })}
+          ))}
+        </div>
+      )}
+    </div>
+  );
+}
+
+function LineChart() {
+  const points = chartPoints.map((value, index) => `${(index / (chartPoints.length - 1)) * 100},${100 - value}`).join(" ");
+
+  return (
+    <div className="line-chart">
+      <div className="chart-y">
+        <span>1K</span>
+        <span>800</span>
+        <span>600</span>
+        <span>400</span>
+        <span>200</span>
+        <span>0</span>
+      </div>
+      <svg viewBox="0 0 100 100" preserveAspectRatio="none" aria-label="Content production trend">
+        <defs>
+          <linearGradient id="trendFill" x1="0" x2="0" y1="0" y2="1">
+            <stop offset="0%" stopColor="#2563eb" stopOpacity="0.22" />
+            <stop offset="100%" stopColor="#2563eb" stopOpacity="0.03" />
+          </linearGradient>
+        </defs>
+        <polygon points={`0,100 ${points} 100,100`} fill="url(#trendFill)" />
+        <polyline points={points} fill="none" stroke="#2563eb" strokeWidth="1.8" vectorEffect="non-scaling-stroke" />
+        {chartPoints.map((value, index) => (
+          <circle cx={(index / (chartPoints.length - 1)) * 100} cy={100 - value} fill="#2563eb" key={`${value}-${index}`} r="1.4" />
+        ))}
+      </svg>
+      <div className="chart-x">
+        {chartLabels.map((label) => (
+          <span key={label}>{label}</span>
+        ))}
+      </div>
     </div>
   );
 }
@@ -162,23 +217,9 @@ export function AppShell({ children }: { children: ReactNode }) {
   const pathname = usePathname();
   const [collapsed, setCollapsed] = useState(false);
   const [commandOpen, setCommandOpen] = useState(false);
-  const [sidebarQuery, setSidebarQuery] = useState("");
   const route = useMemo(() => findRoute(pathname), [pathname]);
-  const [expanded, setExpanded] = useState<Record<string, boolean>>({});
-  const [recentRoutes, setRecentRoutes] = useState<string[]>([]);
   const navigationItems = useMemo(() => flattenNavigation(), []);
-
-  useEffect(() => {
-    const stored = window.localStorage.getItem("cacsms-expanded-sidebar");
-    if (stored) setExpanded(JSON.parse(stored) as Record<string, boolean>);
-
-    const storedRecent = window.localStorage.getItem("cacsms-recent-routes");
-    if (storedRecent) setRecentRoutes(JSON.parse(storedRecent) as string[]);
-  }, []);
-
-  useEffect(() => {
-    window.localStorage.setItem("cacsms-expanded-sidebar", JSON.stringify(expanded));
-  }, [expanded]);
+  const primaryModules = primaryModuleKeys.map((key) => MODULE_REGISTRY.find((module) => module.key === key)).filter((module): module is RegistryItem => Boolean(module));
 
   useEffect(() => {
     function onKeyDown(event: KeyboardEvent) {
@@ -192,230 +233,228 @@ export function AppShell({ children }: { children: ReactNode }) {
     return () => window.removeEventListener("keydown", onKeyDown);
   }, []);
 
-  useEffect(() => {
-    setExpanded((value) => ({ ...value, [route.module.key]: true }));
-  }, [route.module.key]);
-
-  useEffect(() => {
-    setRecentRoutes((value) => {
-      const next = [pathname, ...value.filter((item) => item !== pathname)].slice(0, 6);
-      window.localStorage.setItem("cacsms-recent-routes", JSON.stringify(next));
-      return next;
-    });
-  }, [pathname]);
-
-  const breadcrumbs = pathname === "/" ? [{ label: "Dashboard", route: "/dashboard" }] : getBreadcrumbs(pathname);
-  const pageTitle = route.nested?.label ?? route.page?.label ?? route.module.label;
-  const pageDescription = route.nested?.description ?? route.page?.description ?? route.module.description;
-  const visibleModules = MODULE_REGISTRY.filter((module) => itemMatchesQuery(module, sidebarQuery));
-  const favoriteModules = MODULE_REGISTRY.filter((module) => favoriteModuleKeys.includes(module.key as (typeof favoriteModuleKeys)[number]));
-  const recentNavigationItems = recentRoutes.map((recentRoute) => navigationItems.find((item) => item.route === recentRoute)).filter((item): item is (typeof navigationItems)[number] => Boolean(item));
-  const currentKpis = moduleKpis(route.module);
-  const mode = pageMode(route);
-
   return (
-    <div className="app-shell" data-collapsed={collapsed}>
-      <aside className="sidebar">
-        <div className="sidebar-brand">
-          <div className="brand-mark">CA</div>
+    <div className="dashboard-shell" data-collapsed={collapsed}>
+      <aside className="dashboard-sidebar">
+        <div className="brand-block">
+          <div className="brand-cube">
+            <span />
+          </div>
           {!collapsed && (
             <div>
               <strong>CACSMS</strong>
-              <span>Autonomous OS</span>
+              <span>AUTONOMOUS</span>
             </div>
           )}
         </div>
 
-        <button className="sidebar-toggle" onClick={() => setCollapsed((value) => !value)} type="button" aria-label="Toggle sidebar">
-          {collapsed ? ">" : "<"}
-        </button>
+        <nav className="dashboard-nav" aria-label="Enterprise navigation">
+          {primaryModules.map((module) => (
+            <SidebarModule collapsed={collapsed} key={module.key} module={module} pathname={pathname} />
+          ))}
 
-        {!collapsed && (
-          <div className="sidebar-search">
-            <input aria-label="Search sidebar" onChange={(event) => setSidebarQuery(event.target.value)} placeholder="Search modules" value={sidebarQuery} />
-          </div>
-        )}
-
-        <nav className="sidebar-nav" aria-label="Enterprise tree navigation">
           {!collapsed && (
-            <div className="sidebar-section">
-              <span>Favorites</span>
-              {favoriteModules.map((module) => (
-                <a href={module.route} key={module.key}>{module.label}</a>
-              ))}
+            <div className="nav-secondary">
+              <a className="nav-item" href="/dashboard">
+                <span className="nav-symbol">{iconToken("star")}</span>
+                <span>Favorites</span>
+              </a>
+              <a className="nav-item" href={route.route}>
+                <span className="nav-symbol">{iconToken("clock")}</span>
+                <span>Recently Viewed</span>
+              </a>
             </div>
           )}
-
-          {!collapsed && recentNavigationItems.length > 0 && (
-            <div className="sidebar-section">
-              <span>Recent</span>
-              {recentNavigationItems.map((item) => (
-                <a href={item.route} key={item.route}>{item.label}</a>
-              ))}
-            </div>
-          )}
-
-          {visibleModules.map((module, moduleIndex) => {
-            const active = pathname === module.route || pathname.startsWith(`${module.route}/`) || (pathname === "/" && module.key === "dashboard");
-            const isOpen = Boolean(expanded[module.key]) && !collapsed;
-
-            return (
-              <div className="tree-module" data-active={active} key={module.key}>
-                <div className="tree-module-row">
-                  <button
-                    className="tree-expander"
-                    onClick={() => setExpanded((value) => ({ ...value, [module.key]: !value[module.key] }))}
-                    type="button"
-                    aria-label={`Toggle ${module.label}`}
-                  >
-                    {isOpen ? "v" : ">"}
-                  </button>
-                  <a className="sidebar-link" href={module.route} title={module.label}>
-                    <span className="sidebar-icon">{initials(module.label)}</span>
-                    {!collapsed && <span>{module.label}</span>}
-                  </a>
-                  {!collapsed && <small className="module-badge">{counterFor(moduleIndex)}</small>}
-                </div>
-                {isOpen && <TreeChildren items={module.children ?? []} pathname={pathname} />}
-              </div>
-            );
-          })}
         </nav>
+
+        <button className="collapse-control" onClick={() => setCollapsed((value) => !value)} type="button">
+          <span>{collapsed ? "›" : "‹‹"}</span>
+          {!collapsed && <span>Collapse Sidebar</span>}
+        </button>
       </aside>
 
-      <div className="app-main">
-        <header className="top-header">
-          <div className="header-switchers">
-            <button className="header-chip" type="button">Workspace</button>
-            <button className="header-chip" type="button">Organization</button>
-          </div>
-          <button className="global-search" onClick={() => setCommandOpen(true)} type="button">
-            Search pages, modules, documents, workflows, agents <kbd>Ctrl K</kbd>
+      <div className="dashboard-main">
+        <header className="dashboard-topbar">
+          <button className="menu-button" type="button" aria-label="Open menu">
+            <span />
           </button>
-          <div className="header-actions">
-            <button className="icon-button" type="button">+</button>
-            <button className="header-chip" type="button">Tasks 12</button>
-            <button className="header-chip" type="button">Agents 8</button>
-            <button className="brain-pill" type="button">Brain Running</button>
-            <button className="icon-button" type="button">?</button>
-            <button className="icon-button" type="button">P</button>
+
+          <button className="search-command" onClick={() => setCommandOpen(true)} type="button">
+            {iconToken("search")}
+            <span>Search anything...</span>
+            <kbd>⌘ K</kbd>
+          </button>
+
+          <div className="topbar-actions">
+            <button className="top-icon" type="button">{iconToken("spark")}</button>
+            <button className="top-icon notification-icon" type="button">
+              {iconToken("bell")}
+              <strong>12</strong>
+            </button>
+            <button className="top-icon" type="button">?</button>
+            <div className="user-profile">
+              <div className="avatar-face" />
+              <div>
+                <strong>John Doe</strong>
+                <span>System Administrator</span>
+              </div>
+              <span className="profile-chevron">⌄</span>
+            </div>
           </div>
         </header>
 
-        <main className="workspace">
-          <div className="breadcrumbs">
-            {breadcrumbs.map((crumb, index) => (
-              <span key={`${crumb.route}-${index}`}>{crumb.label}</span>
-            ))}
-          </div>
-
-          <section className="page-header">
+        <main className="dashboard-content">
+          <section className="dashboard-heading">
             <div>
-              <span className="eyebrow">{moduleWorkspaceLabel(route.module.label)}</span>
-              <h1>{pageTitle}</h1>
-              <p>{mode}: {pageDescription}</p>
+              <h1>Dashboard Overview</h1>
+              <p>Real-time overview of your autonomous operations</p>
             </div>
-            <div className="quick-actions">
-              <button type="button">New</button>
-              <button type="button">Automate</button>
-              <button type="button">Generate</button>
-              <button type="button">Run Agent</button>
-              <button type="button">Export</button>
-              <button type="button">Settings</button>
+            <div className="heading-actions">
+              <button type="button">{iconToken("calendar")} May 29, 2025 10:30 AM <span>⌄</span></button>
+              <button type="button">{iconToken("sliders")} Customize</button>
             </div>
           </section>
 
-          <section className="autonomous-strip">
-            {autonomousStatus.map(([label, value]) => (
-              <article key={label}>
-                <span>{label}</span>
-                <strong>{value}</strong>
+          <section className="metric-strip">
+            {metricCards.map((metric) => (
+              <article className="dashboard-card metric-tile" data-tone={metric.tone} key={metric.label}>
+                <div className="tile-icon">{iconToken(metric.icon)}</div>
+                <div>
+                  <span>{metric.label}</span>
+                  <strong>{metric.value}</strong>
+                  {"detail" in metric ? (
+                    <p>{metric.detail}</p>
+                  ) : (
+                    <p className={"down" in metric && metric.down ? "negative" : "positive"}>{"down" in metric && metric.down ? "↓" : "↑"} {metric.change} <em>vs last 7 days</em></p>
+                  )}
+                </div>
               </article>
             ))}
-            <article>
-              <span>System Confidence</span>
-              <strong>98%</strong>
-            </article>
           </section>
 
-          <section className="operations-grid">
-            <div className="kpi-grid">
-              {currentKpis.map(([label, value, detail]) => (
-                <article className="metric-card" key={label}>
-                  <span>{label}</span>
-                  <strong>{value}</strong>
-                  <p>{detail}</p>
+          <section className="dashboard-grid">
+            <div className="main-column">
+              <article className="dashboard-card chart-card">
+                <div className="card-heading">
+                  <h2>Content Production Trend <span>ⓘ</span></h2>
+                  <button type="button">Last 7 Days <span>⌄</span></button>
+                </div>
+                <LineChart />
+              </article>
+
+              <section className="lower-grid">
+                <article className="dashboard-card activity-card">
+                  <div className="card-heading">
+                    <h2>{iconToken("activity")} Recent Activity <span>ⓘ</span></h2>
+                  </div>
+                  <div className="activity-list">
+                    {activity.map(([title, author, time, tone]) => (
+                      <div className="activity-row" data-tone={tone} key={title}>
+                        <span className="row-icon">{iconToken("doc")}</span>
+                        <div>
+                          <strong>{title}</strong>
+                          <small>by {author}</small>
+                        </div>
+                        <time>{time}</time>
+                      </div>
+                    ))}
+                  </div>
+                  <a className="card-link" href="/dashboard/activity-feed">View All Activity <span>→</span></a>
                 </article>
-              ))}
+
+                <article className="dashboard-card campaign-card">
+                  <div className="card-heading">
+                    <h2>{iconToken("trophy")} Top Performing Campaigns <span>ⓘ</span></h2>
+                    <button type="button">Last 7 Days <span>⌄</span></button>
+                  </div>
+                  <table>
+                    <thead>
+                      <tr>
+                        <th>Campaign</th>
+                        <th>Engagement</th>
+                        <th>Reach</th>
+                        <th>Performance</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {campaigns.map(([campaign, engagement, reach, performance, direction]) => (
+                        <tr key={campaign}>
+                          <td>{campaign}</td>
+                          <td>{engagement}</td>
+                          <td>{reach}</td>
+                          <td className={direction === "up" ? "positive" : "negative"}>{direction === "up" ? "↑" : "↓"} {performance}</td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                  <a className="card-link" href="/campaign-manager/campaign-performance">View All Campaigns <span>→</span></a>
+                </article>
+              </section>
             </div>
 
-            <aside className="ai-panel">
-              <div className="panel-header">
-                <h2>AI Recommendations</h2>
-                <span>Live</span>
-              </div>
-              <div className="recommendation-list">
-                {recommendations.slice(0, 5).map((item) => (
-                  <p key={item}>{item}</p>
-                ))}
-              </div>
-            </aside>
-          </section>
-
-          <section className="action-bar">
-            <div>Filters</div>
-            <div>Enterprise Search</div>
-            <div>View Switch</div>
-            <div>Recent</div>
-            <div>Pinned</div>
-          </section>
-
-          <section className="workspace-layout">
-            <article className="workspace-panel">
-              <div className="panel-header">
-                <h2>{moduleWorkspaceLabel(route.module.label)}</h2>
-                <span>{route.module.permission}</span>
-              </div>
-              <div className="operations-board">
-                <div>
-                  <strong>{mode === "Executive Dashboard" ? "Executive Questions" : "Current Work"}</strong>
-                  <p>
-                    {mode === "Executive Dashboard"
-                      ? `Monitor outcomes, risks, decisions, and ownership across ${route.module.label.toLowerCase()}.`
-                      : `Execute the ${pageTitle.toLowerCase()} workspace with clear actions, approvals, and automation context.`}
-                  </p>
+            <div className="middle-column">
+              <article className="dashboard-card status-card">
+                <div className="card-heading">
+                  <h2>Content by Status <span>ⓘ</span></h2>
+                  <button type="button">Last 7 Days <span>⌄</span></button>
                 </div>
-                <div>
-                  <strong>What is happening?</strong>
-                  <p>{counterFor(pageTitle.length)} workflows are running with autonomous monitoring.</p>
-                </div>
-                <div>
-                  <strong>What needs attention?</strong>
-                  <p>One exception requires policy review before the next scheduled action.</p>
-                </div>
-                <div>
-                  <strong>What happens next?</strong>
-                  <p>Learning Engine will update recommendations after the next execution cycle.</p>
-                </div>
-              </div>
-              {children}
-            </article>
-
-            <aside className="timeline-panel">
-              <div className="panel-header">
-                <h2>Activity Timeline</h2>
-                <span>Today</span>
-              </div>
-              <div className="timeline">
-                {activityItems.map(([time, item]) => (
-                  <div className="timeline-item" key={`${time}-${item}`}>
-                    <time>{time}</time>
-                    <span>{item}</span>
+                <div className="status-body">
+                  <div className="donut-chart">
+                    <strong>1,234</strong>
+                    <span>Total</span>
                   </div>
-                ))}
-              </div>
+                  <div className="status-list">
+                    {statusItems.map(([label, value, tone]) => (
+                      <div className="status-row" data-tone={tone} key={label}>
+                        <span />
+                        <strong>{label}</strong>
+                        <em>{value}</em>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </article>
+            </div>
+
+            <aside className="side-column">
+              <article className="dashboard-card insight-card">
+                <div className="card-heading">
+                  <h2>{iconToken("spark")} AI Insights</h2>
+                  <a href="/analytics-center/ai-recommendations">View All</a>
+                </div>
+                <div className="insight-list">
+                  {insights.map((insight) => (
+                    <div className="insight-row" data-tone={insight.tone} key={insight.title}>
+                      <span className="insight-icon">{iconToken(insight.icon)}</span>
+                      <div>
+                        <strong>{insight.title}</strong>
+                        <p>{insight.body}</p>
+                        <time>{insight.time}</time>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+                <a className="insight-button" href="/analytics-center/ai-recommendations">View All Insights <span>→</span></a>
+              </article>
+
+              <article className="dashboard-card quick-card">
+                <div className="card-heading">
+                  <h2>{iconToken("bolt")} Quick Actions</h2>
+                </div>
+                <div className="quick-grid">
+                  {quickActions.map(([label, icon, tone]) => (
+                    <button data-tone={tone} key={label} type="button">
+                      {iconToken(icon)}
+                      <span>{label}</span>
+                    </button>
+                  ))}
+                </div>
+              </article>
             </aside>
           </section>
+
+          <div className="route-slot" aria-hidden="true">{children}</div>
+          <footer className="dashboard-footer">© 2025 CACSMS Autonomous. All rights reserved.</footer>
         </main>
       </div>
 
