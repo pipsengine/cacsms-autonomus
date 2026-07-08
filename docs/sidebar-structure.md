@@ -79,6 +79,56 @@ CACSMS Autonomous uses the module registry as the canonical source for sidebar m
 - Repurpose Content: `/content-platform/repurpose-content` / `content-platform.repurpose-content.view`
 - Content Archive: `/content-platform/content-archive` / `content-platform.content-archive.view`
 
+## Creative Studio
+
+- Key: `creative-studio`
+- Route: `/creative-studio`
+- Permission: `creative-studio.view`
+
+- Dashboard: `/creative-studio/dashboard` / `creative-studio.dashboard.view`
+- Creative Projects: `/creative-studio/creative-projects` / `creative-studio.creative-projects.view`
+- Creative Workspace: `/creative-studio/creative-workspace` / `creative-studio.creative-workspace.view`
+- Image Studio: `/creative-studio/image-studio` / `creative-studio.image-studio.view`
+- Video Studio: `/creative-studio/video-studio` / `creative-studio.video-studio.view`
+  - Dashboard: `/creative-studio/video-studio/dashboard` / `creative-studio.video-studio.dashboard.view`
+  - Research: `/creative-studio/video-studio/research` / `creative-studio.video-studio.research.view`
+  - Ideas: `/creative-studio/video-studio/ideas` / `creative-studio.video-studio.ideas.view`
+  - Strategy: `/creative-studio/video-studio/strategy` / `creative-studio.video-studio.strategy.view`
+  - Script Writer: `/creative-studio/video-studio/script-writer` / `creative-studio.video-studio.script-writer.view`
+  - Script Reviewer: `/creative-studio/video-studio/script-reviewer` / `creative-studio.video-studio.script-reviewer.view`
+  - Storyboard Builder: `/creative-studio/video-studio/storyboard-builder` / `creative-studio.video-studio.storyboard-builder.view`
+  - Scene Planner: `/creative-studio/video-studio/scene-planner` / `creative-studio.video-studio.scene-planner.view`
+  - Shot Planner: `/creative-studio/video-studio/shot-planner` / `creative-studio.video-studio.shot-planner.view`
+  - Timeline: `/creative-studio/video-studio/timeline` / `creative-studio.video-studio.timeline.view`
+  - Visual Planner: `/creative-studio/video-studio/visual-planner` / `creative-studio.video-studio.visual-planner.view`
+  - Image Generation: `/creative-studio/video-studio/image-generation` / `creative-studio.video-studio.image-generation.view`
+  - Video Generation: `/creative-studio/video-studio/video-generation` / `creative-studio.video-studio.video-generation.view`
+  - Voice Generation: `/creative-studio/video-studio/voice-generation` / `creative-studio.video-studio.voice-generation.view`
+  - Narration: `/creative-studio/video-studio/narration` / `creative-studio.video-studio.narration.view`
+  - Music: `/creative-studio/video-studio/music` / `creative-studio.video-studio.music.view`
+  - Animation: `/creative-studio/video-studio/animation` / `creative-studio.video-studio.animation.view`
+  - Editing: `/creative-studio/video-studio/editing` / `creative-studio.video-studio.editing.view`
+  - Subtitle Generator: `/creative-studio/video-studio/subtitle-generator` / `creative-studio.video-studio.subtitle-generator.view`
+  - Caption Generator: `/creative-studio/video-studio/caption-generator` / `creative-studio.video-studio.caption-generator.view`
+  - Thumbnail Studio: `/creative-studio/video-studio/thumbnail-studio` / `creative-studio.video-studio.thumbnail-studio.view`
+  - Publishing: `/creative-studio/video-studio/publishing` / `creative-studio.video-studio.publishing.view`
+  - Analytics: `/creative-studio/video-studio/analytics` / `creative-studio.video-studio.analytics.view`
+  - Version History: `/creative-studio/video-studio/version-history` / `creative-studio.video-studio.version-history.view`
+  - Templates: `/creative-studio/video-studio/templates` / `creative-studio.video-studio.templates.view`
+  - Archive: `/creative-studio/video-studio/archive` / `creative-studio.video-studio.archive.view`
+  - Asset Library: `/creative-studio/video-studio/asset-library` / `creative-studio.video-studio.asset-library.view`
+- Audio Studio: `/creative-studio/audio-studio` / `creative-studio.audio-studio.view`
+- Podcast Studio: `/creative-studio/podcast-studio` / `creative-studio.podcast-studio.view`
+- Presentation Studio: `/creative-studio/presentation-studio` / `creative-studio.presentation-studio.view`
+- Document Studio: `/creative-studio/document-studio` / `creative-studio.document-studio.view`
+- Design Studio: `/creative-studio/design-studio` / `creative-studio.design-studio.view`
+- Creative Templates: `/creative-studio/creative-templates` / `creative-studio.creative-templates.view`
+- Brand Asset Library: `/creative-studio/brand-asset-library` / `creative-studio.brand-asset-library.view`
+- Publishing Center: `/creative-studio/publishing-center` / `creative-studio.publishing-center.view`
+- Creative Analytics: `/creative-studio/creative-analytics` / `creative-studio.creative-analytics.view`
+- Learning Center: `/creative-studio/learning-center` / `creative-studio.learning-center.view`
+- Creative Settings: `/creative-studio/creative-settings` / `creative-studio.creative-settings.view`
+
 ## Research Center
 
 - Key: `research-center`
@@ -198,6 +248,24 @@ CACSMS Autonomous uses the module registry as the canonical source for sidebar m
 - Agent Activity Logs: `/autonomous-agents/agent-activity-logs` / `autonomous-agents.agent-activity-logs.view`
 - Agent Performance: `/autonomous-agents/agent-performance` / `autonomous-agents.agent-performance.view`
 
+## Autonomous Control
+
+- Key: `autonomous-control`
+- Route: `/autonomous-control`
+- Permission: `autonomous-control.view`
+
+- Autonomy Dashboard: `/autonomous-control/autonomy-dashboard` / `autonomous-control.autonomy-dashboard.view`
+- Autonomy Level: `/autonomous-control/autonomy-level` / `autonomous-control.autonomy-level.view`
+- Decision Rules: `/autonomous-control/decision-rules` / `autonomous-control.decision-rules.view`
+- Risk Policies: `/autonomous-control/risk-policies` / `autonomous-control.risk-policies.view`
+- Auto-Approval Rules: `/autonomous-control/auto-approval-rules` / `autonomous-control.auto-approval-rules.view`
+- Publishing Guardrails: `/autonomous-control/publishing-guardrails` / `autonomous-control.publishing-guardrails.view`
+- Exception Queue: `/autonomous-control/exception-queue` / `autonomous-control.exception-queue.view`
+- Failsafe Controls: `/autonomous-control/failsafe-controls` / `autonomous-control.failsafe-controls.view`
+- Human Override: `/autonomous-control/human-override` / `autonomous-control.human-override.view`
+- Execution Logs: `/autonomous-control/execution-logs` / `autonomous-control.execution-logs.view`
+- Learning Settings: `/autonomous-control/learning-settings` / `autonomous-control.learning-settings.view`
+
 ## Knowledge Base
 
 - Key: `knowledge-base`
@@ -268,35 +336,35 @@ CACSMS Autonomous uses the module registry as the canonical source for sidebar m
 
 - Integration Dashboard: `/integration-hub/integration-dashboard` / `integration-hub.integration-dashboard.view`
 - Social Integrations: `/integration-hub/social-integrations` / `integration-hub.social-integrations.view`
-  - LinkedIn: `/integration-hub/social-integrations/linkedin` / `integration-hub.social-integrations.linkedin.view`
-  - Facebook: `/integration-hub/social-integrations/facebook` / `integration-hub.social-integrations.facebook.view`
-  - Instagram: `/integration-hub/social-integrations/instagram` / `integration-hub.social-integrations.instagram.view`
-  - X / Twitter: `/integration-hub/social-integrations/x-twitter` / `integration-hub.social-integrations.x-twitter.view`
-  - YouTube: `/integration-hub/social-integrations/youtube` / `integration-hub.social-integrations.youtube.view`
-  - TikTok: `/integration-hub/social-integrations/tiktok` / `integration-hub.social-integrations.tiktok.view`
-  - Threads: `/integration-hub/social-integrations/threads` / `integration-hub.social-integrations.threads.view`
+- LinkedIn: `/integration-hub/linkedin` / `integration-hub.linkedin.view`
+- Facebook: `/integration-hub/facebook` / `integration-hub.facebook.view`
+- Instagram: `/integration-hub/instagram` / `integration-hub.instagram.view`
+- X / Twitter: `/integration-hub/x-twitter` / `integration-hub.x-twitter.view`
+- YouTube: `/integration-hub/youtube` / `integration-hub.youtube.view`
+- TikTok: `/integration-hub/tiktok` / `integration-hub.tiktok.view`
+- Threads: `/integration-hub/threads` / `integration-hub.threads.view`
 - Email Integrations: `/integration-hub/email-integrations` / `integration-hub.email-integrations.view`
-  - Gmail: `/integration-hub/email-integrations/gmail` / `integration-hub.email-integrations.gmail.view`
-  - Outlook: `/integration-hub/email-integrations/outlook` / `integration-hub.email-integrations.outlook.view`
+- Gmail: `/integration-hub/gmail` / `integration-hub.gmail.view`
+- Outlook: `/integration-hub/outlook` / `integration-hub.outlook.view`
 - Calendar Integrations: `/integration-hub/calendar-integrations` / `integration-hub.calendar-integrations.view`
-  - Google Calendar: `/integration-hub/calendar-integrations/google-calendar` / `integration-hub.calendar-integrations.google-calendar.view`
-  - Microsoft Calendar: `/integration-hub/calendar-integrations/microsoft-calendar` / `integration-hub.calendar-integrations.microsoft-calendar.view`
+- Google Calendar: `/integration-hub/google-calendar` / `integration-hub.google-calendar.view`
+- Microsoft Calendar: `/integration-hub/microsoft-calendar` / `integration-hub.microsoft-calendar.view`
 - Cloud Storage: `/integration-hub/cloud-storage` / `integration-hub.cloud-storage.view`
-  - Google Drive: `/integration-hub/cloud-storage/google-drive` / `integration-hub.cloud-storage.google-drive.view`
-  - OneDrive: `/integration-hub/cloud-storage/onedrive` / `integration-hub.cloud-storage.onedrive.view`
-  - Dropbox: `/integration-hub/cloud-storage/dropbox` / `integration-hub.cloud-storage.dropbox.view`
+- Google Drive: `/integration-hub/google-drive` / `integration-hub.google-drive.view`
+- OneDrive: `/integration-hub/onedrive` / `integration-hub.onedrive.view`
+- Dropbox: `/integration-hub/dropbox` / `integration-hub.dropbox.view`
 - Communication: `/integration-hub/communication` / `integration-hub.communication.view`
-  - Slack: `/integration-hub/communication/slack` / `integration-hub.communication.slack.view`
-  - Microsoft Teams: `/integration-hub/communication/microsoft-teams` / `integration-hub.communication.microsoft-teams.view`
-  - WhatsApp Business: `/integration-hub/communication/whatsapp-business` / `integration-hub.communication.whatsapp-business.view`
+- Slack: `/integration-hub/slack` / `integration-hub.slack.view`
+- Microsoft Teams: `/integration-hub/microsoft-teams` / `integration-hub.microsoft-teams.view`
+- WhatsApp Business: `/integration-hub/whatsapp-business` / `integration-hub.whatsapp-business.view`
 - Business Systems: `/integration-hub/business-systems` / `integration-hub.business-systems.view`
-  - CRM: `/integration-hub/business-systems/crm` / `integration-hub.business-systems.crm.view`
-  - ERP: `/integration-hub/business-systems/erp` / `integration-hub.business-systems.erp.view`
-  - CMS / Website: `/integration-hub/business-systems/cms-website` / `integration-hub.business-systems.cms-website.view`
+- CRM: `/integration-hub/crm` / `integration-hub.crm.view`
+- ERP: `/integration-hub/erp` / `integration-hub.erp.view`
+- CMS / Website: `/integration-hub/cms-website` / `integration-hub.cms-website.view`
 - Payment Integrations: `/integration-hub/payment-integrations` / `integration-hub.payment-integrations.view`
-  - Paystack: `/integration-hub/payment-integrations/paystack` / `integration-hub.payment-integrations.paystack.view`
-  - Flutterwave: `/integration-hub/payment-integrations/flutterwave` / `integration-hub.payment-integrations.flutterwave.view`
-  - Stripe: `/integration-hub/payment-integrations/stripe` / `integration-hub.payment-integrations.stripe.view`
+- Paystack: `/integration-hub/paystack` / `integration-hub.paystack.view`
+- Flutterwave: `/integration-hub/flutterwave` / `integration-hub.flutterwave.view`
+- Stripe: `/integration-hub/stripe` / `integration-hub.stripe.view`
 - SMS Gateway: `/integration-hub/sms-gateway` / `integration-hub.sms-gateway.view`
 - API Keys: `/integration-hub/api-keys` / `integration-hub.api-keys.view`
 - Webhooks: `/integration-hub/webhooks` / `integration-hub.webhooks.view`

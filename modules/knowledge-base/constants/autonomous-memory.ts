@@ -1,0 +1,16 @@
+export const autonomousMemoryDomains = [
+  "brand",
+  "audience",
+  "writing-style",
+  "previous-campaigns",
+  "business-objectives",
+  "products",
+  "services",
+  "competitors",
+  "successful-content",
+  "failed-content",
+  "customer-interactions",
+  "business-knowledge",
+  "uploaded-documents",
+  "historical-decisions",
+] as const;

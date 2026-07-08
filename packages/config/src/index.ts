@@ -1,1 +1,2 @@
-export const packageName = "config";
+export * from "./module-registry";
+export * from "./autonomous-policy";

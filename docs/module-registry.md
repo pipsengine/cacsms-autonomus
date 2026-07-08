@@ -14,6 +14,20 @@ Generated consumers:
 Official module names:
 
 - Content Platform, not Content Studio
+- Creative Studio is the official flagship multimedia production module.
 - Social Publishing, not Social Publisher
 - Workflow Engine, not Workflow Automation
 - Security & Compliance, not Security
+
+Each registry item includes:
+
+- `key`
+- `label`
+- `icon`
+- `route`
+- `permission`
+- `description`
+- `featureFlag`
+- `status`
+- `order`
+- `visibilityRules`

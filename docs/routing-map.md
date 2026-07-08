@@ -75,6 +75,55 @@ Rule: Sidebar Module = App Route = Module Folder = Backend Domain.
 | Repurpose Content | `/content-platform/repurpose-content` | `modules/content-platform/pages/repurpose-content` | `services/content-platform/repurpose-content.service.ts` |
 | Content Archive | `/content-platform/content-archive` | `modules/content-platform/pages/content-archive` | `services/content-platform/content-archive.service.ts` |
 
+## Creative Studio
+
+| Item | Route | Module Folder | Service |
+| --- | --- | --- | --- |
+| Creative Studio | `/creative-studio` | `modules/creative-studio` | `services/creative-studio` |
+| Dashboard | `/creative-studio/dashboard` | `modules/creative-studio/pages/dashboard` | `services/creative-studio/dashboard.service.ts` |
+| Creative Projects | `/creative-studio/creative-projects` | `modules/creative-studio/pages/creative-projects` | `services/creative-studio/creative-projects.service.ts` |
+| Creative Workspace | `/creative-studio/creative-workspace` | `modules/creative-studio/pages/creative-workspace` | `services/creative-studio/creative-workspace.service.ts` |
+| Image Studio | `/creative-studio/image-studio` | `modules/creative-studio/pages/image-studio` | `services/creative-studio/image-studio.service.ts` |
+| Video Studio | `/creative-studio/video-studio` | `modules/creative-studio/pages/video-studio` | `services/creative-studio/video-studio.service.ts` |
+| Video Studio / Dashboard | `/creative-studio/video-studio/dashboard` | `modules/creative-studio/pages/video-studio/dashboard` | `services/creative-studio/video-studio.dashboard.service.ts` |
+| Video Studio / Research | `/creative-studio/video-studio/research` | `modules/creative-studio/pages/video-studio/research` | `services/creative-studio/video-studio.research.service.ts` |
+| Video Studio / Ideas | `/creative-studio/video-studio/ideas` | `modules/creative-studio/pages/video-studio/ideas` | `services/creative-studio/video-studio.ideas.service.ts` |
+| Video Studio / Strategy | `/creative-studio/video-studio/strategy` | `modules/creative-studio/pages/video-studio/strategy` | `services/creative-studio/video-studio.strategy.service.ts` |
+| Video Studio / Script Writer | `/creative-studio/video-studio/script-writer` | `modules/creative-studio/pages/video-studio/script-writer` | `services/creative-studio/video-studio.script-writer.service.ts` |
+| Video Studio / Script Reviewer | `/creative-studio/video-studio/script-reviewer` | `modules/creative-studio/pages/video-studio/script-reviewer` | `services/creative-studio/video-studio.script-reviewer.service.ts` |
+| Video Studio / Storyboard Builder | `/creative-studio/video-studio/storyboard-builder` | `modules/creative-studio/pages/video-studio/storyboard-builder` | `services/creative-studio/video-studio.storyboard-builder.service.ts` |
+| Video Studio / Scene Planner | `/creative-studio/video-studio/scene-planner` | `modules/creative-studio/pages/video-studio/scene-planner` | `services/creative-studio/video-studio.scene-planner.service.ts` |
+| Video Studio / Shot Planner | `/creative-studio/video-studio/shot-planner` | `modules/creative-studio/pages/video-studio/shot-planner` | `services/creative-studio/video-studio.shot-planner.service.ts` |
+| Video Studio / Timeline | `/creative-studio/video-studio/timeline` | `modules/creative-studio/pages/video-studio/timeline` | `services/creative-studio/video-studio.timeline.service.ts` |
+| Video Studio / Visual Planner | `/creative-studio/video-studio/visual-planner` | `modules/creative-studio/pages/video-studio/visual-planner` | `services/creative-studio/video-studio.visual-planner.service.ts` |
+| Video Studio / Image Generation | `/creative-studio/video-studio/image-generation` | `modules/creative-studio/pages/video-studio/image-generation` | `services/creative-studio/video-studio.image-generation.service.ts` |
+| Video Studio / Video Generation | `/creative-studio/video-studio/video-generation` | `modules/creative-studio/pages/video-studio/video-generation` | `services/creative-studio/video-studio.video-generation.service.ts` |
+| Video Studio / Voice Generation | `/creative-studio/video-studio/voice-generation` | `modules/creative-studio/pages/video-studio/voice-generation` | `services/creative-studio/video-studio.voice-generation.service.ts` |
+| Video Studio / Narration | `/creative-studio/video-studio/narration` | `modules/creative-studio/pages/video-studio/narration` | `services/creative-studio/video-studio.narration.service.ts` |
+| Video Studio / Music | `/creative-studio/video-studio/music` | `modules/creative-studio/pages/video-studio/music` | `services/creative-studio/video-studio.music.service.ts` |
+| Video Studio / Animation | `/creative-studio/video-studio/animation` | `modules/creative-studio/pages/video-studio/animation` | `services/creative-studio/video-studio.animation.service.ts` |
+| Video Studio / Editing | `/creative-studio/video-studio/editing` | `modules/creative-studio/pages/video-studio/editing` | `services/creative-studio/video-studio.editing.service.ts` |
+| Video Studio / Subtitle Generator | `/creative-studio/video-studio/subtitle-generator` | `modules/creative-studio/pages/video-studio/subtitle-generator` | `services/creative-studio/video-studio.subtitle-generator.service.ts` |
+| Video Studio / Caption Generator | `/creative-studio/video-studio/caption-generator` | `modules/creative-studio/pages/video-studio/caption-generator` | `services/creative-studio/video-studio.caption-generator.service.ts` |
+| Video Studio / Thumbnail Studio | `/creative-studio/video-studio/thumbnail-studio` | `modules/creative-studio/pages/video-studio/thumbnail-studio` | `services/creative-studio/video-studio.thumbnail-studio.service.ts` |
+| Video Studio / Publishing | `/creative-studio/video-studio/publishing` | `modules/creative-studio/pages/video-studio/publishing` | `services/creative-studio/video-studio.publishing.service.ts` |
+| Video Studio / Analytics | `/creative-studio/video-studio/analytics` | `modules/creative-studio/pages/video-studio/analytics` | `services/creative-studio/video-studio.analytics.service.ts` |
+| Video Studio / Version History | `/creative-studio/video-studio/version-history` | `modules/creative-studio/pages/video-studio/version-history` | `services/creative-studio/video-studio.version-history.service.ts` |
+| Video Studio / Templates | `/creative-studio/video-studio/templates` | `modules/creative-studio/pages/video-studio/templates` | `services/creative-studio/video-studio.templates.service.ts` |
+| Video Studio / Archive | `/creative-studio/video-studio/archive` | `modules/creative-studio/pages/video-studio/archive` | `services/creative-studio/video-studio.archive.service.ts` |
+| Video Studio / Asset Library | `/creative-studio/video-studio/asset-library` | `modules/creative-studio/pages/video-studio/asset-library` | `services/creative-studio/video-studio.asset-library.service.ts` |
+| Audio Studio | `/creative-studio/audio-studio` | `modules/creative-studio/pages/audio-studio` | `services/creative-studio/audio-studio.service.ts` |
+| Podcast Studio | `/creative-studio/podcast-studio` | `modules/creative-studio/pages/podcast-studio` | `services/creative-studio/podcast-studio.service.ts` |
+| Presentation Studio | `/creative-studio/presentation-studio` | `modules/creative-studio/pages/presentation-studio` | `services/creative-studio/presentation-studio.service.ts` |
+| Document Studio | `/creative-studio/document-studio` | `modules/creative-studio/pages/document-studio` | `services/creative-studio/document-studio.service.ts` |
+| Design Studio | `/creative-studio/design-studio` | `modules/creative-studio/pages/design-studio` | `services/creative-studio/design-studio.service.ts` |
+| Creative Templates | `/creative-studio/creative-templates` | `modules/creative-studio/pages/creative-templates` | `services/creative-studio/creative-templates.service.ts` |
+| Brand Asset Library | `/creative-studio/brand-asset-library` | `modules/creative-studio/pages/brand-asset-library` | `services/creative-studio/brand-asset-library.service.ts` |
+| Publishing Center | `/creative-studio/publishing-center` | `modules/creative-studio/pages/publishing-center` | `services/creative-studio/publishing-center.service.ts` |
+| Creative Analytics | `/creative-studio/creative-analytics` | `modules/creative-studio/pages/creative-analytics` | `services/creative-studio/creative-analytics.service.ts` |
+| Learning Center | `/creative-studio/learning-center` | `modules/creative-studio/pages/learning-center` | `services/creative-studio/learning-center.service.ts` |
+| Creative Settings | `/creative-studio/creative-settings` | `modules/creative-studio/pages/creative-settings` | `services/creative-studio/creative-settings.service.ts` |
+
 ## Research Center
 
 | Item | Route | Module Folder | Service |
@@ -188,6 +237,23 @@ Rule: Sidebar Module = App Route = Module Folder = Backend Domain.
 | Agent Activity Logs | `/autonomous-agents/agent-activity-logs` | `modules/autonomous-agents/pages/agent-activity-logs` | `services/autonomous-agents/agent-activity-logs.service.ts` |
 | Agent Performance | `/autonomous-agents/agent-performance` | `modules/autonomous-agents/pages/agent-performance` | `services/autonomous-agents/agent-performance.service.ts` |
 
+## Autonomous Control
+
+| Item | Route | Module Folder | Service |
+| --- | --- | --- | --- |
+| Autonomous Control | `/autonomous-control` | `modules/autonomous-control` | `services/autonomous-control` |
+| Autonomy Dashboard | `/autonomous-control/autonomy-dashboard` | `modules/autonomous-control/pages/autonomy-dashboard` | `services/autonomous-control/autonomy-dashboard.service.ts` |
+| Autonomy Level | `/autonomous-control/autonomy-level` | `modules/autonomous-control/pages/autonomy-level` | `services/autonomous-control/autonomy-level.service.ts` |
+| Decision Rules | `/autonomous-control/decision-rules` | `modules/autonomous-control/pages/decision-rules` | `services/autonomous-control/decision-rules.service.ts` |
+| Risk Policies | `/autonomous-control/risk-policies` | `modules/autonomous-control/pages/risk-policies` | `services/autonomous-control/risk-policies.service.ts` |
+| Auto-Approval Rules | `/autonomous-control/auto-approval-rules` | `modules/autonomous-control/pages/auto-approval-rules` | `services/autonomous-control/auto-approval-rules.service.ts` |
+| Publishing Guardrails | `/autonomous-control/publishing-guardrails` | `modules/autonomous-control/pages/publishing-guardrails` | `services/autonomous-control/publishing-guardrails.service.ts` |
+| Exception Queue | `/autonomous-control/exception-queue` | `modules/autonomous-control/pages/exception-queue` | `services/autonomous-control/exception-queue.service.ts` |
+| Failsafe Controls | `/autonomous-control/failsafe-controls` | `modules/autonomous-control/pages/failsafe-controls` | `services/autonomous-control/failsafe-controls.service.ts` |
+| Human Override | `/autonomous-control/human-override` | `modules/autonomous-control/pages/human-override` | `services/autonomous-control/human-override.service.ts` |
+| Execution Logs | `/autonomous-control/execution-logs` | `modules/autonomous-control/pages/execution-logs` | `services/autonomous-control/execution-logs.service.ts` |
+| Learning Settings | `/autonomous-control/learning-settings` | `modules/autonomous-control/pages/learning-settings` | `services/autonomous-control/learning-settings.service.ts` |
+
 ## Knowledge Base
 
 | Item | Route | Module Folder | Service |
@@ -254,35 +320,35 @@ Rule: Sidebar Module = App Route = Module Folder = Backend Domain.
 | Integration Hub | `/integration-hub` | `modules/integration-hub` | `services/integration-hub` |
 | Integration Dashboard | `/integration-hub/integration-dashboard` | `modules/integration-hub/pages/integration-dashboard` | `services/integration-hub/integration-dashboard.service.ts` |
 | Social Integrations | `/integration-hub/social-integrations` | `modules/integration-hub/pages/social-integrations` | `services/integration-hub/social-integrations.service.ts` |
-| Social Integrations / LinkedIn | `/integration-hub/social-integrations/linkedin` | `modules/integration-hub/pages/social-integrations/linkedin` | `services/integration-hub/social-integrations.linkedin.service.ts` |
-| Social Integrations / Facebook | `/integration-hub/social-integrations/facebook` | `modules/integration-hub/pages/social-integrations/facebook` | `services/integration-hub/social-integrations.facebook.service.ts` |
-| Social Integrations / Instagram | `/integration-hub/social-integrations/instagram` | `modules/integration-hub/pages/social-integrations/instagram` | `services/integration-hub/social-integrations.instagram.service.ts` |
-| Social Integrations / X / Twitter | `/integration-hub/social-integrations/x-twitter` | `modules/integration-hub/pages/social-integrations/x-twitter` | `services/integration-hub/social-integrations.x-twitter.service.ts` |
-| Social Integrations / YouTube | `/integration-hub/social-integrations/youtube` | `modules/integration-hub/pages/social-integrations/youtube` | `services/integration-hub/social-integrations.youtube.service.ts` |
-| Social Integrations / TikTok | `/integration-hub/social-integrations/tiktok` | `modules/integration-hub/pages/social-integrations/tiktok` | `services/integration-hub/social-integrations.tiktok.service.ts` |
-| Social Integrations / Threads | `/integration-hub/social-integrations/threads` | `modules/integration-hub/pages/social-integrations/threads` | `services/integration-hub/social-integrations.threads.service.ts` |
+| LinkedIn | `/integration-hub/linkedin` | `modules/integration-hub/pages/linkedin` | `services/integration-hub/linkedin.service.ts` |
+| Facebook | `/integration-hub/facebook` | `modules/integration-hub/pages/facebook` | `services/integration-hub/facebook.service.ts` |
+| Instagram | `/integration-hub/instagram` | `modules/integration-hub/pages/instagram` | `services/integration-hub/instagram.service.ts` |
+| X / Twitter | `/integration-hub/x-twitter` | `modules/integration-hub/pages/x-twitter` | `services/integration-hub/x-twitter.service.ts` |
+| YouTube | `/integration-hub/youtube` | `modules/integration-hub/pages/youtube` | `services/integration-hub/youtube.service.ts` |
+| TikTok | `/integration-hub/tiktok` | `modules/integration-hub/pages/tiktok` | `services/integration-hub/tiktok.service.ts` |
+| Threads | `/integration-hub/threads` | `modules/integration-hub/pages/threads` | `services/integration-hub/threads.service.ts` |
 | Email Integrations | `/integration-hub/email-integrations` | `modules/integration-hub/pages/email-integrations` | `services/integration-hub/email-integrations.service.ts` |
-| Email Integrations / Gmail | `/integration-hub/email-integrations/gmail` | `modules/integration-hub/pages/email-integrations/gmail` | `services/integration-hub/email-integrations.gmail.service.ts` |
-| Email Integrations / Outlook | `/integration-hub/email-integrations/outlook` | `modules/integration-hub/pages/email-integrations/outlook` | `services/integration-hub/email-integrations.outlook.service.ts` |
+| Gmail | `/integration-hub/gmail` | `modules/integration-hub/pages/gmail` | `services/integration-hub/gmail.service.ts` |
+| Outlook | `/integration-hub/outlook` | `modules/integration-hub/pages/outlook` | `services/integration-hub/outlook.service.ts` |
 | Calendar Integrations | `/integration-hub/calendar-integrations` | `modules/integration-hub/pages/calendar-integrations` | `services/integration-hub/calendar-integrations.service.ts` |
-| Calendar Integrations / Google Calendar | `/integration-hub/calendar-integrations/google-calendar` | `modules/integration-hub/pages/calendar-integrations/google-calendar` | `services/integration-hub/calendar-integrations.google-calendar.service.ts` |
-| Calendar Integrations / Microsoft Calendar | `/integration-hub/calendar-integrations/microsoft-calendar` | `modules/integration-hub/pages/calendar-integrations/microsoft-calendar` | `services/integration-hub/calendar-integrations.microsoft-calendar.service.ts` |
+| Google Calendar | `/integration-hub/google-calendar` | `modules/integration-hub/pages/google-calendar` | `services/integration-hub/google-calendar.service.ts` |
+| Microsoft Calendar | `/integration-hub/microsoft-calendar` | `modules/integration-hub/pages/microsoft-calendar` | `services/integration-hub/microsoft-calendar.service.ts` |
 | Cloud Storage | `/integration-hub/cloud-storage` | `modules/integration-hub/pages/cloud-storage` | `services/integration-hub/cloud-storage.service.ts` |
-| Cloud Storage / Google Drive | `/integration-hub/cloud-storage/google-drive` | `modules/integration-hub/pages/cloud-storage/google-drive` | `services/integration-hub/cloud-storage.google-drive.service.ts` |
-| Cloud Storage / OneDrive | `/integration-hub/cloud-storage/onedrive` | `modules/integration-hub/pages/cloud-storage/onedrive` | `services/integration-hub/cloud-storage.onedrive.service.ts` |
-| Cloud Storage / Dropbox | `/integration-hub/cloud-storage/dropbox` | `modules/integration-hub/pages/cloud-storage/dropbox` | `services/integration-hub/cloud-storage.dropbox.service.ts` |
+| Google Drive | `/integration-hub/google-drive` | `modules/integration-hub/pages/google-drive` | `services/integration-hub/google-drive.service.ts` |
+| OneDrive | `/integration-hub/onedrive` | `modules/integration-hub/pages/onedrive` | `services/integration-hub/onedrive.service.ts` |
+| Dropbox | `/integration-hub/dropbox` | `modules/integration-hub/pages/dropbox` | `services/integration-hub/dropbox.service.ts` |
 | Communication | `/integration-hub/communication` | `modules/integration-hub/pages/communication` | `services/integration-hub/communication.service.ts` |
-| Communication / Slack | `/integration-hub/communication/slack` | `modules/integration-hub/pages/communication/slack` | `services/integration-hub/communication.slack.service.ts` |
-| Communication / Microsoft Teams | `/integration-hub/communication/microsoft-teams` | `modules/integration-hub/pages/communication/microsoft-teams` | `services/integration-hub/communication.microsoft-teams.service.ts` |
-| Communication / WhatsApp Business | `/integration-hub/communication/whatsapp-business` | `modules/integration-hub/pages/communication/whatsapp-business` | `services/integration-hub/communication.whatsapp-business.service.ts` |
+| Slack | `/integration-hub/slack` | `modules/integration-hub/pages/slack` | `services/integration-hub/slack.service.ts` |
+| Microsoft Teams | `/integration-hub/microsoft-teams` | `modules/integration-hub/pages/microsoft-teams` | `services/integration-hub/microsoft-teams.service.ts` |
+| WhatsApp Business | `/integration-hub/whatsapp-business` | `modules/integration-hub/pages/whatsapp-business` | `services/integration-hub/whatsapp-business.service.ts` |
 | Business Systems | `/integration-hub/business-systems` | `modules/integration-hub/pages/business-systems` | `services/integration-hub/business-systems.service.ts` |
-| Business Systems / CRM | `/integration-hub/business-systems/crm` | `modules/integration-hub/pages/business-systems/crm` | `services/integration-hub/business-systems.crm.service.ts` |
-| Business Systems / ERP | `/integration-hub/business-systems/erp` | `modules/integration-hub/pages/business-systems/erp` | `services/integration-hub/business-systems.erp.service.ts` |
-| Business Systems / CMS / Website | `/integration-hub/business-systems/cms-website` | `modules/integration-hub/pages/business-systems/cms-website` | `services/integration-hub/business-systems.cms-website.service.ts` |
+| CRM | `/integration-hub/crm` | `modules/integration-hub/pages/crm` | `services/integration-hub/crm.service.ts` |
+| ERP | `/integration-hub/erp` | `modules/integration-hub/pages/erp` | `services/integration-hub/erp.service.ts` |
+| CMS / Website | `/integration-hub/cms-website` | `modules/integration-hub/pages/cms-website` | `services/integration-hub/cms-website.service.ts` |
 | Payment Integrations | `/integration-hub/payment-integrations` | `modules/integration-hub/pages/payment-integrations` | `services/integration-hub/payment-integrations.service.ts` |
-| Payment Integrations / Paystack | `/integration-hub/payment-integrations/paystack` | `modules/integration-hub/pages/payment-integrations/paystack` | `services/integration-hub/payment-integrations.paystack.service.ts` |
-| Payment Integrations / Flutterwave | `/integration-hub/payment-integrations/flutterwave` | `modules/integration-hub/pages/payment-integrations/flutterwave` | `services/integration-hub/payment-integrations.flutterwave.service.ts` |
-| Payment Integrations / Stripe | `/integration-hub/payment-integrations/stripe` | `modules/integration-hub/pages/payment-integrations/stripe` | `services/integration-hub/payment-integrations.stripe.service.ts` |
+| Paystack | `/integration-hub/paystack` | `modules/integration-hub/pages/paystack` | `services/integration-hub/paystack.service.ts` |
+| Flutterwave | `/integration-hub/flutterwave` | `modules/integration-hub/pages/flutterwave` | `services/integration-hub/flutterwave.service.ts` |
+| Stripe | `/integration-hub/stripe` | `modules/integration-hub/pages/stripe` | `services/integration-hub/stripe.service.ts` |
 | SMS Gateway | `/integration-hub/sms-gateway` | `modules/integration-hub/pages/sms-gateway` | `services/integration-hub/sms-gateway.service.ts` |
 | API Keys | `/integration-hub/api-keys` | `modules/integration-hub/pages/api-keys` | `services/integration-hub/api-keys.service.ts` |
 | Webhooks | `/integration-hub/webhooks` | `modules/integration-hub/pages/webhooks` | `services/integration-hub/webhooks.service.ts` |

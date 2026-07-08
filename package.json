@@ -2,8 +2,21 @@
   "name": "cacsms-autonomous",
   "private": true,
   "type": "module",
+  "dependencies": {
+    "next": "^15.3.5",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0"
+  },
+  "devDependencies": {
+    "@types/node": "^24.0.10",
+    "@types/react": "^19.0.12",
+    "@types/react-dom": "^19.0.4",
+    "typescript": "^5.8.3"
+  },
   "scripts": {
     "scaffold:modules": "node scripts/scaffold-module-alignment.mjs",
-    "validate:modules": "node scripts/validate-module-alignment.mjs"
+    "validate:modules": "node scripts/validate-module-alignment.mjs",
+    "start:iis": "node apps/web/server.js",
+    "iis:check": "powershell -ExecutionPolicy Bypass -File scripts/iis/Test-IISPrerequisites.ps1"
   }
 }
