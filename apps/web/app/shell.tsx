@@ -41,6 +41,14 @@ const metricCards = [
   { label: "System Health", value: "Excellent", detail: "All systems operational", tone: "green", icon: "shield" },
 ] as const;
 
+const activityMetricCards = [
+  { label: "Total Activities", value: "1,248", change: "18.7%", tone: "blue", icon: "activity" },
+  { label: "Completed", value: "892", change: "21.4%", tone: "green", icon: "check" },
+  { label: "In Progress", value: "234", change: "12.6%", tone: "amber", icon: "clock" },
+  { label: "By Users", value: "156", change: "15.3%", tone: "purple", icon: "users" },
+  { label: "Failed", value: "22", change: "8.2%", tone: "red", icon: "shield", down: true },
+] as const;
+
 const chartPoints = [8, 28, 38, 34, 48, 56, 52, 66, 79, 84, 88] as const;
 const chartLabels = ["May 23", "May 24", "May 25", "May 26", "May 27", "May 28", "May 29"] as const;
 
@@ -101,6 +109,86 @@ const quickActions = [
   ["AI Assistant", "spark", "pink"],
 ] as const;
 
+const feedTimeline = [
+  {
+    time: "10:24 AM",
+    title: "Video Campaign Q2 was published",
+    body: "Campaign \"Q2 Product Launch\" has been successfully published.",
+    user: "Sarah Johnson",
+    tag: "Content Platform",
+    ago: "5 min ago",
+    tone: "blue",
+    icon: "doc",
+  },
+  {
+    time: "10:12 AM",
+    title: "Blog Post submitted for approval",
+    body: "Blog post \"AI in Marketing\" submitted to approval workflow.",
+    user: "Michael Chen",
+    tag: "Approval Center",
+    ago: "17 min ago",
+    tone: "green",
+    icon: "check",
+  },
+  {
+    time: "09:58 AM",
+    title: "Product Launch Campaign created",
+    body: "New campaign \"Product Launch Q2\" has been created.",
+    user: "Emily Davis",
+    tag: "Campaign Manager",
+    ago: "31 min ago",
+    tone: "amber",
+    icon: "task",
+  },
+  {
+    time: "09:45 AM",
+    title: "Monthly Content Plan updated",
+    body: "May 2025 content plan has been updated with 12 new items.",
+    user: "James Wilson",
+    tag: "Content Platform",
+    ago: "44 min ago",
+    tone: "purple",
+    icon: "calendar",
+  },
+  {
+    time: "09:32 AM",
+    title: "Graphic Design completed",
+    body: "Banner Ad design for \"Summer Sale 2025\" completed.",
+    user: "Lisa Anderson",
+    tag: "Creative Studio",
+    ago: "57 min ago",
+    tone: "green",
+    icon: "image",
+  },
+  {
+    time: "09:18 AM",
+    title: "Workflow automation failed",
+    body: "Auto-publish workflow failed for campaign \"Brand Awareness\".",
+    user: "System",
+    tag: "Workflow Engine",
+    ago: "1 hr ago",
+    tone: "red",
+    icon: "warning",
+  },
+] as const;
+
+const activityTypes = [
+  ["Content Creation", "456", "36.5%", "blue"],
+  ["Approvals", "298", "23.9%", "green"],
+  ["Campaign Management", "234", "18.8%", "amber"],
+  ["Workflow Operations", "156", "12.5%", "purple"],
+  ["User Management", "67", "5.4%", "pink"],
+  ["System Operations", "37", "3.0%", "teal"],
+] as const;
+
+const activeUsers = [
+  ["Sarah Johnson", "Content Manager", "156", "18.6%", "up"],
+  ["Michael Chen", "Marketing Manager", "142", "15.2%", "up"],
+  ["Emily Davis", "Campaign Manager", "128", "12.7%", "up"],
+  ["James Wilson", "Content Strategist", "98", "9.3%", "up"],
+  ["Lisa Anderson", "Creative Director", "87", "2.1%", "down"],
+] as const;
+
 const commandItems = [
   "Generate Campaign",
   "Create Video",
@@ -155,6 +243,7 @@ function SidebarModule({ module, pathname, collapsed }: { module: RegistryItem; 
       ? module.children?.filter((child) => child.key !== "recent-activities").slice(0, 7)
       : module.children?.slice(0, 7);
   const moduleLabel = module.key === "user-administration" ? "System Administration" : module.label;
+  const hasActiveChild = Boolean(visibleChildren?.some((child) => pathname === child.route));
 
   return (
     <div className="nav-group" data-active={active}>
@@ -167,7 +256,7 @@ function SidebarModule({ module, pathname, collapsed }: { module: RegistryItem; 
       {showChildren && (
         <div className="nav-children">
           {visibleChildren?.map((child, index) => (
-            <a className="nav-child" data-active={index === 0 || pathname === child.route} href={child.route} key={child.route}>
+            <a className="nav-child" data-active={pathname === child.route || (!hasActiveChild && index === 0)} href={child.route} key={child.route}>
               <span>{child.label}</span>
               {child.key === "notifications" && <strong className="nav-badge">12</strong>}
             </a>
@@ -213,6 +302,129 @@ function LineChart() {
   );
 }
 
+function ActivityFeedView() {
+  return (
+    <>
+      <section className="dashboard-heading">
+        <div>
+          <h1>Activity Feed</h1>
+          <p>Real-time activities across your autonomous operations</p>
+        </div>
+        <div className="heading-actions activity-filters">
+          <button type="button">{iconToken("calendar")} May 29, 2025 <span>⌄</span></button>
+          <button type="button">All Activities <span>⌄</span></button>
+          <button type="button">{iconToken("filter")} Filters</button>
+        </div>
+      </section>
+
+      <section className="metric-strip">
+        {activityMetricCards.map((metric) => (
+          <article className="dashboard-card metric-tile" data-tone={metric.tone} key={metric.label}>
+            <div className="tile-icon">{iconToken(metric.icon)}</div>
+            <div>
+              <span>{metric.label}</span>
+              <strong>{metric.value}</strong>
+              <p className={"down" in metric && metric.down ? "negative" : "positive"}>{"down" in metric && metric.down ? "↓" : "↑"} {metric.change} <em>vs yesterday</em></p>
+            </div>
+          </article>
+        ))}
+      </section>
+
+      <section className="activity-feed-grid">
+        <article className="dashboard-card feed-timeline-card">
+          <div className="card-heading">
+            <h2>Activity Timeline <span>ⓘ</span></h2>
+            <label className="realtime-toggle">
+              <span>Real-time</span>
+              <input checked readOnly type="checkbox" />
+            </label>
+          </div>
+          <div className="feed-timeline">
+            {feedTimeline.map((item) => (
+              <div className="feed-row" data-tone={item.tone} key={`${item.time}-${item.title}`}>
+                <time>{item.time}</time>
+                <span className="timeline-dot" />
+                <span className="feed-icon">{iconToken(item.icon)}</span>
+                <div className="feed-copy">
+                  <strong>{item.title}</strong>
+                  <p>{item.body}</p>
+                  <div className="feed-meta">
+                    <span className="mini-avatar" />
+                    <span>{item.user}</span>
+                    <em>{item.tag}</em>
+                  </div>
+                </div>
+                <small>{item.ago}</small>
+                <button type="button" aria-label={`Open ${item.title} actions`}>•••</button>
+              </div>
+            ))}
+          </div>
+          <a className="card-link" href="/dashboard/activity-feed">Load More Activities <span>⌄</span></a>
+        </article>
+
+        <aside className="activity-side-column">
+          <article className="dashboard-card activity-type-card">
+            <div className="card-heading">
+              <h2>Activity by Type <span>ⓘ</span></h2>
+              <button type="button">Last 7 Days <span>⌄</span></button>
+            </div>
+            <div className="activity-type-body">
+              <div className="activity-donut">
+                <strong>1,248</strong>
+                <span>Total</span>
+              </div>
+              <div className="activity-type-list">
+                {activityTypes.map(([label, count, percent, tone]) => (
+                  <div className="activity-type-row" data-tone={tone} key={label}>
+                    <span />
+                    <strong>{label}</strong>
+                    <em>{count}</em>
+                    <small>({percent})</small>
+                  </div>
+                ))}
+              </div>
+            </div>
+            <a className="card-link bordered" href="/dashboard/activity-feed">View All Activity Types <span>→</span></a>
+          </article>
+
+          <article className="dashboard-card top-users-card">
+            <div className="card-heading">
+              <h2>Top Active Users <span>ⓘ</span></h2>
+              <button type="button">Last 7 Days <span>⌄</span></button>
+            </div>
+            <div className="users-table">
+              <div className="users-head">
+                <span>User</span>
+                <span>Activities</span>
+                <span>Trend</span>
+              </div>
+              {activeUsers.map(([name, role, activitiesCount, trend, direction]) => (
+                <div className="users-row" key={name}>
+                  <div className="user-cell">
+                    <span className="mini-avatar" />
+                    <div>
+                      <strong>{name}</strong>
+                      <small>{role}</small>
+                    </div>
+                  </div>
+                  <strong>{activitiesCount}</strong>
+                  <div className="trend-cell">
+                    <span className={direction === "up" ? "positive" : "negative"}>{direction === "up" ? "↑" : "↓"} {trend}</span>
+                    <span className={`sparkline ${direction === "up" ? "up" : "down"}`} />
+                  </div>
+                </div>
+              ))}
+            </div>
+            <a className="card-link" href="/user-administration/users">View All Users <span>→</span></a>
+          </article>
+        </aside>
+      </section>
+
+      <footer className="dashboard-footer">© 2025 CACSMS Autonomous. All rights reserved.</footer>
+    </>
+  );
+}
+
 export function AppShell({ children }: { children: ReactNode }) {
   const pathname = usePathname();
   const [collapsed, setCollapsed] = useState(false);
@@ -220,6 +432,7 @@ export function AppShell({ children }: { children: ReactNode }) {
   const route = useMemo(() => findRoute(pathname), [pathname]);
   const navigationItems = useMemo(() => flattenNavigation(), []);
   const primaryModules = primaryModuleKeys.map((key) => MODULE_REGISTRY.find((module) => module.key === key)).filter((module): module is RegistryItem => Boolean(module));
+  const isActivityFeed = pathname === "/dashboard/activity-feed";
 
   useEffect(() => {
     function onKeyDown(event: KeyboardEvent) {
@@ -304,6 +517,10 @@ export function AppShell({ children }: { children: ReactNode }) {
         </header>
 
         <main className="dashboard-content">
+          {isActivityFeed ? (
+            <ActivityFeedView />
+          ) : (
+            <>
           <section className="dashboard-heading">
             <div>
               <h1>Dashboard Overview</h1>
@@ -321,7 +538,7 @@ export function AppShell({ children }: { children: ReactNode }) {
                 <div className="tile-icon">{iconToken(metric.icon)}</div>
                 <div>
                   <span>{metric.label}</span>
-                  <strong>{metric.value}</strong>
+                  <strong className={"detail" in metric ? "health-value" : undefined}>{metric.value}</strong>
                   {"detail" in metric ? (
                     <p>{metric.detail}</p>
                   ) : (
@@ -455,6 +672,8 @@ export function AppShell({ children }: { children: ReactNode }) {
 
           <div className="route-slot" aria-hidden="true">{children}</div>
           <footer className="dashboard-footer">© 2025 CACSMS Autonomous. All rights reserved.</footer>
+            </>
+          )}
         </main>
       </div>
 
