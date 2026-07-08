@@ -50,6 +50,8 @@ const commandItems = [
   "Open Creative Studio",
 ] as const;
 
+const favoriteModuleKeys = ["creative-studio", "autonomous-control", "knowledge-base"] as const;
+
 function findRoute(pathname: string) {
   for (const module of MODULE_REGISTRY) {
     if (pathname === "/" || pathname === module.route) {
@@ -70,6 +72,28 @@ function findRoute(pathname: string) {
   }
 
   return { module: MODULE_REGISTRY[0], page: undefined, nested: undefined };
+}
+
+type QueryableItem = {
+  label: string;
+  children?: readonly QueryableItem[];
+};
+
+function itemMatchesQuery(item: QueryableItem, query: string): boolean {
+  const normalized = query.toLowerCase().trim();
+  if (!normalized) return true;
+
+  return item.label.toLowerCase().includes(normalized) || Boolean(item.children?.some((child) => itemMatchesQuery(child, normalized)));
+}
+
+function flattenNavigation() {
+  return MODULE_REGISTRY.flatMap((module) => [
+    { label: module.label, route: module.route, type: "Module" },
+    ...(module.children ?? []).flatMap((page) => [
+      { label: page.label, route: page.route, type: "Page" },
+      ...(page.children ?? []).map((nested) => ({ label: nested.label, route: nested.route, type: "Workspace" })),
+    ]),
+  ]);
 }
 
 function initials(label: string) {
@@ -108,6 +132,10 @@ function moduleWorkspaceLabel(label: string) {
   return `${label} Operations Center`;
 }
 
+function pageMode(route: ReturnType<typeof findRoute>) {
+  return route.page || route.nested ? "Operational Workspace" : "Executive Dashboard";
+}
+
 function TreeChildren({ items, level = 1, pathname }: { items: readonly ChildItem[]; level?: number; pathname: string }) {
   return (
     <div className="tree-children" data-level={level}>
@@ -118,7 +146,7 @@ function TreeChildren({ items, level = 1, pathname }: { items: readonly ChildIte
         return (
           <div className="tree-child-group" key={item.route}>
             <a className="tree-child-link" data-active={active} href={item.route}>
-              <span>{hasNested ? "▸" : ""}</span>
+              <span>{hasNested ? ">" : ""}</span>
               <span>{item.label}</span>
               <small>{counterFor(index)}</small>
             </a>
@@ -137,10 +165,15 @@ export function AppShell({ children }: { children: ReactNode }) {
   const [sidebarQuery, setSidebarQuery] = useState("");
   const route = useMemo(() => findRoute(pathname), [pathname]);
   const [expanded, setExpanded] = useState<Record<string, boolean>>({});
+  const [recentRoutes, setRecentRoutes] = useState<string[]>([]);
+  const navigationItems = useMemo(() => flattenNavigation(), []);
 
   useEffect(() => {
     const stored = window.localStorage.getItem("cacsms-expanded-sidebar");
     if (stored) setExpanded(JSON.parse(stored) as Record<string, boolean>);
+
+    const storedRecent = window.localStorage.getItem("cacsms-recent-routes");
+    if (storedRecent) setRecentRoutes(JSON.parse(storedRecent) as string[]);
   }, []);
 
   useEffect(() => {
@@ -163,11 +196,22 @@ export function AppShell({ children }: { children: ReactNode }) {
     setExpanded((value) => ({ ...value, [route.module.key]: true }));
   }, [route.module.key]);
 
+  useEffect(() => {
+    setRecentRoutes((value) => {
+      const next = [pathname, ...value.filter((item) => item !== pathname)].slice(0, 6);
+      window.localStorage.setItem("cacsms-recent-routes", JSON.stringify(next));
+      return next;
+    });
+  }, [pathname]);
+
   const breadcrumbs = pathname === "/" ? [{ label: "Dashboard", route: "/dashboard" }] : getBreadcrumbs(pathname);
   const pageTitle = route.nested?.label ?? route.page?.label ?? route.module.label;
   const pageDescription = route.nested?.description ?? route.page?.description ?? route.module.description;
-  const visibleModules = MODULE_REGISTRY.filter((module) => module.label.toLowerCase().includes(sidebarQuery.toLowerCase()));
+  const visibleModules = MODULE_REGISTRY.filter((module) => itemMatchesQuery(module, sidebarQuery));
+  const favoriteModules = MODULE_REGISTRY.filter((module) => favoriteModuleKeys.includes(module.key as (typeof favoriteModuleKeys)[number]));
+  const recentNavigationItems = recentRoutes.map((recentRoute) => navigationItems.find((item) => item.route === recentRoute)).filter((item): item is (typeof navigationItems)[number] => Boolean(item));
   const currentKpis = moduleKpis(route.module);
+  const mode = pageMode(route);
 
   return (
     <div className="app-shell" data-collapsed={collapsed}>
@@ -196,8 +240,18 @@ export function AppShell({ children }: { children: ReactNode }) {
           {!collapsed && (
             <div className="sidebar-section">
               <span>Favorites</span>
-              <a href="/creative-studio">Creative Studio</a>
-              <a href="/autonomous-control">Autonomous Control</a>
+              {favoriteModules.map((module) => (
+                <a href={module.route} key={module.key}>{module.label}</a>
+              ))}
+            </div>
+          )}
+
+          {!collapsed && recentNavigationItems.length > 0 && (
+            <div className="sidebar-section">
+              <span>Recent</span>
+              {recentNavigationItems.map((item) => (
+                <a href={item.route} key={item.route}>{item.label}</a>
+              ))}
             </div>
           )}
 
@@ -214,7 +268,7 @@ export function AppShell({ children }: { children: ReactNode }) {
                     type="button"
                     aria-label={`Toggle ${module.label}`}
                   >
-                    {isOpen ? "▾" : "▸"}
+                    {isOpen ? "v" : ">"}
                   </button>
                   <a className="sidebar-link" href={module.route} title={module.label}>
                     <span className="sidebar-icon">{initials(module.label)}</span>
@@ -259,7 +313,7 @@ export function AppShell({ children }: { children: ReactNode }) {
             <div>
               <span className="eyebrow">{moduleWorkspaceLabel(route.module.label)}</span>
               <h1>{pageTitle}</h1>
-              <p>{pageDescription}</p>
+              <p>{mode}: {pageDescription}</p>
             </div>
             <div className="quick-actions">
               <button type="button">New</button>
@@ -324,8 +378,12 @@ export function AppShell({ children }: { children: ReactNode }) {
               </div>
               <div className="operations-board">
                 <div>
-                  <strong>Current Mission</strong>
-                  <p>Observe, decide, execute, and improve {route.module.label.toLowerCase()} operations.</p>
+                  <strong>{mode === "Executive Dashboard" ? "Executive Questions" : "Current Work"}</strong>
+                  <p>
+                    {mode === "Executive Dashboard"
+                      ? `Monitor outcomes, risks, decisions, and ownership across ${route.module.label.toLowerCase()}.`
+                      : `Execute the ${pageTitle.toLowerCase()} workspace with clear actions, approvals, and automation context.`}
+                  </p>
                 </div>
                 <div>
                   <strong>What is happening?</strong>
@@ -371,6 +429,12 @@ export function AppShell({ children }: { children: ReactNode }) {
             <div className="command-list">
               {commandItems.map((item) => (
                 <button key={item} onClick={() => setCommandOpen(false)} type="button">{item}</button>
+              ))}
+              {navigationItems.slice(0, 12).map((item) => (
+                <a href={item.route} key={item.route} onClick={() => setCommandOpen(false)}>
+                  <span>{item.label}</span>
+                  <small>{item.type}</small>
+                </a>
               ))}
             </div>
           </div>

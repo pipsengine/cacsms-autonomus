@@ -126,6 +126,7 @@ function normalizeChildren(moduleKey, moduleLabel, children) {
     return {
       key,
       label,
+      parentKey: moduleKey,
       icon: "PanelRightOpen",
       route: `/${moduleKey}/${key}`,
       permission,
@@ -140,6 +141,7 @@ function normalizeChildren(moduleKey, moduleLabel, children) {
         return {
           key: nestedKey,
           label: nestedLabel,
+          parentKey: key,
           icon: "PanelRightOpen",
           route: `/${moduleKey}/${key}/${nestedKey}`,
           permission: nestedPermission,
@@ -160,6 +162,7 @@ const registry = modules.map(([key, label, children], index) => {
   return {
     key,
     label,
+    parentKey: null,
     icon: moduleIcons[key],
     route: `/${key}`,
     permission,
@@ -175,6 +178,7 @@ const registry = modules.map(([key, label, children], index) => {
 const registryTs = `export type ModuleRegistryItem = {
   key: string;
   label: string;
+  parentKey: string | null;
   icon: string;
   route: string;
   permission: string;
@@ -202,6 +206,7 @@ export function getRouteMap() {
     {
       key: module.key,
       label: module.label,
+      parentKey: module.parentKey,
       route: module.route,
       permission: module.permission,
       icon: module.icon,
@@ -215,6 +220,7 @@ export function getRouteMap() {
       {
         key: child.key,
         label: child.label,
+        parentKey: child.parentKey,
         route: child.route,
         permission: child.permission,
         icon: child.icon,
@@ -227,6 +233,7 @@ export function getRouteMap() {
       ...(child.children ?? []).map((nestedChild) => ({
         key: nestedChild.key,
         label: nestedChild.label,
+        parentKey: nestedChild.parentKey,
         route: nestedChild.route,
         permission: nestedChild.permission,
         icon: nestedChild.icon,

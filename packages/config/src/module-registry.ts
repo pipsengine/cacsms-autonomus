@@ -1,6 +1,7 @@
 export type ModuleRegistryItem = {
   key: string;
   label: string;
+  parentKey: string | null;
   icon: string;
   route: string;
   permission: string;
@@ -19,6 +20,7 @@ export const MODULE_REGISTRY = [
   {
     "key": "dashboard",
     "label": "Dashboard",
+    "parentKey": null,
     "icon": "LayoutDashboard",
     "route": "/dashboard",
     "permission": "dashboard.view",
@@ -40,6 +42,7 @@ export const MODULE_REGISTRY = [
       {
         "key": "overview",
         "label": "Overview",
+        "parentKey": "dashboard",
         "icon": "PanelRightOpen",
         "route": "/dashboard/overview",
         "permission": "dashboard.overview.view",
@@ -62,6 +65,7 @@ export const MODULE_REGISTRY = [
       {
         "key": "activity-feed",
         "label": "Activity Feed",
+        "parentKey": "dashboard",
         "icon": "PanelRightOpen",
         "route": "/dashboard/activity-feed",
         "permission": "dashboard.activity-feed.view",
@@ -84,6 +88,7 @@ export const MODULE_REGISTRY = [
       {
         "key": "my-tasks",
         "label": "My Tasks",
+        "parentKey": "dashboard",
         "icon": "PanelRightOpen",
         "route": "/dashboard/my-tasks",
         "permission": "dashboard.my-tasks.view",
@@ -106,6 +111,7 @@ export const MODULE_REGISTRY = [
       {
         "key": "notifications",
         "label": "Notifications",
+        "parentKey": "dashboard",
         "icon": "PanelRightOpen",
         "route": "/dashboard/notifications",
         "permission": "dashboard.notifications.view",
@@ -128,6 +134,7 @@ export const MODULE_REGISTRY = [
       {
         "key": "recent-activities",
         "label": "Recent Activities",
+        "parentKey": "dashboard",
         "icon": "PanelRightOpen",
         "route": "/dashboard/recent-activities",
         "permission": "dashboard.recent-activities.view",
@@ -150,6 +157,7 @@ export const MODULE_REGISTRY = [
       {
         "key": "performance-snapshot",
         "label": "Performance Snapshot",
+        "parentKey": "dashboard",
         "icon": "PanelRightOpen",
         "route": "/dashboard/performance-snapshot",
         "permission": "dashboard.performance-snapshot.view",
@@ -172,6 +180,7 @@ export const MODULE_REGISTRY = [
       {
         "key": "autonomous-recommendations",
         "label": "Autonomous Recommendations",
+        "parentKey": "dashboard",
         "icon": "PanelRightOpen",
         "route": "/dashboard/autonomous-recommendations",
         "permission": "dashboard.autonomous-recommendations.view",
@@ -194,6 +203,7 @@ export const MODULE_REGISTRY = [
       {
         "key": "system-health",
         "label": "System Health",
+        "parentKey": "dashboard",
         "icon": "PanelRightOpen",
         "route": "/dashboard/system-health",
         "permission": "dashboard.system-health.view",
@@ -218,6 +228,7 @@ export const MODULE_REGISTRY = [
   {
     "key": "workspace",
     "label": "Workspace",
+    "parentKey": null,
     "icon": "BriefcaseBusiness",
     "route": "/workspace",
     "permission": "workspace.view",
@@ -239,6 +250,7 @@ export const MODULE_REGISTRY = [
       {
         "key": "my-workspace",
         "label": "My Workspace",
+        "parentKey": "workspace",
         "icon": "PanelRightOpen",
         "route": "/workspace/my-workspace",
         "permission": "workspace.my-workspace.view",
@@ -261,6 +273,7 @@ export const MODULE_REGISTRY = [
       {
         "key": "organizations",
         "label": "Organizations",
+        "parentKey": "workspace",
         "icon": "PanelRightOpen",
         "route": "/workspace/organizations",
         "permission": "workspace.organizations.view",
@@ -283,6 +296,7 @@ export const MODULE_REGISTRY = [
       {
         "key": "companies",
         "label": "Companies",
+        "parentKey": "workspace",
         "icon": "PanelRightOpen",
         "route": "/workspace/companies",
         "permission": "workspace.companies.view",
@@ -305,6 +319,7 @@ export const MODULE_REGISTRY = [
       {
         "key": "departments",
         "label": "Departments",
+        "parentKey": "workspace",
         "icon": "PanelRightOpen",
         "route": "/workspace/departments",
         "permission": "workspace.departments.view",
@@ -327,6 +342,7 @@ export const MODULE_REGISTRY = [
       {
         "key": "teams",
         "label": "Teams",
+        "parentKey": "workspace",
         "icon": "PanelRightOpen",
         "route": "/workspace/teams",
         "permission": "workspace.teams.view",
@@ -349,6 +365,7 @@ export const MODULE_REGISTRY = [
       {
         "key": "brands",
         "label": "Brands",
+        "parentKey": "workspace",
         "icon": "PanelRightOpen",
         "route": "/workspace/brands",
         "permission": "workspace.brands.view",
@@ -371,6 +388,7 @@ export const MODULE_REGISTRY = [
       {
         "key": "clients",
         "label": "Clients",
+        "parentKey": "workspace",
         "icon": "PanelRightOpen",
         "route": "/workspace/clients",
         "permission": "workspace.clients.view",
@@ -393,6 +411,7 @@ export const MODULE_REGISTRY = [
       {
         "key": "projects",
         "label": "Projects",
+        "parentKey": "workspace",
         "icon": "PanelRightOpen",
         "route": "/workspace/projects",
         "permission": "workspace.projects.view",
@@ -415,6 +434,7 @@ export const MODULE_REGISTRY = [
       {
         "key": "campaigns",
         "label": "Campaigns",
+        "parentKey": "workspace",
         "icon": "PanelRightOpen",
         "route": "/workspace/campaigns",
         "permission": "workspace.campaigns.view",
@@ -437,6 +457,7 @@ export const MODULE_REGISTRY = [
       {
         "key": "social-accounts",
         "label": "Social Accounts",
+        "parentKey": "workspace",
         "icon": "PanelRightOpen",
         "route": "/workspace/social-accounts",
         "permission": "workspace.social-accounts.view",
@@ -459,6 +480,7 @@ export const MODULE_REGISTRY = [
       {
         "key": "workspace-settings",
         "label": "Workspace Settings",
+        "parentKey": "workspace",
         "icon": "PanelRightOpen",
         "route": "/workspace/workspace-settings",
         "permission": "workspace.workspace-settings.view",
@@ -483,6 +505,7 @@ export const MODULE_REGISTRY = [
   {
     "key": "brand-manager",
     "label": "Brand Manager",
+    "parentKey": null,
     "icon": "BadgeCheck",
     "route": "/brand-manager",
     "permission": "brand-manager.view",
@@ -504,6 +527,7 @@ export const MODULE_REGISTRY = [
       {
         "key": "brand-profile",
         "label": "Brand Profile",
+        "parentKey": "brand-manager",
         "icon": "PanelRightOpen",
         "route": "/brand-manager/brand-profile",
         "permission": "brand-manager.brand-profile.view",
@@ -526,6 +550,7 @@ export const MODULE_REGISTRY = [
       {
         "key": "audience-profile",
         "label": "Audience Profile",
+        "parentKey": "brand-manager",
         "icon": "PanelRightOpen",
         "route": "/brand-manager/audience-profile",
         "permission": "brand-manager.audience-profile.view",
@@ -548,6 +573,7 @@ export const MODULE_REGISTRY = [
       {
         "key": "brand-voice",
         "label": "Brand Voice",
+        "parentKey": "brand-manager",
         "icon": "PanelRightOpen",
         "route": "/brand-manager/brand-voice",
         "permission": "brand-manager.brand-voice.view",
@@ -570,6 +596,7 @@ export const MODULE_REGISTRY = [
       {
         "key": "content-pillars",
         "label": "Content Pillars",
+        "parentKey": "brand-manager",
         "icon": "PanelRightOpen",
         "route": "/brand-manager/content-pillars",
         "permission": "brand-manager.content-pillars.view",
@@ -592,6 +619,7 @@ export const MODULE_REGISTRY = [
       {
         "key": "products-and-services",
         "label": "Products & Services",
+        "parentKey": "brand-manager",
         "icon": "PanelRightOpen",
         "route": "/brand-manager/products-and-services",
         "permission": "brand-manager.products-and-services.view",
@@ -614,6 +642,7 @@ export const MODULE_REGISTRY = [
       {
         "key": "case-studies",
         "label": "Case Studies",
+        "parentKey": "brand-manager",
         "icon": "PanelRightOpen",
         "route": "/brand-manager/case-studies",
         "permission": "brand-manager.case-studies.view",
@@ -636,6 +665,7 @@ export const MODULE_REGISTRY = [
       {
         "key": "keywords",
         "label": "Keywords",
+        "parentKey": "brand-manager",
         "icon": "PanelRightOpen",
         "route": "/brand-manager/keywords",
         "permission": "brand-manager.keywords.view",
@@ -658,6 +688,7 @@ export const MODULE_REGISTRY = [
       {
         "key": "competitors",
         "label": "Competitors",
+        "parentKey": "brand-manager",
         "icon": "PanelRightOpen",
         "route": "/brand-manager/competitors",
         "permission": "brand-manager.competitors.view",
@@ -680,6 +711,7 @@ export const MODULE_REGISTRY = [
       {
         "key": "brand-goals",
         "label": "Brand Goals",
+        "parentKey": "brand-manager",
         "icon": "PanelRightOpen",
         "route": "/brand-manager/brand-goals",
         "permission": "brand-manager.brand-goals.view",
@@ -702,6 +734,7 @@ export const MODULE_REGISTRY = [
       {
         "key": "messaging-guidelines",
         "label": "Messaging Guidelines",
+        "parentKey": "brand-manager",
         "icon": "PanelRightOpen",
         "route": "/brand-manager/messaging-guidelines",
         "permission": "brand-manager.messaging-guidelines.view",
@@ -724,6 +757,7 @@ export const MODULE_REGISTRY = [
       {
         "key": "brand-assets",
         "label": "Brand Assets",
+        "parentKey": "brand-manager",
         "icon": "PanelRightOpen",
         "route": "/brand-manager/brand-assets",
         "permission": "brand-manager.brand-assets.view",
@@ -748,6 +782,7 @@ export const MODULE_REGISTRY = [
   {
     "key": "content-platform",
     "label": "Content Platform",
+    "parentKey": null,
     "icon": "FileText",
     "route": "/content-platform",
     "permission": "content-platform.view",
@@ -769,6 +804,7 @@ export const MODULE_REGISTRY = [
       {
         "key": "content-ideas",
         "label": "Content Ideas",
+        "parentKey": "content-platform",
         "icon": "PanelRightOpen",
         "route": "/content-platform/content-ideas",
         "permission": "content-platform.content-ideas.view",
@@ -791,6 +827,7 @@ export const MODULE_REGISTRY = [
       {
         "key": "monthly-planner",
         "label": "Monthly Planner",
+        "parentKey": "content-platform",
         "icon": "PanelRightOpen",
         "route": "/content-platform/monthly-planner",
         "permission": "content-platform.monthly-planner.view",
@@ -813,6 +850,7 @@ export const MODULE_REGISTRY = [
       {
         "key": "weekly-planner",
         "label": "Weekly Planner",
+        "parentKey": "content-platform",
         "icon": "PanelRightOpen",
         "route": "/content-platform/weekly-planner",
         "permission": "content-platform.weekly-planner.view",
@@ -835,6 +873,7 @@ export const MODULE_REGISTRY = [
       {
         "key": "daily-planner",
         "label": "Daily Planner",
+        "parentKey": "content-platform",
         "icon": "PanelRightOpen",
         "route": "/content-platform/daily-planner",
         "permission": "content-platform.daily-planner.view",
@@ -857,6 +896,7 @@ export const MODULE_REGISTRY = [
       {
         "key": "content-calendar",
         "label": "Content Calendar",
+        "parentKey": "content-platform",
         "icon": "PanelRightOpen",
         "route": "/content-platform/content-calendar",
         "permission": "content-platform.content-calendar.view",
@@ -879,6 +919,7 @@ export const MODULE_REGISTRY = [
       {
         "key": "content-generator",
         "label": "Content Generator",
+        "parentKey": "content-platform",
         "icon": "PanelRightOpen",
         "route": "/content-platform/content-generator",
         "permission": "content-platform.content-generator.view",
@@ -901,6 +942,7 @@ export const MODULE_REGISTRY = [
       {
         "key": "content-editor",
         "label": "Content Editor",
+        "parentKey": "content-platform",
         "icon": "PanelRightOpen",
         "route": "/content-platform/content-editor",
         "permission": "content-platform.content-editor.view",
@@ -923,6 +965,7 @@ export const MODULE_REGISTRY = [
       {
         "key": "ai-reviewer",
         "label": "AI Reviewer",
+        "parentKey": "content-platform",
         "icon": "PanelRightOpen",
         "route": "/content-platform/ai-reviewer",
         "permission": "content-platform.ai-reviewer.view",
@@ -945,6 +988,7 @@ export const MODULE_REGISTRY = [
       {
         "key": "social-preview",
         "label": "Social Preview",
+        "parentKey": "content-platform",
         "icon": "PanelRightOpen",
         "route": "/content-platform/social-preview",
         "permission": "content-platform.social-preview.view",
@@ -967,6 +1011,7 @@ export const MODULE_REGISTRY = [
       {
         "key": "scheduled-posts",
         "label": "Scheduled Posts",
+        "parentKey": "content-platform",
         "icon": "PanelRightOpen",
         "route": "/content-platform/scheduled-posts",
         "permission": "content-platform.scheduled-posts.view",
@@ -989,6 +1034,7 @@ export const MODULE_REGISTRY = [
       {
         "key": "publishing-queue",
         "label": "Publishing Queue",
+        "parentKey": "content-platform",
         "icon": "PanelRightOpen",
         "route": "/content-platform/publishing-queue",
         "permission": "content-platform.publishing-queue.view",
@@ -1011,6 +1057,7 @@ export const MODULE_REGISTRY = [
       {
         "key": "content-library",
         "label": "Content Library",
+        "parentKey": "content-platform",
         "icon": "PanelRightOpen",
         "route": "/content-platform/content-library",
         "permission": "content-platform.content-library.view",
@@ -1033,6 +1080,7 @@ export const MODULE_REGISTRY = [
       {
         "key": "templates",
         "label": "Templates",
+        "parentKey": "content-platform",
         "icon": "PanelRightOpen",
         "route": "/content-platform/templates",
         "permission": "content-platform.templates.view",
@@ -1055,6 +1103,7 @@ export const MODULE_REGISTRY = [
       {
         "key": "carousel-builder",
         "label": "Carousel Builder",
+        "parentKey": "content-platform",
         "icon": "PanelRightOpen",
         "route": "/content-platform/carousel-builder",
         "permission": "content-platform.carousel-builder.view",
@@ -1077,6 +1126,7 @@ export const MODULE_REGISTRY = [
       {
         "key": "video-script-writer",
         "label": "Video Script Writer",
+        "parentKey": "content-platform",
         "icon": "PanelRightOpen",
         "route": "/content-platform/video-script-writer",
         "permission": "content-platform.video-script-writer.view",
@@ -1099,6 +1149,7 @@ export const MODULE_REGISTRY = [
       {
         "key": "blog-writer",
         "label": "Blog Writer",
+        "parentKey": "content-platform",
         "icon": "PanelRightOpen",
         "route": "/content-platform/blog-writer",
         "permission": "content-platform.blog-writer.view",
@@ -1121,6 +1172,7 @@ export const MODULE_REGISTRY = [
       {
         "key": "newsletter-writer",
         "label": "Newsletter Writer",
+        "parentKey": "content-platform",
         "icon": "PanelRightOpen",
         "route": "/content-platform/newsletter-writer",
         "permission": "content-platform.newsletter-writer.view",
@@ -1143,6 +1195,7 @@ export const MODULE_REGISTRY = [
       {
         "key": "repurpose-content",
         "label": "Repurpose Content",
+        "parentKey": "content-platform",
         "icon": "PanelRightOpen",
         "route": "/content-platform/repurpose-content",
         "permission": "content-platform.repurpose-content.view",
@@ -1165,6 +1218,7 @@ export const MODULE_REGISTRY = [
       {
         "key": "content-archive",
         "label": "Content Archive",
+        "parentKey": "content-platform",
         "icon": "PanelRightOpen",
         "route": "/content-platform/content-archive",
         "permission": "content-platform.content-archive.view",
@@ -1189,6 +1243,7 @@ export const MODULE_REGISTRY = [
   {
     "key": "creative-studio",
     "label": "Creative Studio",
+    "parentKey": null,
     "icon": "Palette",
     "route": "/creative-studio",
     "permission": "creative-studio.view",
@@ -1210,6 +1265,7 @@ export const MODULE_REGISTRY = [
       {
         "key": "dashboard",
         "label": "Dashboard",
+        "parentKey": "creative-studio",
         "icon": "PanelRightOpen",
         "route": "/creative-studio/dashboard",
         "permission": "creative-studio.dashboard.view",
@@ -1232,6 +1288,7 @@ export const MODULE_REGISTRY = [
       {
         "key": "creative-projects",
         "label": "Creative Projects",
+        "parentKey": "creative-studio",
         "icon": "PanelRightOpen",
         "route": "/creative-studio/creative-projects",
         "permission": "creative-studio.creative-projects.view",
@@ -1254,6 +1311,7 @@ export const MODULE_REGISTRY = [
       {
         "key": "creative-workspace",
         "label": "Creative Workspace",
+        "parentKey": "creative-studio",
         "icon": "PanelRightOpen",
         "route": "/creative-studio/creative-workspace",
         "permission": "creative-studio.creative-workspace.view",
@@ -1276,6 +1334,7 @@ export const MODULE_REGISTRY = [
       {
         "key": "image-studio",
         "label": "Image Studio",
+        "parentKey": "creative-studio",
         "icon": "PanelRightOpen",
         "route": "/creative-studio/image-studio",
         "permission": "creative-studio.image-studio.view",
@@ -1298,6 +1357,7 @@ export const MODULE_REGISTRY = [
       {
         "key": "video-studio",
         "label": "Video Studio",
+        "parentKey": "creative-studio",
         "icon": "PanelRightOpen",
         "route": "/creative-studio/video-studio",
         "permission": "creative-studio.video-studio.view",
@@ -1319,6 +1379,7 @@ export const MODULE_REGISTRY = [
           {
             "key": "dashboard",
             "label": "Dashboard",
+            "parentKey": "video-studio",
             "icon": "PanelRightOpen",
             "route": "/creative-studio/video-studio/dashboard",
             "permission": "creative-studio.video-studio.dashboard.view",
@@ -1340,6 +1401,7 @@ export const MODULE_REGISTRY = [
           {
             "key": "research",
             "label": "Research",
+            "parentKey": "video-studio",
             "icon": "PanelRightOpen",
             "route": "/creative-studio/video-studio/research",
             "permission": "creative-studio.video-studio.research.view",
@@ -1361,6 +1423,7 @@ export const MODULE_REGISTRY = [
           {
             "key": "ideas",
             "label": "Ideas",
+            "parentKey": "video-studio",
             "icon": "PanelRightOpen",
             "route": "/creative-studio/video-studio/ideas",
             "permission": "creative-studio.video-studio.ideas.view",
@@ -1382,6 +1445,7 @@ export const MODULE_REGISTRY = [
           {
             "key": "strategy",
             "label": "Strategy",
+            "parentKey": "video-studio",
             "icon": "PanelRightOpen",
             "route": "/creative-studio/video-studio/strategy",
             "permission": "creative-studio.video-studio.strategy.view",
@@ -1403,6 +1467,7 @@ export const MODULE_REGISTRY = [
           {
             "key": "script-writer",
             "label": "Script Writer",
+            "parentKey": "video-studio",
             "icon": "PanelRightOpen",
             "route": "/creative-studio/video-studio/script-writer",
             "permission": "creative-studio.video-studio.script-writer.view",
@@ -1424,6 +1489,7 @@ export const MODULE_REGISTRY = [
           {
             "key": "script-reviewer",
             "label": "Script Reviewer",
+            "parentKey": "video-studio",
             "icon": "PanelRightOpen",
             "route": "/creative-studio/video-studio/script-reviewer",
             "permission": "creative-studio.video-studio.script-reviewer.view",
@@ -1445,6 +1511,7 @@ export const MODULE_REGISTRY = [
           {
             "key": "storyboard-builder",
             "label": "Storyboard Builder",
+            "parentKey": "video-studio",
             "icon": "PanelRightOpen",
             "route": "/creative-studio/video-studio/storyboard-builder",
             "permission": "creative-studio.video-studio.storyboard-builder.view",
@@ -1466,6 +1533,7 @@ export const MODULE_REGISTRY = [
           {
             "key": "scene-planner",
             "label": "Scene Planner",
+            "parentKey": "video-studio",
             "icon": "PanelRightOpen",
             "route": "/creative-studio/video-studio/scene-planner",
             "permission": "creative-studio.video-studio.scene-planner.view",
@@ -1487,6 +1555,7 @@ export const MODULE_REGISTRY = [
           {
             "key": "shot-planner",
             "label": "Shot Planner",
+            "parentKey": "video-studio",
             "icon": "PanelRightOpen",
             "route": "/creative-studio/video-studio/shot-planner",
             "permission": "creative-studio.video-studio.shot-planner.view",
@@ -1508,6 +1577,7 @@ export const MODULE_REGISTRY = [
           {
             "key": "timeline",
             "label": "Timeline",
+            "parentKey": "video-studio",
             "icon": "PanelRightOpen",
             "route": "/creative-studio/video-studio/timeline",
             "permission": "creative-studio.video-studio.timeline.view",
@@ -1529,6 +1599,7 @@ export const MODULE_REGISTRY = [
           {
             "key": "visual-planner",
             "label": "Visual Planner",
+            "parentKey": "video-studio",
             "icon": "PanelRightOpen",
             "route": "/creative-studio/video-studio/visual-planner",
             "permission": "creative-studio.video-studio.visual-planner.view",
@@ -1550,6 +1621,7 @@ export const MODULE_REGISTRY = [
           {
             "key": "image-generation",
             "label": "Image Generation",
+            "parentKey": "video-studio",
             "icon": "PanelRightOpen",
             "route": "/creative-studio/video-studio/image-generation",
             "permission": "creative-studio.video-studio.image-generation.view",
@@ -1571,6 +1643,7 @@ export const MODULE_REGISTRY = [
           {
             "key": "video-generation",
             "label": "Video Generation",
+            "parentKey": "video-studio",
             "icon": "PanelRightOpen",
             "route": "/creative-studio/video-studio/video-generation",
             "permission": "creative-studio.video-studio.video-generation.view",
@@ -1592,6 +1665,7 @@ export const MODULE_REGISTRY = [
           {
             "key": "voice-generation",
             "label": "Voice Generation",
+            "parentKey": "video-studio",
             "icon": "PanelRightOpen",
             "route": "/creative-studio/video-studio/voice-generation",
             "permission": "creative-studio.video-studio.voice-generation.view",
@@ -1613,6 +1687,7 @@ export const MODULE_REGISTRY = [
           {
             "key": "narration",
             "label": "Narration",
+            "parentKey": "video-studio",
             "icon": "PanelRightOpen",
             "route": "/creative-studio/video-studio/narration",
             "permission": "creative-studio.video-studio.narration.view",
@@ -1634,6 +1709,7 @@ export const MODULE_REGISTRY = [
           {
             "key": "music",
             "label": "Music",
+            "parentKey": "video-studio",
             "icon": "PanelRightOpen",
             "route": "/creative-studio/video-studio/music",
             "permission": "creative-studio.video-studio.music.view",
@@ -1655,6 +1731,7 @@ export const MODULE_REGISTRY = [
           {
             "key": "animation",
             "label": "Animation",
+            "parentKey": "video-studio",
             "icon": "PanelRightOpen",
             "route": "/creative-studio/video-studio/animation",
             "permission": "creative-studio.video-studio.animation.view",
@@ -1676,6 +1753,7 @@ export const MODULE_REGISTRY = [
           {
             "key": "editing",
             "label": "Editing",
+            "parentKey": "video-studio",
             "icon": "PanelRightOpen",
             "route": "/creative-studio/video-studio/editing",
             "permission": "creative-studio.video-studio.editing.view",
@@ -1697,6 +1775,7 @@ export const MODULE_REGISTRY = [
           {
             "key": "subtitle-generator",
             "label": "Subtitle Generator",
+            "parentKey": "video-studio",
             "icon": "PanelRightOpen",
             "route": "/creative-studio/video-studio/subtitle-generator",
             "permission": "creative-studio.video-studio.subtitle-generator.view",
@@ -1718,6 +1797,7 @@ export const MODULE_REGISTRY = [
           {
             "key": "caption-generator",
             "label": "Caption Generator",
+            "parentKey": "video-studio",
             "icon": "PanelRightOpen",
             "route": "/creative-studio/video-studio/caption-generator",
             "permission": "creative-studio.video-studio.caption-generator.view",
@@ -1739,6 +1819,7 @@ export const MODULE_REGISTRY = [
           {
             "key": "thumbnail-studio",
             "label": "Thumbnail Studio",
+            "parentKey": "video-studio",
             "icon": "PanelRightOpen",
             "route": "/creative-studio/video-studio/thumbnail-studio",
             "permission": "creative-studio.video-studio.thumbnail-studio.view",
@@ -1760,6 +1841,7 @@ export const MODULE_REGISTRY = [
           {
             "key": "publishing",
             "label": "Publishing",
+            "parentKey": "video-studio",
             "icon": "PanelRightOpen",
             "route": "/creative-studio/video-studio/publishing",
             "permission": "creative-studio.video-studio.publishing.view",
@@ -1781,6 +1863,7 @@ export const MODULE_REGISTRY = [
           {
             "key": "analytics",
             "label": "Analytics",
+            "parentKey": "video-studio",
             "icon": "PanelRightOpen",
             "route": "/creative-studio/video-studio/analytics",
             "permission": "creative-studio.video-studio.analytics.view",
@@ -1802,6 +1885,7 @@ export const MODULE_REGISTRY = [
           {
             "key": "version-history",
             "label": "Version History",
+            "parentKey": "video-studio",
             "icon": "PanelRightOpen",
             "route": "/creative-studio/video-studio/version-history",
             "permission": "creative-studio.video-studio.version-history.view",
@@ -1823,6 +1907,7 @@ export const MODULE_REGISTRY = [
           {
             "key": "templates",
             "label": "Templates",
+            "parentKey": "video-studio",
             "icon": "PanelRightOpen",
             "route": "/creative-studio/video-studio/templates",
             "permission": "creative-studio.video-studio.templates.view",
@@ -1844,6 +1929,7 @@ export const MODULE_REGISTRY = [
           {
             "key": "archive",
             "label": "Archive",
+            "parentKey": "video-studio",
             "icon": "PanelRightOpen",
             "route": "/creative-studio/video-studio/archive",
             "permission": "creative-studio.video-studio.archive.view",
@@ -1865,6 +1951,7 @@ export const MODULE_REGISTRY = [
           {
             "key": "asset-library",
             "label": "Asset Library",
+            "parentKey": "video-studio",
             "icon": "PanelRightOpen",
             "route": "/creative-studio/video-studio/asset-library",
             "permission": "creative-studio.video-studio.asset-library.view",
@@ -1888,6 +1975,7 @@ export const MODULE_REGISTRY = [
       {
         "key": "audio-studio",
         "label": "Audio Studio",
+        "parentKey": "creative-studio",
         "icon": "PanelRightOpen",
         "route": "/creative-studio/audio-studio",
         "permission": "creative-studio.audio-studio.view",
@@ -1910,6 +1998,7 @@ export const MODULE_REGISTRY = [
       {
         "key": "podcast-studio",
         "label": "Podcast Studio",
+        "parentKey": "creative-studio",
         "icon": "PanelRightOpen",
         "route": "/creative-studio/podcast-studio",
         "permission": "creative-studio.podcast-studio.view",
@@ -1932,6 +2021,7 @@ export const MODULE_REGISTRY = [
       {
         "key": "presentation-studio",
         "label": "Presentation Studio",
+        "parentKey": "creative-studio",
         "icon": "PanelRightOpen",
         "route": "/creative-studio/presentation-studio",
         "permission": "creative-studio.presentation-studio.view",
@@ -1954,6 +2044,7 @@ export const MODULE_REGISTRY = [
       {
         "key": "document-studio",
         "label": "Document Studio",
+        "parentKey": "creative-studio",
         "icon": "PanelRightOpen",
         "route": "/creative-studio/document-studio",
         "permission": "creative-studio.document-studio.view",
@@ -1976,6 +2067,7 @@ export const MODULE_REGISTRY = [
       {
         "key": "design-studio",
         "label": "Design Studio",
+        "parentKey": "creative-studio",
         "icon": "PanelRightOpen",
         "route": "/creative-studio/design-studio",
         "permission": "creative-studio.design-studio.view",
@@ -1998,6 +2090,7 @@ export const MODULE_REGISTRY = [
       {
         "key": "creative-templates",
         "label": "Creative Templates",
+        "parentKey": "creative-studio",
         "icon": "PanelRightOpen",
         "route": "/creative-studio/creative-templates",
         "permission": "creative-studio.creative-templates.view",
@@ -2020,6 +2113,7 @@ export const MODULE_REGISTRY = [
       {
         "key": "brand-asset-library",
         "label": "Brand Asset Library",
+        "parentKey": "creative-studio",
         "icon": "PanelRightOpen",
         "route": "/creative-studio/brand-asset-library",
         "permission": "creative-studio.brand-asset-library.view",
@@ -2042,6 +2136,7 @@ export const MODULE_REGISTRY = [
       {
         "key": "publishing-center",
         "label": "Publishing Center",
+        "parentKey": "creative-studio",
         "icon": "PanelRightOpen",
         "route": "/creative-studio/publishing-center",
         "permission": "creative-studio.publishing-center.view",
@@ -2064,6 +2159,7 @@ export const MODULE_REGISTRY = [
       {
         "key": "creative-analytics",
         "label": "Creative Analytics",
+        "parentKey": "creative-studio",
         "icon": "PanelRightOpen",
         "route": "/creative-studio/creative-analytics",
         "permission": "creative-studio.creative-analytics.view",
@@ -2086,6 +2182,7 @@ export const MODULE_REGISTRY = [
       {
         "key": "learning-center",
         "label": "Learning Center",
+        "parentKey": "creative-studio",
         "icon": "PanelRightOpen",
         "route": "/creative-studio/learning-center",
         "permission": "creative-studio.learning-center.view",
@@ -2108,6 +2205,7 @@ export const MODULE_REGISTRY = [
       {
         "key": "creative-settings",
         "label": "Creative Settings",
+        "parentKey": "creative-studio",
         "icon": "PanelRightOpen",
         "route": "/creative-studio/creative-settings",
         "permission": "creative-studio.creative-settings.view",
@@ -2132,6 +2230,7 @@ export const MODULE_REGISTRY = [
   {
     "key": "research-center",
     "label": "Research Center",
+    "parentKey": null,
     "icon": "Search",
     "route": "/research-center",
     "permission": "research-center.view",
@@ -2153,6 +2252,7 @@ export const MODULE_REGISTRY = [
       {
         "key": "topic-research",
         "label": "Topic Research",
+        "parentKey": "research-center",
         "icon": "PanelRightOpen",
         "route": "/research-center/topic-research",
         "permission": "research-center.topic-research.view",
@@ -2175,6 +2275,7 @@ export const MODULE_REGISTRY = [
       {
         "key": "trend-discovery",
         "label": "Trend Discovery",
+        "parentKey": "research-center",
         "icon": "PanelRightOpen",
         "route": "/research-center/trend-discovery",
         "permission": "research-center.trend-discovery.view",
@@ -2197,6 +2298,7 @@ export const MODULE_REGISTRY = [
       {
         "key": "competitor-research",
         "label": "Competitor Research",
+        "parentKey": "research-center",
         "icon": "PanelRightOpen",
         "route": "/research-center/competitor-research",
         "permission": "research-center.competitor-research.view",
@@ -2219,6 +2321,7 @@ export const MODULE_REGISTRY = [
       {
         "key": "industry-insights",
         "label": "Industry Insights",
+        "parentKey": "research-center",
         "icon": "PanelRightOpen",
         "route": "/research-center/industry-insights",
         "permission": "research-center.industry-insights.view",
@@ -2241,6 +2344,7 @@ export const MODULE_REGISTRY = [
       {
         "key": "keyword-research",
         "label": "Keyword Research",
+        "parentKey": "research-center",
         "icon": "PanelRightOpen",
         "route": "/research-center/keyword-research",
         "permission": "research-center.keyword-research.view",
@@ -2263,6 +2367,7 @@ export const MODULE_REGISTRY = [
       {
         "key": "news-monitor",
         "label": "News Monitor",
+        "parentKey": "research-center",
         "icon": "PanelRightOpen",
         "route": "/research-center/news-monitor",
         "permission": "research-center.news-monitor.view",
@@ -2285,6 +2390,7 @@ export const MODULE_REGISTRY = [
       {
         "key": "audience-research",
         "label": "Audience Research",
+        "parentKey": "research-center",
         "icon": "PanelRightOpen",
         "route": "/research-center/audience-research",
         "permission": "research-center.audience-research.view",
@@ -2307,6 +2413,7 @@ export const MODULE_REGISTRY = [
       {
         "key": "hashtag-research",
         "label": "Hashtag Research",
+        "parentKey": "research-center",
         "icon": "PanelRightOpen",
         "route": "/research-center/hashtag-research",
         "permission": "research-center.hashtag-research.view",
@@ -2329,6 +2436,7 @@ export const MODULE_REGISTRY = [
       {
         "key": "market-research",
         "label": "Market Research",
+        "parentKey": "research-center",
         "icon": "PanelRightOpen",
         "route": "/research-center/market-research",
         "permission": "research-center.market-research.view",
@@ -2351,6 +2459,7 @@ export const MODULE_REGISTRY = [
       {
         "key": "research-library",
         "label": "Research Library",
+        "parentKey": "research-center",
         "icon": "PanelRightOpen",
         "route": "/research-center/research-library",
         "permission": "research-center.research-library.view",
@@ -2373,6 +2482,7 @@ export const MODULE_REGISTRY = [
       {
         "key": "saved-insights",
         "label": "Saved Insights",
+        "parentKey": "research-center",
         "icon": "PanelRightOpen",
         "route": "/research-center/saved-insights",
         "permission": "research-center.saved-insights.view",
@@ -2397,6 +2507,7 @@ export const MODULE_REGISTRY = [
   {
     "key": "campaign-manager",
     "label": "Campaign Manager",
+    "parentKey": null,
     "icon": "Megaphone",
     "route": "/campaign-manager",
     "permission": "campaign-manager.view",
@@ -2418,6 +2529,7 @@ export const MODULE_REGISTRY = [
       {
         "key": "campaigns",
         "label": "Campaigns",
+        "parentKey": "campaign-manager",
         "icon": "PanelRightOpen",
         "route": "/campaign-manager/campaigns",
         "permission": "campaign-manager.campaigns.view",
@@ -2440,6 +2552,7 @@ export const MODULE_REGISTRY = [
       {
         "key": "campaign-goals",
         "label": "Campaign Goals",
+        "parentKey": "campaign-manager",
         "icon": "PanelRightOpen",
         "route": "/campaign-manager/campaign-goals",
         "permission": "campaign-manager.campaign-goals.view",
@@ -2462,6 +2575,7 @@ export const MODULE_REGISTRY = [
       {
         "key": "campaign-strategy",
         "label": "Campaign Strategy",
+        "parentKey": "campaign-manager",
         "icon": "PanelRightOpen",
         "route": "/campaign-manager/campaign-strategy",
         "permission": "campaign-manager.campaign-strategy.view",
@@ -2484,6 +2598,7 @@ export const MODULE_REGISTRY = [
       {
         "key": "campaign-calendar",
         "label": "Campaign Calendar",
+        "parentKey": "campaign-manager",
         "icon": "PanelRightOpen",
         "route": "/campaign-manager/campaign-calendar",
         "permission": "campaign-manager.campaign-calendar.view",
@@ -2506,6 +2621,7 @@ export const MODULE_REGISTRY = [
       {
         "key": "campaign-assets",
         "label": "Campaign Assets",
+        "parentKey": "campaign-manager",
         "icon": "PanelRightOpen",
         "route": "/campaign-manager/campaign-assets",
         "permission": "campaign-manager.campaign-assets.view",
@@ -2528,6 +2644,7 @@ export const MODULE_REGISTRY = [
       {
         "key": "campaign-tasks",
         "label": "Campaign Tasks",
+        "parentKey": "campaign-manager",
         "icon": "PanelRightOpen",
         "route": "/campaign-manager/campaign-tasks",
         "permission": "campaign-manager.campaign-tasks.view",
@@ -2550,6 +2667,7 @@ export const MODULE_REGISTRY = [
       {
         "key": "campaign-content",
         "label": "Campaign Content",
+        "parentKey": "campaign-manager",
         "icon": "PanelRightOpen",
         "route": "/campaign-manager/campaign-content",
         "permission": "campaign-manager.campaign-content.view",
@@ -2572,6 +2690,7 @@ export const MODULE_REGISTRY = [
       {
         "key": "campaign-approvals",
         "label": "Campaign Approvals",
+        "parentKey": "campaign-manager",
         "icon": "PanelRightOpen",
         "route": "/campaign-manager/campaign-approvals",
         "permission": "campaign-manager.campaign-approvals.view",
@@ -2594,6 +2713,7 @@ export const MODULE_REGISTRY = [
       {
         "key": "campaign-performance",
         "label": "Campaign Performance",
+        "parentKey": "campaign-manager",
         "icon": "PanelRightOpen",
         "route": "/campaign-manager/campaign-performance",
         "permission": "campaign-manager.campaign-performance.view",
@@ -2616,6 +2736,7 @@ export const MODULE_REGISTRY = [
       {
         "key": "campaign-reports",
         "label": "Campaign Reports",
+        "parentKey": "campaign-manager",
         "icon": "PanelRightOpen",
         "route": "/campaign-manager/campaign-reports",
         "permission": "campaign-manager.campaign-reports.view",
@@ -2640,6 +2761,7 @@ export const MODULE_REGISTRY = [
   {
     "key": "approval-center",
     "label": "Approval Center",
+    "parentKey": null,
     "icon": "CircleCheckBig",
     "route": "/approval-center",
     "permission": "approval-center.view",
@@ -2661,6 +2783,7 @@ export const MODULE_REGISTRY = [
       {
         "key": "drafts",
         "label": "Drafts",
+        "parentKey": "approval-center",
         "icon": "PanelRightOpen",
         "route": "/approval-center/drafts",
         "permission": "approval-center.drafts.view",
@@ -2683,6 +2806,7 @@ export const MODULE_REGISTRY = [
       {
         "key": "ai-review-queue",
         "label": "AI Review Queue",
+        "parentKey": "approval-center",
         "icon": "PanelRightOpen",
         "route": "/approval-center/ai-review-queue",
         "permission": "approval-center.ai-review-queue.view",
@@ -2705,6 +2829,7 @@ export const MODULE_REGISTRY = [
       {
         "key": "pending-approval",
         "label": "Pending Approval",
+        "parentKey": "approval-center",
         "icon": "PanelRightOpen",
         "route": "/approval-center/pending-approval",
         "permission": "approval-center.pending-approval.view",
@@ -2727,6 +2852,7 @@ export const MODULE_REGISTRY = [
       {
         "key": "revision-requests",
         "label": "Revision Requests",
+        "parentKey": "approval-center",
         "icon": "PanelRightOpen",
         "route": "/approval-center/revision-requests",
         "permission": "approval-center.revision-requests.view",
@@ -2749,6 +2875,7 @@ export const MODULE_REGISTRY = [
       {
         "key": "approved-content",
         "label": "Approved Content",
+        "parentKey": "approval-center",
         "icon": "PanelRightOpen",
         "route": "/approval-center/approved-content",
         "permission": "approval-center.approved-content.view",
@@ -2771,6 +2898,7 @@ export const MODULE_REGISTRY = [
       {
         "key": "rejected-content",
         "label": "Rejected Content",
+        "parentKey": "approval-center",
         "icon": "PanelRightOpen",
         "route": "/approval-center/rejected-content",
         "permission": "approval-center.rejected-content.view",
@@ -2793,6 +2921,7 @@ export const MODULE_REGISTRY = [
       {
         "key": "approval-workflow",
         "label": "Approval Workflow",
+        "parentKey": "approval-center",
         "icon": "PanelRightOpen",
         "route": "/approval-center/approval-workflow",
         "permission": "approval-center.approval-workflow.view",
@@ -2815,6 +2944,7 @@ export const MODULE_REGISTRY = [
       {
         "key": "review-comments",
         "label": "Review Comments",
+        "parentKey": "approval-center",
         "icon": "PanelRightOpen",
         "route": "/approval-center/review-comments",
         "permission": "approval-center.review-comments.view",
@@ -2837,6 +2967,7 @@ export const MODULE_REGISTRY = [
       {
         "key": "version-history",
         "label": "Version History",
+        "parentKey": "approval-center",
         "icon": "PanelRightOpen",
         "route": "/approval-center/version-history",
         "permission": "approval-center.version-history.view",
@@ -2859,6 +2990,7 @@ export const MODULE_REGISTRY = [
       {
         "key": "approval-audit-trail",
         "label": "Approval Audit Trail",
+        "parentKey": "approval-center",
         "icon": "PanelRightOpen",
         "route": "/approval-center/approval-audit-trail",
         "permission": "approval-center.approval-audit-trail.view",
@@ -2883,6 +3015,7 @@ export const MODULE_REGISTRY = [
   {
     "key": "social-publishing",
     "label": "Social Publishing",
+    "parentKey": null,
     "icon": "Send",
     "route": "/social-publishing",
     "permission": "social-publishing.view",
@@ -2904,6 +3037,7 @@ export const MODULE_REGISTRY = [
       {
         "key": "connected-accounts",
         "label": "Connected Accounts",
+        "parentKey": "social-publishing",
         "icon": "PanelRightOpen",
         "route": "/social-publishing/connected-accounts",
         "permission": "social-publishing.connected-accounts.view",
@@ -2926,6 +3060,7 @@ export const MODULE_REGISTRY = [
       {
         "key": "linkedin",
         "label": "LinkedIn",
+        "parentKey": "social-publishing",
         "icon": "PanelRightOpen",
         "route": "/social-publishing/linkedin",
         "permission": "social-publishing.linkedin.view",
@@ -2948,6 +3083,7 @@ export const MODULE_REGISTRY = [
       {
         "key": "facebook",
         "label": "Facebook",
+        "parentKey": "social-publishing",
         "icon": "PanelRightOpen",
         "route": "/social-publishing/facebook",
         "permission": "social-publishing.facebook.view",
@@ -2970,6 +3106,7 @@ export const MODULE_REGISTRY = [
       {
         "key": "instagram",
         "label": "Instagram",
+        "parentKey": "social-publishing",
         "icon": "PanelRightOpen",
         "route": "/social-publishing/instagram",
         "permission": "social-publishing.instagram.view",
@@ -2992,6 +3129,7 @@ export const MODULE_REGISTRY = [
       {
         "key": "x-twitter",
         "label": "X / Twitter",
+        "parentKey": "social-publishing",
         "icon": "PanelRightOpen",
         "route": "/social-publishing/x-twitter",
         "permission": "social-publishing.x-twitter.view",
@@ -3014,6 +3152,7 @@ export const MODULE_REGISTRY = [
       {
         "key": "youtube",
         "label": "YouTube",
+        "parentKey": "social-publishing",
         "icon": "PanelRightOpen",
         "route": "/social-publishing/youtube",
         "permission": "social-publishing.youtube.view",
@@ -3036,6 +3175,7 @@ export const MODULE_REGISTRY = [
       {
         "key": "tiktok",
         "label": "TikTok",
+        "parentKey": "social-publishing",
         "icon": "PanelRightOpen",
         "route": "/social-publishing/tiktok",
         "permission": "social-publishing.tiktok.view",
@@ -3058,6 +3198,7 @@ export const MODULE_REGISTRY = [
       {
         "key": "threads",
         "label": "Threads",
+        "parentKey": "social-publishing",
         "icon": "PanelRightOpen",
         "route": "/social-publishing/threads",
         "permission": "social-publishing.threads.view",
@@ -3080,6 +3221,7 @@ export const MODULE_REGISTRY = [
       {
         "key": "blog-website",
         "label": "Blog / Website",
+        "parentKey": "social-publishing",
         "icon": "PanelRightOpen",
         "route": "/social-publishing/blog-website",
         "permission": "social-publishing.blog-website.view",
@@ -3102,6 +3244,7 @@ export const MODULE_REGISTRY = [
       {
         "key": "email-newsletter",
         "label": "Email Newsletter",
+        "parentKey": "social-publishing",
         "icon": "PanelRightOpen",
         "route": "/social-publishing/email-newsletter",
         "permission": "social-publishing.email-newsletter.view",
@@ -3124,6 +3267,7 @@ export const MODULE_REGISTRY = [
       {
         "key": "publishing-queue",
         "label": "Publishing Queue",
+        "parentKey": "social-publishing",
         "icon": "PanelRightOpen",
         "route": "/social-publishing/publishing-queue",
         "permission": "social-publishing.publishing-queue.view",
@@ -3146,6 +3290,7 @@ export const MODULE_REGISTRY = [
       {
         "key": "scheduled-posts",
         "label": "Scheduled Posts",
+        "parentKey": "social-publishing",
         "icon": "PanelRightOpen",
         "route": "/social-publishing/scheduled-posts",
         "permission": "social-publishing.scheduled-posts.view",
@@ -3168,6 +3313,7 @@ export const MODULE_REGISTRY = [
       {
         "key": "published-posts",
         "label": "Published Posts",
+        "parentKey": "social-publishing",
         "icon": "PanelRightOpen",
         "route": "/social-publishing/published-posts",
         "permission": "social-publishing.published-posts.view",
@@ -3190,6 +3336,7 @@ export const MODULE_REGISTRY = [
       {
         "key": "failed-posts",
         "label": "Failed Posts",
+        "parentKey": "social-publishing",
         "icon": "PanelRightOpen",
         "route": "/social-publishing/failed-posts",
         "permission": "social-publishing.failed-posts.view",
@@ -3212,6 +3359,7 @@ export const MODULE_REGISTRY = [
       {
         "key": "reconnect-accounts",
         "label": "Reconnect Accounts",
+        "parentKey": "social-publishing",
         "icon": "PanelRightOpen",
         "route": "/social-publishing/reconnect-accounts",
         "permission": "social-publishing.reconnect-accounts.view",
@@ -3234,6 +3382,7 @@ export const MODULE_REGISTRY = [
       {
         "key": "publishing-logs",
         "label": "Publishing Logs",
+        "parentKey": "social-publishing",
         "icon": "PanelRightOpen",
         "route": "/social-publishing/publishing-logs",
         "permission": "social-publishing.publishing-logs.view",
@@ -3258,6 +3407,7 @@ export const MODULE_REGISTRY = [
   {
     "key": "demo-platforms",
     "label": "Demo Platforms",
+    "parentKey": null,
     "icon": "MonitorSmartphone",
     "route": "/demo-platforms",
     "permission": "demo-platforms.view",
@@ -3279,6 +3429,7 @@ export const MODULE_REGISTRY = [
       {
         "key": "demo-linkedin",
         "label": "Demo LinkedIn",
+        "parentKey": "demo-platforms",
         "icon": "PanelRightOpen",
         "route": "/demo-platforms/demo-linkedin",
         "permission": "demo-platforms.demo-linkedin.view",
@@ -3301,6 +3452,7 @@ export const MODULE_REGISTRY = [
       {
         "key": "demo-facebook",
         "label": "Demo Facebook",
+        "parentKey": "demo-platforms",
         "icon": "PanelRightOpen",
         "route": "/demo-platforms/demo-facebook",
         "permission": "demo-platforms.demo-facebook.view",
@@ -3323,6 +3475,7 @@ export const MODULE_REGISTRY = [
       {
         "key": "demo-instagram",
         "label": "Demo Instagram",
+        "parentKey": "demo-platforms",
         "icon": "PanelRightOpen",
         "route": "/demo-platforms/demo-instagram",
         "permission": "demo-platforms.demo-instagram.view",
@@ -3345,6 +3498,7 @@ export const MODULE_REGISTRY = [
       {
         "key": "demo-x-twitter",
         "label": "Demo X / Twitter",
+        "parentKey": "demo-platforms",
         "icon": "PanelRightOpen",
         "route": "/demo-platforms/demo-x-twitter",
         "permission": "demo-platforms.demo-x-twitter.view",
@@ -3367,6 +3521,7 @@ export const MODULE_REGISTRY = [
       {
         "key": "demo-youtube",
         "label": "Demo YouTube",
+        "parentKey": "demo-platforms",
         "icon": "PanelRightOpen",
         "route": "/demo-platforms/demo-youtube",
         "permission": "demo-platforms.demo-youtube.view",
@@ -3389,6 +3544,7 @@ export const MODULE_REGISTRY = [
       {
         "key": "demo-blog",
         "label": "Demo Blog",
+        "parentKey": "demo-platforms",
         "icon": "PanelRightOpen",
         "route": "/demo-platforms/demo-blog",
         "permission": "demo-platforms.demo-blog.view",
@@ -3411,6 +3567,7 @@ export const MODULE_REGISTRY = [
       {
         "key": "feed-preview",
         "label": "Feed Preview",
+        "parentKey": "demo-platforms",
         "icon": "PanelRightOpen",
         "route": "/demo-platforms/feed-preview",
         "permission": "demo-platforms.feed-preview.view",
@@ -3433,6 +3590,7 @@ export const MODULE_REGISTRY = [
       {
         "key": "desktop-preview",
         "label": "Desktop Preview",
+        "parentKey": "demo-platforms",
         "icon": "PanelRightOpen",
         "route": "/demo-platforms/desktop-preview",
         "permission": "demo-platforms.desktop-preview.view",
@@ -3455,6 +3613,7 @@ export const MODULE_REGISTRY = [
       {
         "key": "mobile-preview",
         "label": "Mobile Preview",
+        "parentKey": "demo-platforms",
         "icon": "PanelRightOpen",
         "route": "/demo-platforms/mobile-preview",
         "permission": "demo-platforms.mobile-preview.view",
@@ -3477,6 +3636,7 @@ export const MODULE_REGISTRY = [
       {
         "key": "engagement-simulator",
         "label": "Engagement Simulator",
+        "parentKey": "demo-platforms",
         "icon": "PanelRightOpen",
         "route": "/demo-platforms/engagement-simulator",
         "permission": "demo-platforms.engagement-simulator.view",
@@ -3499,6 +3659,7 @@ export const MODULE_REGISTRY = [
       {
         "key": "comment-simulator",
         "label": "Comment Simulator",
+        "parentKey": "demo-platforms",
         "icon": "PanelRightOpen",
         "route": "/demo-platforms/comment-simulator",
         "permission": "demo-platforms.comment-simulator.view",
@@ -3521,6 +3682,7 @@ export const MODULE_REGISTRY = [
       {
         "key": "share-preview",
         "label": "Share Preview",
+        "parentKey": "demo-platforms",
         "icon": "PanelRightOpen",
         "route": "/demo-platforms/share-preview",
         "permission": "demo-platforms.share-preview.view",
@@ -3545,6 +3707,7 @@ export const MODULE_REGISTRY = [
   {
     "key": "autonomous-agents",
     "label": "Autonomous Agents",
+    "parentKey": null,
     "icon": "Bot",
     "route": "/autonomous-agents",
     "permission": "autonomous-agents.view",
@@ -3566,6 +3729,7 @@ export const MODULE_REGISTRY = [
       {
         "key": "agent-dashboard",
         "label": "Agent Dashboard",
+        "parentKey": "autonomous-agents",
         "icon": "PanelRightOpen",
         "route": "/autonomous-agents/agent-dashboard",
         "permission": "autonomous-agents.agent-dashboard.view",
@@ -3588,6 +3752,7 @@ export const MODULE_REGISTRY = [
       {
         "key": "executive-agent",
         "label": "Executive Agent",
+        "parentKey": "autonomous-agents",
         "icon": "PanelRightOpen",
         "route": "/autonomous-agents/executive-agent",
         "permission": "autonomous-agents.executive-agent.view",
@@ -3610,6 +3775,7 @@ export const MODULE_REGISTRY = [
       {
         "key": "content-agent",
         "label": "Content Agent",
+        "parentKey": "autonomous-agents",
         "icon": "PanelRightOpen",
         "route": "/autonomous-agents/content-agent",
         "permission": "autonomous-agents.content-agent.view",
@@ -3632,6 +3798,7 @@ export const MODULE_REGISTRY = [
       {
         "key": "research-agent",
         "label": "Research Agent",
+        "parentKey": "autonomous-agents",
         "icon": "PanelRightOpen",
         "route": "/autonomous-agents/research-agent",
         "permission": "autonomous-agents.research-agent.view",
@@ -3654,6 +3821,7 @@ export const MODULE_REGISTRY = [
       {
         "key": "brand-agent",
         "label": "Brand Agent",
+        "parentKey": "autonomous-agents",
         "icon": "PanelRightOpen",
         "route": "/autonomous-agents/brand-agent",
         "permission": "autonomous-agents.brand-agent.view",
@@ -3676,6 +3844,7 @@ export const MODULE_REGISTRY = [
       {
         "key": "social-media-agent",
         "label": "Social Media Agent",
+        "parentKey": "autonomous-agents",
         "icon": "PanelRightOpen",
         "route": "/autonomous-agents/social-media-agent",
         "permission": "autonomous-agents.social-media-agent.view",
@@ -3698,6 +3867,7 @@ export const MODULE_REGISTRY = [
       {
         "key": "editor-agent",
         "label": "Editor Agent",
+        "parentKey": "autonomous-agents",
         "icon": "PanelRightOpen",
         "route": "/autonomous-agents/editor-agent",
         "permission": "autonomous-agents.editor-agent.view",
@@ -3720,6 +3890,7 @@ export const MODULE_REGISTRY = [
       {
         "key": "compliance-agent",
         "label": "Compliance Agent",
+        "parentKey": "autonomous-agents",
         "icon": "PanelRightOpen",
         "route": "/autonomous-agents/compliance-agent",
         "permission": "autonomous-agents.compliance-agent.view",
@@ -3742,6 +3913,7 @@ export const MODULE_REGISTRY = [
       {
         "key": "scheduler-agent",
         "label": "Scheduler Agent",
+        "parentKey": "autonomous-agents",
         "icon": "PanelRightOpen",
         "route": "/autonomous-agents/scheduler-agent",
         "permission": "autonomous-agents.scheduler-agent.view",
@@ -3764,6 +3936,7 @@ export const MODULE_REGISTRY = [
       {
         "key": "analytics-agent",
         "label": "Analytics Agent",
+        "parentKey": "autonomous-agents",
         "icon": "PanelRightOpen",
         "route": "/autonomous-agents/analytics-agent",
         "permission": "autonomous-agents.analytics-agent.view",
@@ -3786,6 +3959,7 @@ export const MODULE_REGISTRY = [
       {
         "key": "engagement-agent",
         "label": "Engagement Agent",
+        "parentKey": "autonomous-agents",
         "icon": "PanelRightOpen",
         "route": "/autonomous-agents/engagement-agent",
         "permission": "autonomous-agents.engagement-agent.view",
@@ -3808,6 +3982,7 @@ export const MODULE_REGISTRY = [
       {
         "key": "sales-agent",
         "label": "Sales Agent",
+        "parentKey": "autonomous-agents",
         "icon": "PanelRightOpen",
         "route": "/autonomous-agents/sales-agent",
         "permission": "autonomous-agents.sales-agent.view",
@@ -3830,6 +4005,7 @@ export const MODULE_REGISTRY = [
       {
         "key": "workflow-agent",
         "label": "Workflow Agent",
+        "parentKey": "autonomous-agents",
         "icon": "PanelRightOpen",
         "route": "/autonomous-agents/workflow-agent",
         "permission": "autonomous-agents.workflow-agent.view",
@@ -3852,6 +4028,7 @@ export const MODULE_REGISTRY = [
       {
         "key": "agent-marketplace",
         "label": "Agent Marketplace",
+        "parentKey": "autonomous-agents",
         "icon": "PanelRightOpen",
         "route": "/autonomous-agents/agent-marketplace",
         "permission": "autonomous-agents.agent-marketplace.view",
@@ -3874,6 +4051,7 @@ export const MODULE_REGISTRY = [
       {
         "key": "agent-memory",
         "label": "Agent Memory",
+        "parentKey": "autonomous-agents",
         "icon": "PanelRightOpen",
         "route": "/autonomous-agents/agent-memory",
         "permission": "autonomous-agents.agent-memory.view",
@@ -3896,6 +4074,7 @@ export const MODULE_REGISTRY = [
       {
         "key": "agent-permissions",
         "label": "Agent Permissions",
+        "parentKey": "autonomous-agents",
         "icon": "PanelRightOpen",
         "route": "/autonomous-agents/agent-permissions",
         "permission": "autonomous-agents.agent-permissions.view",
@@ -3918,6 +4097,7 @@ export const MODULE_REGISTRY = [
       {
         "key": "agent-activity-logs",
         "label": "Agent Activity Logs",
+        "parentKey": "autonomous-agents",
         "icon": "PanelRightOpen",
         "route": "/autonomous-agents/agent-activity-logs",
         "permission": "autonomous-agents.agent-activity-logs.view",
@@ -3940,6 +4120,7 @@ export const MODULE_REGISTRY = [
       {
         "key": "agent-performance",
         "label": "Agent Performance",
+        "parentKey": "autonomous-agents",
         "icon": "PanelRightOpen",
         "route": "/autonomous-agents/agent-performance",
         "permission": "autonomous-agents.agent-performance.view",
@@ -3964,6 +4145,7 @@ export const MODULE_REGISTRY = [
   {
     "key": "autonomous-control",
     "label": "Autonomous Control",
+    "parentKey": null,
     "icon": "SlidersHorizontal",
     "route": "/autonomous-control",
     "permission": "autonomous-control.view",
@@ -3985,6 +4167,7 @@ export const MODULE_REGISTRY = [
       {
         "key": "autonomy-dashboard",
         "label": "Autonomy Dashboard",
+        "parentKey": "autonomous-control",
         "icon": "PanelRightOpen",
         "route": "/autonomous-control/autonomy-dashboard",
         "permission": "autonomous-control.autonomy-dashboard.view",
@@ -4007,6 +4190,7 @@ export const MODULE_REGISTRY = [
       {
         "key": "autonomy-level",
         "label": "Autonomy Level",
+        "parentKey": "autonomous-control",
         "icon": "PanelRightOpen",
         "route": "/autonomous-control/autonomy-level",
         "permission": "autonomous-control.autonomy-level.view",
@@ -4029,6 +4213,7 @@ export const MODULE_REGISTRY = [
       {
         "key": "decision-rules",
         "label": "Decision Rules",
+        "parentKey": "autonomous-control",
         "icon": "PanelRightOpen",
         "route": "/autonomous-control/decision-rules",
         "permission": "autonomous-control.decision-rules.view",
@@ -4051,6 +4236,7 @@ export const MODULE_REGISTRY = [
       {
         "key": "risk-policies",
         "label": "Risk Policies",
+        "parentKey": "autonomous-control",
         "icon": "PanelRightOpen",
         "route": "/autonomous-control/risk-policies",
         "permission": "autonomous-control.risk-policies.view",
@@ -4073,6 +4259,7 @@ export const MODULE_REGISTRY = [
       {
         "key": "auto-approval-rules",
         "label": "Auto-Approval Rules",
+        "parentKey": "autonomous-control",
         "icon": "PanelRightOpen",
         "route": "/autonomous-control/auto-approval-rules",
         "permission": "autonomous-control.auto-approval-rules.view",
@@ -4095,6 +4282,7 @@ export const MODULE_REGISTRY = [
       {
         "key": "publishing-guardrails",
         "label": "Publishing Guardrails",
+        "parentKey": "autonomous-control",
         "icon": "PanelRightOpen",
         "route": "/autonomous-control/publishing-guardrails",
         "permission": "autonomous-control.publishing-guardrails.view",
@@ -4117,6 +4305,7 @@ export const MODULE_REGISTRY = [
       {
         "key": "exception-queue",
         "label": "Exception Queue",
+        "parentKey": "autonomous-control",
         "icon": "PanelRightOpen",
         "route": "/autonomous-control/exception-queue",
         "permission": "autonomous-control.exception-queue.view",
@@ -4139,6 +4328,7 @@ export const MODULE_REGISTRY = [
       {
         "key": "failsafe-controls",
         "label": "Failsafe Controls",
+        "parentKey": "autonomous-control",
         "icon": "PanelRightOpen",
         "route": "/autonomous-control/failsafe-controls",
         "permission": "autonomous-control.failsafe-controls.view",
@@ -4161,6 +4351,7 @@ export const MODULE_REGISTRY = [
       {
         "key": "human-override",
         "label": "Human Override",
+        "parentKey": "autonomous-control",
         "icon": "PanelRightOpen",
         "route": "/autonomous-control/human-override",
         "permission": "autonomous-control.human-override.view",
@@ -4183,6 +4374,7 @@ export const MODULE_REGISTRY = [
       {
         "key": "execution-logs",
         "label": "Execution Logs",
+        "parentKey": "autonomous-control",
         "icon": "PanelRightOpen",
         "route": "/autonomous-control/execution-logs",
         "permission": "autonomous-control.execution-logs.view",
@@ -4205,6 +4397,7 @@ export const MODULE_REGISTRY = [
       {
         "key": "learning-settings",
         "label": "Learning Settings",
+        "parentKey": "autonomous-control",
         "icon": "PanelRightOpen",
         "route": "/autonomous-control/learning-settings",
         "permission": "autonomous-control.learning-settings.view",
@@ -4229,6 +4422,7 @@ export const MODULE_REGISTRY = [
   {
     "key": "knowledge-base",
     "label": "Knowledge Base",
+    "parentKey": null,
     "icon": "BookOpen",
     "route": "/knowledge-base",
     "permission": "knowledge-base.view",
@@ -4250,6 +4444,7 @@ export const MODULE_REGISTRY = [
       {
         "key": "business-profile",
         "label": "Business Profile",
+        "parentKey": "knowledge-base",
         "icon": "PanelRightOpen",
         "route": "/knowledge-base/business-profile",
         "permission": "knowledge-base.business-profile.view",
@@ -4272,6 +4467,7 @@ export const MODULE_REGISTRY = [
       {
         "key": "documents",
         "label": "Documents",
+        "parentKey": "knowledge-base",
         "icon": "PanelRightOpen",
         "route": "/knowledge-base/documents",
         "permission": "knowledge-base.documents.view",
@@ -4294,6 +4490,7 @@ export const MODULE_REGISTRY = [
       {
         "key": "uploaded-files",
         "label": "Uploaded Files",
+        "parentKey": "knowledge-base",
         "icon": "PanelRightOpen",
         "route": "/knowledge-base/uploaded-files",
         "permission": "knowledge-base.uploaded-files.view",
@@ -4316,6 +4513,7 @@ export const MODULE_REGISTRY = [
       {
         "key": "prompt-library",
         "label": "Prompt Library",
+        "parentKey": "knowledge-base",
         "icon": "PanelRightOpen",
         "route": "/knowledge-base/prompt-library",
         "permission": "knowledge-base.prompt-library.view",
@@ -4338,6 +4536,7 @@ export const MODULE_REGISTRY = [
       {
         "key": "memory-center",
         "label": "Memory Center",
+        "parentKey": "knowledge-base",
         "icon": "PanelRightOpen",
         "route": "/knowledge-base/memory-center",
         "permission": "knowledge-base.memory-center.view",
@@ -4360,6 +4559,7 @@ export const MODULE_REGISTRY = [
       {
         "key": "content-history",
         "label": "Content History",
+        "parentKey": "knowledge-base",
         "icon": "PanelRightOpen",
         "route": "/knowledge-base/content-history",
         "permission": "knowledge-base.content-history.view",
@@ -4382,6 +4582,7 @@ export const MODULE_REGISTRY = [
       {
         "key": "case-studies",
         "label": "Case Studies",
+        "parentKey": "knowledge-base",
         "icon": "PanelRightOpen",
         "route": "/knowledge-base/case-studies",
         "permission": "knowledge-base.case-studies.view",
@@ -4404,6 +4605,7 @@ export const MODULE_REGISTRY = [
       {
         "key": "products-and-services",
         "label": "Products & Services",
+        "parentKey": "knowledge-base",
         "icon": "PanelRightOpen",
         "route": "/knowledge-base/products-and-services",
         "permission": "knowledge-base.products-and-services.view",
@@ -4426,6 +4628,7 @@ export const MODULE_REGISTRY = [
       {
         "key": "approved-phrases",
         "label": "Approved Phrases",
+        "parentKey": "knowledge-base",
         "icon": "PanelRightOpen",
         "route": "/knowledge-base/approved-phrases",
         "permission": "knowledge-base.approved-phrases.view",
@@ -4448,6 +4651,7 @@ export const MODULE_REGISTRY = [
       {
         "key": "restricted-phrases",
         "label": "Restricted Phrases",
+        "parentKey": "knowledge-base",
         "icon": "PanelRightOpen",
         "route": "/knowledge-base/restricted-phrases",
         "permission": "knowledge-base.restricted-phrases.view",
@@ -4470,6 +4674,7 @@ export const MODULE_REGISTRY = [
       {
         "key": "saved-insights",
         "label": "Saved Insights",
+        "parentKey": "knowledge-base",
         "icon": "PanelRightOpen",
         "route": "/knowledge-base/saved-insights",
         "permission": "knowledge-base.saved-insights.view",
@@ -4492,6 +4697,7 @@ export const MODULE_REGISTRY = [
       {
         "key": "knowledge-search",
         "label": "Knowledge Search",
+        "parentKey": "knowledge-base",
         "icon": "PanelRightOpen",
         "route": "/knowledge-base/knowledge-search",
         "permission": "knowledge-base.knowledge-search.view",
@@ -4514,6 +4720,7 @@ export const MODULE_REGISTRY = [
       {
         "key": "knowledge-tags",
         "label": "Knowledge Tags",
+        "parentKey": "knowledge-base",
         "icon": "PanelRightOpen",
         "route": "/knowledge-base/knowledge-tags",
         "permission": "knowledge-base.knowledge-tags.view",
@@ -4536,6 +4743,7 @@ export const MODULE_REGISTRY = [
       {
         "key": "knowledge-settings",
         "label": "Knowledge Settings",
+        "parentKey": "knowledge-base",
         "icon": "PanelRightOpen",
         "route": "/knowledge-base/knowledge-settings",
         "permission": "knowledge-base.knowledge-settings.view",
@@ -4560,6 +4768,7 @@ export const MODULE_REGISTRY = [
   {
     "key": "workflow-engine",
     "label": "Workflow Engine",
+    "parentKey": null,
     "icon": "Workflow",
     "route": "/workflow-engine",
     "permission": "workflow-engine.view",
@@ -4581,6 +4790,7 @@ export const MODULE_REGISTRY = [
       {
         "key": "workflow-dashboard",
         "label": "Workflow Dashboard",
+        "parentKey": "workflow-engine",
         "icon": "PanelRightOpen",
         "route": "/workflow-engine/workflow-dashboard",
         "permission": "workflow-engine.workflow-dashboard.view",
@@ -4603,6 +4813,7 @@ export const MODULE_REGISTRY = [
       {
         "key": "workflow-builder",
         "label": "Workflow Builder",
+        "parentKey": "workflow-engine",
         "icon": "PanelRightOpen",
         "route": "/workflow-engine/workflow-builder",
         "permission": "workflow-engine.workflow-builder.view",
@@ -4625,6 +4836,7 @@ export const MODULE_REGISTRY = [
       {
         "key": "approval-workflows",
         "label": "Approval Workflows",
+        "parentKey": "workflow-engine",
         "icon": "PanelRightOpen",
         "route": "/workflow-engine/approval-workflows",
         "permission": "workflow-engine.approval-workflows.view",
@@ -4647,6 +4859,7 @@ export const MODULE_REGISTRY = [
       {
         "key": "automation-rules",
         "label": "Automation Rules",
+        "parentKey": "workflow-engine",
         "icon": "PanelRightOpen",
         "route": "/workflow-engine/automation-rules",
         "permission": "workflow-engine.automation-rules.view",
@@ -4669,6 +4882,7 @@ export const MODULE_REGISTRY = [
       {
         "key": "review-queue",
         "label": "Review Queue",
+        "parentKey": "workflow-engine",
         "icon": "PanelRightOpen",
         "route": "/workflow-engine/review-queue",
         "permission": "workflow-engine.review-queue.view",
@@ -4691,6 +4905,7 @@ export const MODULE_REGISTRY = [
       {
         "key": "task-assignment",
         "label": "Task Assignment",
+        "parentKey": "workflow-engine",
         "icon": "PanelRightOpen",
         "route": "/workflow-engine/task-assignment",
         "permission": "workflow-engine.task-assignment.view",
@@ -4713,6 +4928,7 @@ export const MODULE_REGISTRY = [
       {
         "key": "scheduled-tasks",
         "label": "Scheduled Tasks",
+        "parentKey": "workflow-engine",
         "icon": "PanelRightOpen",
         "route": "/workflow-engine/scheduled-tasks",
         "permission": "workflow-engine.scheduled-tasks.view",
@@ -4735,6 +4951,7 @@ export const MODULE_REGISTRY = [
       {
         "key": "notifications",
         "label": "Notifications",
+        "parentKey": "workflow-engine",
         "icon": "PanelRightOpen",
         "route": "/workflow-engine/notifications",
         "permission": "workflow-engine.notifications.view",
@@ -4757,6 +4974,7 @@ export const MODULE_REGISTRY = [
       {
         "key": "escalations",
         "label": "Escalations",
+        "parentKey": "workflow-engine",
         "icon": "PanelRightOpen",
         "route": "/workflow-engine/escalations",
         "permission": "workflow-engine.escalations.view",
@@ -4779,6 +4997,7 @@ export const MODULE_REGISTRY = [
       {
         "key": "execution-history",
         "label": "Execution History",
+        "parentKey": "workflow-engine",
         "icon": "PanelRightOpen",
         "route": "/workflow-engine/execution-history",
         "permission": "workflow-engine.execution-history.view",
@@ -4801,6 +5020,7 @@ export const MODULE_REGISTRY = [
       {
         "key": "version-control",
         "label": "Version Control",
+        "parentKey": "workflow-engine",
         "icon": "PanelRightOpen",
         "route": "/workflow-engine/version-control",
         "permission": "workflow-engine.version-control.view",
@@ -4823,6 +5043,7 @@ export const MODULE_REGISTRY = [
       {
         "key": "audit-trail",
         "label": "Audit Trail",
+        "parentKey": "workflow-engine",
         "icon": "PanelRightOpen",
         "route": "/workflow-engine/audit-trail",
         "permission": "workflow-engine.audit-trail.view",
@@ -4845,6 +5066,7 @@ export const MODULE_REGISTRY = [
       {
         "key": "workflow-templates",
         "label": "Workflow Templates",
+        "parentKey": "workflow-engine",
         "icon": "PanelRightOpen",
         "route": "/workflow-engine/workflow-templates",
         "permission": "workflow-engine.workflow-templates.view",
@@ -4869,6 +5091,7 @@ export const MODULE_REGISTRY = [
   {
     "key": "analytics-center",
     "label": "Analytics Center",
+    "parentKey": null,
     "icon": "ChartNoAxesCombined",
     "route": "/analytics-center",
     "permission": "analytics-center.view",
@@ -4890,6 +5113,7 @@ export const MODULE_REGISTRY = [
       {
         "key": "analytics-dashboard",
         "label": "Analytics Dashboard",
+        "parentKey": "analytics-center",
         "icon": "PanelRightOpen",
         "route": "/analytics-center/analytics-dashboard",
         "permission": "analytics-center.analytics-dashboard.view",
@@ -4912,6 +5136,7 @@ export const MODULE_REGISTRY = [
       {
         "key": "content-analytics",
         "label": "Content Analytics",
+        "parentKey": "analytics-center",
         "icon": "PanelRightOpen",
         "route": "/analytics-center/content-analytics",
         "permission": "analytics-center.content-analytics.view",
@@ -4934,6 +5159,7 @@ export const MODULE_REGISTRY = [
       {
         "key": "social-analytics",
         "label": "Social Analytics",
+        "parentKey": "analytics-center",
         "icon": "PanelRightOpen",
         "route": "/analytics-center/social-analytics",
         "permission": "analytics-center.social-analytics.view",
@@ -4956,6 +5182,7 @@ export const MODULE_REGISTRY = [
       {
         "key": "platform-analytics",
         "label": "Platform Analytics",
+        "parentKey": "analytics-center",
         "icon": "PanelRightOpen",
         "route": "/analytics-center/platform-analytics",
         "permission": "analytics-center.platform-analytics.view",
@@ -4978,6 +5205,7 @@ export const MODULE_REGISTRY = [
       {
         "key": "audience-growth",
         "label": "Audience Growth",
+        "parentKey": "analytics-center",
         "icon": "PanelRightOpen",
         "route": "/analytics-center/audience-growth",
         "permission": "analytics-center.audience-growth.view",
@@ -5000,6 +5228,7 @@ export const MODULE_REGISTRY = [
       {
         "key": "engagement-reports",
         "label": "Engagement Reports",
+        "parentKey": "analytics-center",
         "icon": "PanelRightOpen",
         "route": "/analytics-center/engagement-reports",
         "permission": "analytics-center.engagement-reports.view",
@@ -5022,6 +5251,7 @@ export const MODULE_REGISTRY = [
       {
         "key": "campaign-performance",
         "label": "Campaign Performance",
+        "parentKey": "analytics-center",
         "icon": "PanelRightOpen",
         "route": "/analytics-center/campaign-performance",
         "permission": "analytics-center.campaign-performance.view",
@@ -5044,6 +5274,7 @@ export const MODULE_REGISTRY = [
       {
         "key": "lead-analytics",
         "label": "Lead Analytics",
+        "parentKey": "analytics-center",
         "icon": "PanelRightOpen",
         "route": "/analytics-center/lead-analytics",
         "permission": "analytics-center.lead-analytics.view",
@@ -5066,6 +5297,7 @@ export const MODULE_REGISTRY = [
       {
         "key": "best-performing-topics",
         "label": "Best Performing Topics",
+        "parentKey": "analytics-center",
         "icon": "PanelRightOpen",
         "route": "/analytics-center/best-performing-topics",
         "permission": "analytics-center.best-performing-topics.view",
@@ -5088,6 +5320,7 @@ export const MODULE_REGISTRY = [
       {
         "key": "best-performing-formats",
         "label": "Best Performing Formats",
+        "parentKey": "analytics-center",
         "icon": "PanelRightOpen",
         "route": "/analytics-center/best-performing-formats",
         "permission": "analytics-center.best-performing-formats.view",
@@ -5110,6 +5343,7 @@ export const MODULE_REGISTRY = [
       {
         "key": "best-posting-times",
         "label": "Best Posting Times",
+        "parentKey": "analytics-center",
         "icon": "PanelRightOpen",
         "route": "/analytics-center/best-posting-times",
         "permission": "analytics-center.best-posting-times.view",
@@ -5132,6 +5366,7 @@ export const MODULE_REGISTRY = [
       {
         "key": "ai-recommendations",
         "label": "AI Recommendations",
+        "parentKey": "analytics-center",
         "icon": "PanelRightOpen",
         "route": "/analytics-center/ai-recommendations",
         "permission": "analytics-center.ai-recommendations.view",
@@ -5154,6 +5389,7 @@ export const MODULE_REGISTRY = [
       {
         "key": "reports",
         "label": "Reports",
+        "parentKey": "analytics-center",
         "icon": "PanelRightOpen",
         "route": "/analytics-center/reports",
         "permission": "analytics-center.reports.view",
@@ -5176,6 +5412,7 @@ export const MODULE_REGISTRY = [
       {
         "key": "export-center",
         "label": "Export Center",
+        "parentKey": "analytics-center",
         "icon": "PanelRightOpen",
         "route": "/analytics-center/export-center",
         "permission": "analytics-center.export-center.view",
@@ -5200,6 +5437,7 @@ export const MODULE_REGISTRY = [
   {
     "key": "integration-hub",
     "label": "Integration Hub",
+    "parentKey": null,
     "icon": "Cable",
     "route": "/integration-hub",
     "permission": "integration-hub.view",
@@ -5221,6 +5459,7 @@ export const MODULE_REGISTRY = [
       {
         "key": "integration-dashboard",
         "label": "Integration Dashboard",
+        "parentKey": "integration-hub",
         "icon": "PanelRightOpen",
         "route": "/integration-hub/integration-dashboard",
         "permission": "integration-hub.integration-dashboard.view",
@@ -5243,6 +5482,7 @@ export const MODULE_REGISTRY = [
       {
         "key": "social-integrations",
         "label": "Social Integrations",
+        "parentKey": "integration-hub",
         "icon": "PanelRightOpen",
         "route": "/integration-hub/social-integrations",
         "permission": "integration-hub.social-integrations.view",
@@ -5265,6 +5505,7 @@ export const MODULE_REGISTRY = [
       {
         "key": "linkedin",
         "label": "LinkedIn",
+        "parentKey": "integration-hub",
         "icon": "PanelRightOpen",
         "route": "/integration-hub/linkedin",
         "permission": "integration-hub.linkedin.view",
@@ -5287,6 +5528,7 @@ export const MODULE_REGISTRY = [
       {
         "key": "facebook",
         "label": "Facebook",
+        "parentKey": "integration-hub",
         "icon": "PanelRightOpen",
         "route": "/integration-hub/facebook",
         "permission": "integration-hub.facebook.view",
@@ -5309,6 +5551,7 @@ export const MODULE_REGISTRY = [
       {
         "key": "instagram",
         "label": "Instagram",
+        "parentKey": "integration-hub",
         "icon": "PanelRightOpen",
         "route": "/integration-hub/instagram",
         "permission": "integration-hub.instagram.view",
@@ -5331,6 +5574,7 @@ export const MODULE_REGISTRY = [
       {
         "key": "x-twitter",
         "label": "X / Twitter",
+        "parentKey": "integration-hub",
         "icon": "PanelRightOpen",
         "route": "/integration-hub/x-twitter",
         "permission": "integration-hub.x-twitter.view",
@@ -5353,6 +5597,7 @@ export const MODULE_REGISTRY = [
       {
         "key": "youtube",
         "label": "YouTube",
+        "parentKey": "integration-hub",
         "icon": "PanelRightOpen",
         "route": "/integration-hub/youtube",
         "permission": "integration-hub.youtube.view",
@@ -5375,6 +5620,7 @@ export const MODULE_REGISTRY = [
       {
         "key": "tiktok",
         "label": "TikTok",
+        "parentKey": "integration-hub",
         "icon": "PanelRightOpen",
         "route": "/integration-hub/tiktok",
         "permission": "integration-hub.tiktok.view",
@@ -5397,6 +5643,7 @@ export const MODULE_REGISTRY = [
       {
         "key": "threads",
         "label": "Threads",
+        "parentKey": "integration-hub",
         "icon": "PanelRightOpen",
         "route": "/integration-hub/threads",
         "permission": "integration-hub.threads.view",
@@ -5419,6 +5666,7 @@ export const MODULE_REGISTRY = [
       {
         "key": "email-integrations",
         "label": "Email Integrations",
+        "parentKey": "integration-hub",
         "icon": "PanelRightOpen",
         "route": "/integration-hub/email-integrations",
         "permission": "integration-hub.email-integrations.view",
@@ -5441,6 +5689,7 @@ export const MODULE_REGISTRY = [
       {
         "key": "gmail",
         "label": "Gmail",
+        "parentKey": "integration-hub",
         "icon": "PanelRightOpen",
         "route": "/integration-hub/gmail",
         "permission": "integration-hub.gmail.view",
@@ -5463,6 +5712,7 @@ export const MODULE_REGISTRY = [
       {
         "key": "outlook",
         "label": "Outlook",
+        "parentKey": "integration-hub",
         "icon": "PanelRightOpen",
         "route": "/integration-hub/outlook",
         "permission": "integration-hub.outlook.view",
@@ -5485,6 +5735,7 @@ export const MODULE_REGISTRY = [
       {
         "key": "calendar-integrations",
         "label": "Calendar Integrations",
+        "parentKey": "integration-hub",
         "icon": "PanelRightOpen",
         "route": "/integration-hub/calendar-integrations",
         "permission": "integration-hub.calendar-integrations.view",
@@ -5507,6 +5758,7 @@ export const MODULE_REGISTRY = [
       {
         "key": "google-calendar",
         "label": "Google Calendar",
+        "parentKey": "integration-hub",
         "icon": "PanelRightOpen",
         "route": "/integration-hub/google-calendar",
         "permission": "integration-hub.google-calendar.view",
@@ -5529,6 +5781,7 @@ export const MODULE_REGISTRY = [
       {
         "key": "microsoft-calendar",
         "label": "Microsoft Calendar",
+        "parentKey": "integration-hub",
         "icon": "PanelRightOpen",
         "route": "/integration-hub/microsoft-calendar",
         "permission": "integration-hub.microsoft-calendar.view",
@@ -5551,6 +5804,7 @@ export const MODULE_REGISTRY = [
       {
         "key": "cloud-storage",
         "label": "Cloud Storage",
+        "parentKey": "integration-hub",
         "icon": "PanelRightOpen",
         "route": "/integration-hub/cloud-storage",
         "permission": "integration-hub.cloud-storage.view",
@@ -5573,6 +5827,7 @@ export const MODULE_REGISTRY = [
       {
         "key": "google-drive",
         "label": "Google Drive",
+        "parentKey": "integration-hub",
         "icon": "PanelRightOpen",
         "route": "/integration-hub/google-drive",
         "permission": "integration-hub.google-drive.view",
@@ -5595,6 +5850,7 @@ export const MODULE_REGISTRY = [
       {
         "key": "onedrive",
         "label": "OneDrive",
+        "parentKey": "integration-hub",
         "icon": "PanelRightOpen",
         "route": "/integration-hub/onedrive",
         "permission": "integration-hub.onedrive.view",
@@ -5617,6 +5873,7 @@ export const MODULE_REGISTRY = [
       {
         "key": "dropbox",
         "label": "Dropbox",
+        "parentKey": "integration-hub",
         "icon": "PanelRightOpen",
         "route": "/integration-hub/dropbox",
         "permission": "integration-hub.dropbox.view",
@@ -5639,6 +5896,7 @@ export const MODULE_REGISTRY = [
       {
         "key": "communication",
         "label": "Communication",
+        "parentKey": "integration-hub",
         "icon": "PanelRightOpen",
         "route": "/integration-hub/communication",
         "permission": "integration-hub.communication.view",
@@ -5661,6 +5919,7 @@ export const MODULE_REGISTRY = [
       {
         "key": "slack",
         "label": "Slack",
+        "parentKey": "integration-hub",
         "icon": "PanelRightOpen",
         "route": "/integration-hub/slack",
         "permission": "integration-hub.slack.view",
@@ -5683,6 +5942,7 @@ export const MODULE_REGISTRY = [
       {
         "key": "microsoft-teams",
         "label": "Microsoft Teams",
+        "parentKey": "integration-hub",
         "icon": "PanelRightOpen",
         "route": "/integration-hub/microsoft-teams",
         "permission": "integration-hub.microsoft-teams.view",
@@ -5705,6 +5965,7 @@ export const MODULE_REGISTRY = [
       {
         "key": "whatsapp-business",
         "label": "WhatsApp Business",
+        "parentKey": "integration-hub",
         "icon": "PanelRightOpen",
         "route": "/integration-hub/whatsapp-business",
         "permission": "integration-hub.whatsapp-business.view",
@@ -5727,6 +5988,7 @@ export const MODULE_REGISTRY = [
       {
         "key": "business-systems",
         "label": "Business Systems",
+        "parentKey": "integration-hub",
         "icon": "PanelRightOpen",
         "route": "/integration-hub/business-systems",
         "permission": "integration-hub.business-systems.view",
@@ -5749,6 +6011,7 @@ export const MODULE_REGISTRY = [
       {
         "key": "crm",
         "label": "CRM",
+        "parentKey": "integration-hub",
         "icon": "PanelRightOpen",
         "route": "/integration-hub/crm",
         "permission": "integration-hub.crm.view",
@@ -5771,6 +6034,7 @@ export const MODULE_REGISTRY = [
       {
         "key": "erp",
         "label": "ERP",
+        "parentKey": "integration-hub",
         "icon": "PanelRightOpen",
         "route": "/integration-hub/erp",
         "permission": "integration-hub.erp.view",
@@ -5793,6 +6057,7 @@ export const MODULE_REGISTRY = [
       {
         "key": "cms-website",
         "label": "CMS / Website",
+        "parentKey": "integration-hub",
         "icon": "PanelRightOpen",
         "route": "/integration-hub/cms-website",
         "permission": "integration-hub.cms-website.view",
@@ -5815,6 +6080,7 @@ export const MODULE_REGISTRY = [
       {
         "key": "payment-integrations",
         "label": "Payment Integrations",
+        "parentKey": "integration-hub",
         "icon": "PanelRightOpen",
         "route": "/integration-hub/payment-integrations",
         "permission": "integration-hub.payment-integrations.view",
@@ -5837,6 +6103,7 @@ export const MODULE_REGISTRY = [
       {
         "key": "paystack",
         "label": "Paystack",
+        "parentKey": "integration-hub",
         "icon": "PanelRightOpen",
         "route": "/integration-hub/paystack",
         "permission": "integration-hub.paystack.view",
@@ -5859,6 +6126,7 @@ export const MODULE_REGISTRY = [
       {
         "key": "flutterwave",
         "label": "Flutterwave",
+        "parentKey": "integration-hub",
         "icon": "PanelRightOpen",
         "route": "/integration-hub/flutterwave",
         "permission": "integration-hub.flutterwave.view",
@@ -5881,6 +6149,7 @@ export const MODULE_REGISTRY = [
       {
         "key": "stripe",
         "label": "Stripe",
+        "parentKey": "integration-hub",
         "icon": "PanelRightOpen",
         "route": "/integration-hub/stripe",
         "permission": "integration-hub.stripe.view",
@@ -5903,6 +6172,7 @@ export const MODULE_REGISTRY = [
       {
         "key": "sms-gateway",
         "label": "SMS Gateway",
+        "parentKey": "integration-hub",
         "icon": "PanelRightOpen",
         "route": "/integration-hub/sms-gateway",
         "permission": "integration-hub.sms-gateway.view",
@@ -5925,6 +6195,7 @@ export const MODULE_REGISTRY = [
       {
         "key": "api-keys",
         "label": "API Keys",
+        "parentKey": "integration-hub",
         "icon": "PanelRightOpen",
         "route": "/integration-hub/api-keys",
         "permission": "integration-hub.api-keys.view",
@@ -5947,6 +6218,7 @@ export const MODULE_REGISTRY = [
       {
         "key": "webhooks",
         "label": "Webhooks",
+        "parentKey": "integration-hub",
         "icon": "PanelRightOpen",
         "route": "/integration-hub/webhooks",
         "permission": "integration-hub.webhooks.view",
@@ -5969,6 +6241,7 @@ export const MODULE_REGISTRY = [
       {
         "key": "oauth-connections",
         "label": "OAuth Connections",
+        "parentKey": "integration-hub",
         "icon": "PanelRightOpen",
         "route": "/integration-hub/oauth-connections",
         "permission": "integration-hub.oauth-connections.view",
@@ -5991,6 +6264,7 @@ export const MODULE_REGISTRY = [
       {
         "key": "integration-logs",
         "label": "Integration Logs",
+        "parentKey": "integration-hub",
         "icon": "PanelRightOpen",
         "route": "/integration-hub/integration-logs",
         "permission": "integration-hub.integration-logs.view",
@@ -6015,6 +6289,7 @@ export const MODULE_REGISTRY = [
   {
     "key": "notification-center",
     "label": "Notification Center",
+    "parentKey": null,
     "icon": "Bell",
     "route": "/notification-center",
     "permission": "notification-center.view",
@@ -6036,6 +6311,7 @@ export const MODULE_REGISTRY = [
       {
         "key": "all-notifications",
         "label": "All Notifications",
+        "parentKey": "notification-center",
         "icon": "PanelRightOpen",
         "route": "/notification-center/all-notifications",
         "permission": "notification-center.all-notifications.view",
@@ -6058,6 +6334,7 @@ export const MODULE_REGISTRY = [
       {
         "key": "task-notifications",
         "label": "Task Notifications",
+        "parentKey": "notification-center",
         "icon": "PanelRightOpen",
         "route": "/notification-center/task-notifications",
         "permission": "notification-center.task-notifications.view",
@@ -6080,6 +6357,7 @@ export const MODULE_REGISTRY = [
       {
         "key": "approval-notifications",
         "label": "Approval Notifications",
+        "parentKey": "notification-center",
         "icon": "PanelRightOpen",
         "route": "/notification-center/approval-notifications",
         "permission": "notification-center.approval-notifications.view",
@@ -6102,6 +6380,7 @@ export const MODULE_REGISTRY = [
       {
         "key": "publishing-alerts",
         "label": "Publishing Alerts",
+        "parentKey": "notification-center",
         "icon": "PanelRightOpen",
         "route": "/notification-center/publishing-alerts",
         "permission": "notification-center.publishing-alerts.view",
@@ -6124,6 +6403,7 @@ export const MODULE_REGISTRY = [
       {
         "key": "integration-alerts",
         "label": "Integration Alerts",
+        "parentKey": "notification-center",
         "icon": "PanelRightOpen",
         "route": "/notification-center/integration-alerts",
         "permission": "notification-center.integration-alerts.view",
@@ -6146,6 +6426,7 @@ export const MODULE_REGISTRY = [
       {
         "key": "agent-alerts",
         "label": "Agent Alerts",
+        "parentKey": "notification-center",
         "icon": "PanelRightOpen",
         "route": "/notification-center/agent-alerts",
         "permission": "notification-center.agent-alerts.view",
@@ -6168,6 +6449,7 @@ export const MODULE_REGISTRY = [
       {
         "key": "system-alerts",
         "label": "System Alerts",
+        "parentKey": "notification-center",
         "icon": "PanelRightOpen",
         "route": "/notification-center/system-alerts",
         "permission": "notification-center.system-alerts.view",
@@ -6190,6 +6472,7 @@ export const MODULE_REGISTRY = [
       {
         "key": "notification-settings",
         "label": "Notification Settings",
+        "parentKey": "notification-center",
         "icon": "PanelRightOpen",
         "route": "/notification-center/notification-settings",
         "permission": "notification-center.notification-settings.view",
@@ -6214,6 +6497,7 @@ export const MODULE_REGISTRY = [
   {
     "key": "user-administration",
     "label": "User Administration",
+    "parentKey": null,
     "icon": "Users",
     "route": "/user-administration",
     "permission": "user-administration.view",
@@ -6235,6 +6519,7 @@ export const MODULE_REGISTRY = [
       {
         "key": "users",
         "label": "Users",
+        "parentKey": "user-administration",
         "icon": "PanelRightOpen",
         "route": "/user-administration/users",
         "permission": "user-administration.users.view",
@@ -6257,6 +6542,7 @@ export const MODULE_REGISTRY = [
       {
         "key": "user-profiles",
         "label": "User Profiles",
+        "parentKey": "user-administration",
         "icon": "PanelRightOpen",
         "route": "/user-administration/user-profiles",
         "permission": "user-administration.user-profiles.view",
@@ -6279,6 +6565,7 @@ export const MODULE_REGISTRY = [
       {
         "key": "teams",
         "label": "Teams",
+        "parentKey": "user-administration",
         "icon": "PanelRightOpen",
         "route": "/user-administration/teams",
         "permission": "user-administration.teams.view",
@@ -6301,6 +6588,7 @@ export const MODULE_REGISTRY = [
       {
         "key": "organizations",
         "label": "Organizations",
+        "parentKey": "user-administration",
         "icon": "PanelRightOpen",
         "route": "/user-administration/organizations",
         "permission": "user-administration.organizations.view",
@@ -6323,6 +6611,7 @@ export const MODULE_REGISTRY = [
       {
         "key": "workspaces",
         "label": "Workspaces",
+        "parentKey": "user-administration",
         "icon": "PanelRightOpen",
         "route": "/user-administration/workspaces",
         "permission": "user-administration.workspaces.view",
@@ -6345,6 +6634,7 @@ export const MODULE_REGISTRY = [
       {
         "key": "roles",
         "label": "Roles",
+        "parentKey": "user-administration",
         "icon": "PanelRightOpen",
         "route": "/user-administration/roles",
         "permission": "user-administration.roles.view",
@@ -6367,6 +6657,7 @@ export const MODULE_REGISTRY = [
       {
         "key": "permissions",
         "label": "Permissions",
+        "parentKey": "user-administration",
         "icon": "PanelRightOpen",
         "route": "/user-administration/permissions",
         "permission": "user-administration.permissions.view",
@@ -6389,6 +6680,7 @@ export const MODULE_REGISTRY = [
       {
         "key": "access-control",
         "label": "Access Control",
+        "parentKey": "user-administration",
         "icon": "PanelRightOpen",
         "route": "/user-administration/access-control",
         "permission": "user-administration.access-control.view",
@@ -6411,6 +6703,7 @@ export const MODULE_REGISTRY = [
       {
         "key": "subscription-plans",
         "label": "Subscription Plans",
+        "parentKey": "user-administration",
         "icon": "PanelRightOpen",
         "route": "/user-administration/subscription-plans",
         "permission": "user-administration.subscription-plans.view",
@@ -6433,6 +6726,7 @@ export const MODULE_REGISTRY = [
       {
         "key": "billing",
         "label": "Billing",
+        "parentKey": "user-administration",
         "icon": "PanelRightOpen",
         "route": "/user-administration/billing",
         "permission": "user-administration.billing.view",
@@ -6455,6 +6749,7 @@ export const MODULE_REGISTRY = [
       {
         "key": "invoices",
         "label": "Invoices",
+        "parentKey": "user-administration",
         "icon": "PanelRightOpen",
         "route": "/user-administration/invoices",
         "permission": "user-administration.invoices.view",
@@ -6477,6 +6772,7 @@ export const MODULE_REGISTRY = [
       {
         "key": "usage-limits",
         "label": "Usage Limits",
+        "parentKey": "user-administration",
         "icon": "PanelRightOpen",
         "route": "/user-administration/usage-limits",
         "permission": "user-administration.usage-limits.view",
@@ -6499,6 +6795,7 @@ export const MODULE_REGISTRY = [
       {
         "key": "audit-logs",
         "label": "Audit Logs",
+        "parentKey": "user-administration",
         "icon": "PanelRightOpen",
         "route": "/user-administration/audit-logs",
         "permission": "user-administration.audit-logs.view",
@@ -6521,6 +6818,7 @@ export const MODULE_REGISTRY = [
       {
         "key": "activity-logs",
         "label": "Activity Logs",
+        "parentKey": "user-administration",
         "icon": "PanelRightOpen",
         "route": "/user-administration/activity-logs",
         "permission": "user-administration.activity-logs.view",
@@ -6545,6 +6843,7 @@ export const MODULE_REGISTRY = [
   {
     "key": "security-compliance",
     "label": "Security & Compliance",
+    "parentKey": null,
     "icon": "ShieldCheck",
     "route": "/security-compliance",
     "permission": "security-compliance.view",
@@ -6566,6 +6865,7 @@ export const MODULE_REGISTRY = [
       {
         "key": "login-security",
         "label": "Login Security",
+        "parentKey": "security-compliance",
         "icon": "PanelRightOpen",
         "route": "/security-compliance/login-security",
         "permission": "security-compliance.login-security.view",
@@ -6588,6 +6888,7 @@ export const MODULE_REGISTRY = [
       {
         "key": "multi-factor-authentication",
         "label": "Multi-Factor Authentication",
+        "parentKey": "security-compliance",
         "icon": "PanelRightOpen",
         "route": "/security-compliance/multi-factor-authentication",
         "permission": "security-compliance.multi-factor-authentication.view",
@@ -6610,6 +6911,7 @@ export const MODULE_REGISTRY = [
       {
         "key": "oauth-tokens",
         "label": "OAuth Tokens",
+        "parentKey": "security-compliance",
         "icon": "PanelRightOpen",
         "route": "/security-compliance/oauth-tokens",
         "permission": "security-compliance.oauth-tokens.view",
@@ -6632,6 +6934,7 @@ export const MODULE_REGISTRY = [
       {
         "key": "api-security",
         "label": "API Security",
+        "parentKey": "security-compliance",
         "icon": "PanelRightOpen",
         "route": "/security-compliance/api-security",
         "permission": "security-compliance.api-security.view",
@@ -6654,6 +6957,7 @@ export const MODULE_REGISTRY = [
       {
         "key": "data-privacy",
         "label": "Data Privacy",
+        "parentKey": "security-compliance",
         "icon": "PanelRightOpen",
         "route": "/security-compliance/data-privacy",
         "permission": "security-compliance.data-privacy.view",
@@ -6676,6 +6980,7 @@ export const MODULE_REGISTRY = [
       {
         "key": "content-moderation",
         "label": "Content Moderation",
+        "parentKey": "security-compliance",
         "icon": "PanelRightOpen",
         "route": "/security-compliance/content-moderation",
         "permission": "security-compliance.content-moderation.view",
@@ -6698,6 +7003,7 @@ export const MODULE_REGISTRY = [
       {
         "key": "compliance-rules",
         "label": "Compliance Rules",
+        "parentKey": "security-compliance",
         "icon": "PanelRightOpen",
         "route": "/security-compliance/compliance-rules",
         "permission": "security-compliance.compliance-rules.view",
@@ -6720,6 +7026,7 @@ export const MODULE_REGISTRY = [
       {
         "key": "tenant-isolation",
         "label": "Tenant Isolation",
+        "parentKey": "security-compliance",
         "icon": "PanelRightOpen",
         "route": "/security-compliance/tenant-isolation",
         "permission": "security-compliance.tenant-isolation.view",
@@ -6742,6 +7049,7 @@ export const MODULE_REGISTRY = [
       {
         "key": "backup-and-recovery",
         "label": "Backup & Recovery",
+        "parentKey": "security-compliance",
         "icon": "PanelRightOpen",
         "route": "/security-compliance/backup-and-recovery",
         "permission": "security-compliance.backup-and-recovery.view",
@@ -6764,6 +7072,7 @@ export const MODULE_REGISTRY = [
       {
         "key": "access-logs",
         "label": "Access Logs",
+        "parentKey": "security-compliance",
         "icon": "PanelRightOpen",
         "route": "/security-compliance/access-logs",
         "permission": "security-compliance.access-logs.view",
@@ -6786,6 +7095,7 @@ export const MODULE_REGISTRY = [
       {
         "key": "security-audit-trail",
         "label": "Security Audit Trail",
+        "parentKey": "security-compliance",
         "icon": "PanelRightOpen",
         "route": "/security-compliance/security-audit-trail",
         "permission": "security-compliance.security-audit-trail.view",
@@ -6808,6 +7118,7 @@ export const MODULE_REGISTRY = [
       {
         "key": "risk-alerts",
         "label": "Risk Alerts",
+        "parentKey": "security-compliance",
         "icon": "PanelRightOpen",
         "route": "/security-compliance/risk-alerts",
         "permission": "security-compliance.risk-alerts.view",
@@ -6832,6 +7143,7 @@ export const MODULE_REGISTRY = [
   {
     "key": "settings",
     "label": "Settings",
+    "parentKey": null,
     "icon": "Settings",
     "route": "/settings",
     "permission": "settings.view",
@@ -6853,6 +7165,7 @@ export const MODULE_REGISTRY = [
       {
         "key": "general-settings",
         "label": "General Settings",
+        "parentKey": "settings",
         "icon": "PanelRightOpen",
         "route": "/settings/general-settings",
         "permission": "settings.general-settings.view",
@@ -6875,6 +7188,7 @@ export const MODULE_REGISTRY = [
       {
         "key": "workspace-settings",
         "label": "Workspace Settings",
+        "parentKey": "settings",
         "icon": "PanelRightOpen",
         "route": "/settings/workspace-settings",
         "permission": "settings.workspace-settings.view",
@@ -6897,6 +7211,7 @@ export const MODULE_REGISTRY = [
       {
         "key": "brand-settings",
         "label": "Brand Settings",
+        "parentKey": "settings",
         "icon": "PanelRightOpen",
         "route": "/settings/brand-settings",
         "permission": "settings.brand-settings.view",
@@ -6919,6 +7234,7 @@ export const MODULE_REGISTRY = [
       {
         "key": "ai-settings",
         "label": "AI Settings",
+        "parentKey": "settings",
         "icon": "PanelRightOpen",
         "route": "/settings/ai-settings",
         "permission": "settings.ai-settings.view",
@@ -6941,6 +7257,7 @@ export const MODULE_REGISTRY = [
       {
         "key": "agent-settings",
         "label": "Agent Settings",
+        "parentKey": "settings",
         "icon": "PanelRightOpen",
         "route": "/settings/agent-settings",
         "permission": "settings.agent-settings.view",
@@ -6963,6 +7280,7 @@ export const MODULE_REGISTRY = [
       {
         "key": "publishing-settings",
         "label": "Publishing Settings",
+        "parentKey": "settings",
         "icon": "PanelRightOpen",
         "route": "/settings/publishing-settings",
         "permission": "settings.publishing-settings.view",
@@ -6985,6 +7303,7 @@ export const MODULE_REGISTRY = [
       {
         "key": "notification-settings",
         "label": "Notification Settings",
+        "parentKey": "settings",
         "icon": "PanelRightOpen",
         "route": "/settings/notification-settings",
         "permission": "settings.notification-settings.view",
@@ -7007,6 +7326,7 @@ export const MODULE_REGISTRY = [
       {
         "key": "appearance",
         "label": "Appearance",
+        "parentKey": "settings",
         "icon": "PanelRightOpen",
         "route": "/settings/appearance",
         "permission": "settings.appearance.view",
@@ -7029,6 +7349,7 @@ export const MODULE_REGISTRY = [
       {
         "key": "language",
         "label": "Language",
+        "parentKey": "settings",
         "icon": "PanelRightOpen",
         "route": "/settings/language",
         "permission": "settings.language.view",
@@ -7051,6 +7372,7 @@ export const MODULE_REGISTRY = [
       {
         "key": "time-zone",
         "label": "Time Zone",
+        "parentKey": "settings",
         "icon": "PanelRightOpen",
         "route": "/settings/time-zone",
         "permission": "settings.time-zone.view",
@@ -7073,6 +7395,7 @@ export const MODULE_REGISTRY = [
       {
         "key": "backup-settings",
         "label": "Backup Settings",
+        "parentKey": "settings",
         "icon": "PanelRightOpen",
         "route": "/settings/backup-settings",
         "permission": "settings.backup-settings.view",
@@ -7095,6 +7418,7 @@ export const MODULE_REGISTRY = [
       {
         "key": "system-preferences",
         "label": "System Preferences",
+        "parentKey": "settings",
         "icon": "PanelRightOpen",
         "route": "/settings/system-preferences",
         "permission": "settings.system-preferences.view",
@@ -7129,6 +7453,7 @@ export function getRouteMap() {
     {
       key: module.key,
       label: module.label,
+      parentKey: module.parentKey,
       route: module.route,
       permission: module.permission,
       icon: module.icon,
@@ -7142,6 +7467,7 @@ export function getRouteMap() {
       {
         key: child.key,
         label: child.label,
+        parentKey: child.parentKey,
         route: child.route,
         permission: child.permission,
         icon: child.icon,
@@ -7154,6 +7480,7 @@ export function getRouteMap() {
       ...(child.children ?? []).map((nestedChild) => ({
         key: nestedChild.key,
         label: nestedChild.label,
+        parentKey: nestedChild.parentKey,
         route: nestedChild.route,
         permission: nestedChild.permission,
         icon: nestedChild.icon,

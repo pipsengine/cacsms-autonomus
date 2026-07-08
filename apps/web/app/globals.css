@@ -391,8 +391,7 @@ kbd {
 }
 
 .quick-actions button,
-.command-search button,
-.command-list button {
+.command-search button {
   background: var(--primary);
   border: 0;
   color: #ffffff;
@@ -601,15 +600,33 @@ kbd {
   margin-top: 12px;
 }
 
-.command-list button {
+.command-list button,
+.command-list a {
+  align-items: center;
   background: #ffffff;
   border: 1px solid var(--soft-border);
+  border-radius: 12px;
   color: var(--text);
+  display: flex;
+  justify-content: space-between;
   min-height: 44px;
+  padding: 0 12px;
   text-align: left;
+  text-decoration: none;
 }
 
-.command-list button:hover {
+.command-list button {
+  cursor: pointer;
+  font-weight: 700;
+}
+
+.command-list a small {
+  color: var(--muted);
+  font-size: 12px;
+}
+
+.command-list button:hover,
+.command-list a:hover {
   background: var(--hover);
 }
 
