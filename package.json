@@ -1,0 +1,9 @@
+{
+  "name": "cacsms-autonomous",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "scaffold:modules": "node scripts/scaffold-module-alignment.mjs",
+    "validate:modules": "node scripts/validate-module-alignment.mjs"
+  }
+}
